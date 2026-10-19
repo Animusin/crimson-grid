@@ -107,16 +107,31 @@
 /mob/living/carbon/human/proc/quality_apply_character_path(client/player, datum/job/job, list/record)
 	if(!get_kindred_splat(src) || !player || !islist(record) || !quality_character_id || !quality_character_account)
 		return FALSE
+	var/requested_path = player.prefs.read_preference(/datum/preference/choiced/vtm_morality)
+	var/initial_path = quality_initial_path(requested_path, player.prefs.respect_immortal_age(), job?.faction)
+	if(!quality_valid_path(text2path(record["path"])) && initial_path != requested_path)
+		to_chat(src, span_warning("This character begins on Humanity. An initial alternative Path requires Elder age or a Sabbat role; other characters must learn it in play."))
+	return quality_restore_character_path(record, initial_path)
+
+/// In-round Embrace keeps the existing character identity. Its first Path is
+/// Humanity, independently of the account's access to creating a Kindred sheet.
+/// Existing saved Path learning remains authoritative after a full respec.
+/mob/living/carbon/human/proc/quality_initialize_embraced_path()
+	if(isdummy(src) || !get_kindred_splat(src) || !quality_character_id || !quality_character_account)
+		return FALSE
+	var/list/record = SSplayer_quality?.store?.read_character(quality_character_account, quality_character_id)
+	return quality_restore_character_path(record, /datum/morality/humanity)
+
+/mob/living/carbon/human/proc/quality_restore_character_path(list/record, initial_path)
+	if(isdummy(src) || !get_kindred_splat(src) || !quality_character_id || !quality_character_account || !islist(record) || !quality_valid_path(initial_path))
+		return FALSE
 	if(!quality_detach_morality())
 		return FALSE
 	var/path_type = text2path(record["path"])
 	if(!quality_valid_path(path_type))
-		var/requested_path = player.prefs.read_preference(/datum/preference/choiced/vtm_morality)
-		path_type = quality_initial_path(requested_path, player.prefs.respect_immortal_age(), job?.faction)
+		path_type = initial_path
 		record["path"] = "[path_type]"
 		record["path_rating"] = quality_initial_path_rating(path_type)
-		if(path_type != requested_path)
-			to_chat(src, span_warning("This character begins on Humanity. An initial alternative Path requires Elder age or a Sabbat role; other characters must learn it in play."))
 	if(!isnum(record["path_rating"]))
 		record["path_rating"] = quality_initial_path_rating(path_type)
 	record["path_rating"] = clamp(record["path_rating"], 0, 10)
@@ -160,7 +175,7 @@
 			training["renounced"] = TRUE
 	quality_write_path_fields(quality_character_account, quality_character_id, record)
 	if(training?["renounced"])
-		for(var/mob/living/carbon/human/teacher as anything in GLOB.player_list)
+		for(var/mob/living/carbon/human/teacher in GLOB.player_list)
 			if(teacher.quality_character_account == training["teacher_account"] && teacher.quality_character_id == training["teacher_id"])
 				INVOKE_ASYNC(src, PROC_REF(quality_try_path_initiation), teacher)
 				break

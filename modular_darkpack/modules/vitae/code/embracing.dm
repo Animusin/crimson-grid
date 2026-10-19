@@ -20,6 +20,9 @@
 	to_chat(childe, span_cult("You rise with a start! You feel a tremendous pulse echoing in your ears. As you focus your mind on it, you discover it to be the last few throbs of your heart beating until it slows to a halt. The warmth from your skin slowly fades until it settles to the ambient temperature around you...- and you are very hungry."))
 
 	childe.make_kindred_from_sire(src)
+	// A mortal's stat still belongs to its preference/preview sheet. Detach it
+	// before the real Embrace initializes Humanity and its persistent listener.
+	childe.quality_detach_morality()
 
 	//Gives the Childe the sire's first three Disciplines
 	var/clan_disciplines = get_clan().clan_disciplines
@@ -45,6 +48,7 @@
 			else if(stat_morality_childe.morality_path.alignment == MORALITY_ENLIGHTENMENT) // just in case, but should be unreachable rn.
 				stat_morality_childe.set_score(clamp(stat_conviction.get_score(include_bonus = TRUE) + stat_instinct.get_score(include_bonus = TRUE), 0, 10))
 
+	childe.quality_initialize_embraced_path()
 	addtimer(CALLBACK(childe, PROC_REF(prompt_permanent_embrace)), 1 SECONDS)
 
 /* // DARKPACK TODO - WEREWOLF

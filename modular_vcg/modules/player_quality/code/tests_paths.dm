@@ -186,4 +186,78 @@
 	teacher_client.prefs = null
 	fdel(path)
 	fdel("[path].savebac")
+/mob/living/carbon/human/consistent/quality_embrace_test/prompt_permanent_embrace()
+	// Suppress the later confirmation dialog; exercise the real Embrace itself.
+	return
+
+/datum/unit_test/player_quality/paths_inround_embrace/proc/fail_degeneration_roll(datum/source, datum/storyteller_roll/roll)
+	SIGNAL_HANDLER
+	// Exercise the normal degeneration flow with a deterministic failed roll.
+	roll.successes_needed = INFINITY
+
+/datum/unit_test/player_quality/paths_inround_embrace/Run()
+	var/datum/controller/subsystem/player_quality/controller = SSplayer_quality
+	var/datum/player_quality_store/old_store = controller.store
+	var/path = "data/pq-embrace-path-unit-[world.realtime]-[rand(1, 1000000)].json"
+	controller.store = new(path)
+	var/mob/living/carbon/human/sire = allocate(/mob/living/carbon/human/consistent)
+	sire.make_kindred(clan = GLOB.vampire_clans[/datum/subsplat/vampire_clan/brujah])
+	var/mob/dead/observer/spectator = allocate(/mob/dead/observer)
+	GLOB.player_list |= spectator
+	for(var/was_ghoul in list(FALSE, TRUE))
+		var/mob/living/carbon/human/childe = allocate(/mob/living/carbon/human/consistent/quality_embrace_test)
+		var/datum/client_interface/quality_test/player = allocate(/datum/client_interface/quality_test, "qualityembrace[was_ghoul]")
+		player.prefs = new(player)
+		player.prefs.apply_stats_from_prefs(childe)
+		var/datum/st_stat/morality_path/morality/preference_stat = player.prefs.preference_storyteller_stats[STAT_MORALITY]
+		preference_stat.set_score(7)
+		childe.st_set_stat(STAT_CONSCIENCE, 0)
+		childe.st_set_stat(STAT_SELF_CONTROL, 5)
+		childe.quality_character_id = "already-joined-[was_ghoul]"
+		childe.quality_character_account = player.ckey
+		player.prefs.quality_character_id = childe.quality_character_id
+		controller.store.create_character_record(player.ckey, childe.quality_character_id, list(
+			"locked" = TRUE,
+			"unlock_ticket" = "stats",
+			"learned_disciplines" = list("/datum/discipline/temporis" = 0),
+			"learned_paths" = list(),
+		))
+		if(was_ghoul)
+			childe.make_ghoul(sire)
+		sire.embrace_target(childe)
+		var/list/record = controller.store.read_character(player.ckey, childe.quality_character_id)
+		if(!get_kindred_splat(childe) || record["path"] != "/datum/morality/humanity" || record["path_rating"] != 5 || controller.store.respect(player.ckey) != 0)
+			Fail("A real mortal/ghoul Embrace must initialize saved Humanity without retrospectively imposing the Kindred Respect gate.")
+		var/list/learned = record["learned_disciplines"]
+		if(record["unlock_ticket"] != "stats" || !("/datum/discipline/temporis" in learned) || learned["/datum/discipline/temporis"] != 0 || !record["locked"])
+			Fail("An Embrace must preserve the joined character's lock, pending edit ticket and taught discipline identities.")
+		if(childe.storyteller_stats[STAT_MORALITY] == preference_stat || preference_stat.get_pure_score() != 7)
+			Fail("Embrace must detach morality before initializing the body rather than editing its preference/preview stat.")
+		controller.store.write_character(player.ckey, childe.quality_character_id, list("training" = list("original_path" = "/datum/morality/humanity", "teacher_account" = "offline-teacher", "teacher_id" = "offline-character")))
+		var/datum/splat/vampire/kindred/kindred = get_kindred_splat(childe)
+		RegisterSignal(childe, COMSIG_LIVING_PRE_DICE_ROLLED, PROC_REF(fail_degeneration_roll))
+		kindred.adjust_morality(childe, -5, 0, TRUE)
+		UnregisterSignal(childe, COMSIG_LIVING_PRE_DICE_ROLLED)
+		record = controller.store.read_character(player.ckey, childe.quality_character_id)
+		var/list/training = record["training"]
+		if(record["path_rating"] != 0 || !training["renounced"] || !training["degeneration_seen"] || preference_stat.get_pure_score() != 7)
+			Fail("Actual degeneration after an in-round Embrace must persist its score and the Path initiation prerequisites.")
+		// Reinitializing the same transformed character must honor saved learning.
+		controller.store.write_character(player.ckey, childe.quality_character_id, list("path" = "/datum/morality/power", "path_rating" = 2, "learned_paths" = list("/datum/morality/power")))
+		childe.quality_initialize_embraced_path()
+		if(get_morality_path(childe)?.type != /datum/morality/power || childe.st_get_stat(STAT_MORALITY) != 2)
+			Fail("An existing learned Path must survive a later Embrace instead of being erased by Humanity initialization.")
+		qdel(player.prefs)
+		player.prefs = null
+	var/mob/living/carbon/human/dummy/preview = allocate(/mob/living/carbon/human/dummy)
+	preview.make_kindred()
+	preview.quality_character_id = "preview-only"
+	preview.quality_character_account = "qualitypreviewembrace"
+	if(preview.quality_initialize_embraced_path() || controller.store.read_character(preview.quality_character_account, preview.quality_character_id))
+		Fail("The Embrace persistence helper must not create records for previews or unjoined sheets.")
+	GLOB.player_list -= spectator
+	qdel(controller.store)
+	controller.store = old_store
+	fdel(path)
+	fdel("[path].savebac")
 #endif
