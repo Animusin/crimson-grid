@@ -496,6 +496,9 @@ GLOBAL_LIST_INIT(message_modes_stat_limits, list(
 	INVOKE_ASYNC(GLOBAL_PROC, GLOBAL_PROC_REF(flick_overlay_global), say_popup, speech_bubble_recipients, 3 SECONDS)
 	LAZYADD(update_on_z, say_popup)
 	addtimer(CALLBACK(src, PROC_REF(clear_saypopup), say_popup), 3.5 SECONDS)
+	if(!forced)
+		SEND_SIGNAL(src, "taxi_rider_spoke", message_raw)
+		record_club_conversation(src, message_raw, listened)
 
 /mob/living/get_tts_voice(list/filter, list/special_filter)
 	. = voice

@@ -612,6 +612,8 @@
 	if(isliving(firer))
 		var/mob/living/kisser = firer
 		kisser.add_mob_memory(/datum/memory/kissed, protagonist = living_target, deuteragonist = firer)
+	if(type == /obj/projectile/kiss && isliving(firer))
+		SEND_SIGNAL(firer, "club_kiss_landed", living_target)
 	try_fluster(living_target)
 
 /obj/projectile/kiss/proc/try_fluster(mob/living/living_target)
