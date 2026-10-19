@@ -16086,6 +16086,17 @@
 	},
 /turf/open/floor/plating/sidewalk/poor,
 /area/vtm/interior/sewer)
+"cHj" = (
+/obj/structure/city_business{
+	territory_id = "westfield_132_138_3";
+	business_name = "Coffee Shop";
+	owner_faction = "camarilla";
+	clerk_offset_x = -2;
+	clerk_offset_y = 11;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/city/plating,
+/area/vtm/westfield_mall/interior)
 "cHl" = (
 /obj/item/kirbyplants/darkpack/random,
 /turf/open/floor/plating/sidewalk/poor,
@@ -16104,12 +16115,34 @@
 /obj/effect/spawner/random/flora/grass,
 /turf/open/misc/dirt,
 /area/vtm/westfield_mall/interior/cave)
+"cRh" = (
+/obj/structure/city_business{
+	territory_id = "westfield_130_108_2";
+	business_name = "Gun Store";
+	owner_faction = "camarilla";
+	clerk_offset_x = 2;
+	clerk_offset_y = 3;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/city/plating_mono,
+/area/vtm/westfield_mall/interior)
 "cTO" = (
 /obj/transfer_point_vamp/umbral/exit{
 	id = "umbra_forest"
 	},
 /turf/open/misc/grass/random,
 /area/vtm/westfield_mall/forest)
+"cUw" = (
+/obj/structure/city_business{
+	territory_id = "westfield_106_93_2";
+	business_name = "Smoke Menu";
+	owner_faction = "anarchs";
+	clerk_offset_x = -6;
+	clerk_offset_y = -2;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/city/plating_mono,
+/area/vtm/westfield_mall/interior)
 "cVF" = (
 /obj/structure/city_business{
 	territory_id = "westfield_40_47_1";
@@ -16224,6 +16257,17 @@
 /obj/effect/mapping_helpers/door/access/claimable,
 /turf/open/floor/plating/sidewalk/poor,
 /area/vtm/interior/sewer)
+"dSK" = (
+/obj/structure/city_business{
+	territory_id = "westfield_84_138_2";
+	business_name = "Deli";
+	owner_faction = "camarilla";
+	clerk_offset_x = -14;
+	clerk_offset_y = 12;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/city/plating_mono,
+/area/vtm/westfield_mall/interior)
 "dTh" = (
 /obj/structure/chair/office/darkpack/red,
 /obj/effect/landmark/start/darkpack/law_enforcement/fbi,
@@ -16241,6 +16285,17 @@
 /obj/machinery/light/directional/east,
 /turf/open/floor/city/toilet,
 /area/vtm/westfield_mall/interior/bathroom)
+"eds" = (
+/obj/structure/city_business{
+	territory_id = "westfield_66_76_2";
+	business_name = "Library";
+	owner_faction = "camarilla";
+	clerk_offset_x = -9;
+	clerk_offset_y = -4;
+	clerk_offset_z = -1
+	},
+/turf/open/floor/city/plating,
+/area/vtm/westfield_mall/interior)
 "edJ" = (
 /turf/open/water/hot_spring,
 /area/vtm/westfield_mall/interior/cave)
@@ -16349,6 +16404,17 @@
 	},
 /turf/open/floor/plating/concrete,
 /area/vtm/westfield_mall/interior/maintenance)
+"ezW" = (
+/obj/structure/city_business{
+	territory_id = "westfield_40_47_1";
+	business_name = "Blackmarket";
+	owner_faction = "anarchs";
+	clerk_offset_x = -3;
+	clerk_offset_y = 2;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/rough/cave,
+/area/vtm/interior/sewer)
 "eAj" = (
 /obj/transfer_point_vamp/umbral/exit{
 	id = "umbra_hospital"
@@ -16427,6 +16493,17 @@
 	},
 /turf/open/floor/plating/roofwalk,
 /area/vtm/westfield_mall)
+"fcV" = (
+/obj/structure/city_business{
+	territory_id = "westfield_primogen_banu";
+	business_name = "Banu Office";
+	owner_faction = "camarilla";
+	clerk_offset_x = 8;
+	clerk_offset_y = -1;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/city/plating,
+/area/vtm/westfield_mall/interior)
 "feh" = (
 /obj/structure/table/wood,
 /obj/item/carpenter_hammer{
@@ -16443,6 +16520,17 @@
 	},
 /turf/open/floor/plating/concrete,
 /area/vtm/westfield_mall/interior/groundskeeper_garage)
+"ffs" = (
+/obj/structure/city_business{
+	territory_id = "westfield_81_62_2";
+	business_name = "Clothing Store";
+	owner_faction = "camarilla";
+	clerk_offset_x = -6;
+	clerk_offset_y = 0;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/city/plating_mono,
+/area/vtm/westfield_mall/interior)
 "fgE" = (
 /turf/closed/indestructible/the_matrix,
 /area/vtm/westfield_mall/interior/cave)
@@ -16484,6 +16572,17 @@
 /obj/structure/table/glass,
 /turf/open/floor/carpet/darkpack/purplegold,
 /area/vtm/westfield_mall/interior/law_office)
+"fnI" = (
+/obj/structure/city_business{
+	territory_id = "westfield_primogen_lasombra";
+	business_name = "Lasombra Office";
+	owner_faction = "camarilla";
+	clerk_offset_x = 5;
+	clerk_offset_y = 8;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/city/plating,
+/area/vtm/westfield_mall/interior)
 "foj" = (
 /obj/structure/table/wood,
 /obj/item/crowbar{
@@ -16508,6 +16607,17 @@
 /obj/item/kirbyplants/random,
 /turf/open/floor/plating/concrete,
 /area/vtm/westfield_mall/interior/skatepark)
+"fsl" = (
+/obj/structure/city_business{
+	territory_id = "westfield_primogen_banu";
+	business_name = "Banu Office";
+	owner_faction = "camarilla";
+	clerk_offset_x = 8;
+	clerk_offset_y = -2;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/city/plating,
+/area/vtm/westfield_mall/interior)
 "fwG" = (
 /obj/effect/decal/wallpaper/grey,
 /turf/closed/wall/vampwall/painted,
@@ -16594,8 +16704,30 @@
 /obj/effect/mapping_helpers/door/autoname,
 /turf/open/floor/wood/smooth/old,
 /area/vtm/interior/shop)
+"gaN" = (
+/obj/structure/city_business{
+	territory_id = "westfield_88_94_3";
+	business_name = "Lombard";
+	owner_faction = "camarilla";
+	clerk_offset_x = 9;
+	clerk_offset_y = 0;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/city/plating,
+/area/vtm/westfield_mall/interior)
 "gcK" = (
 /obj/structure/table/countertop/red,
+/turf/open/floor/city/plating,
+/area/vtm/westfield_mall/interior)
+"gdg" = (
+/obj/structure/city_business{
+	territory_id = "westfield_venue_18";
+	business_name = "Dojo";
+	owner_faction = "triads";
+	clerk_offset_x = 1;
+	clerk_offset_y = 3;
+	clerk_offset_z = 0
+	},
 /turf/open/floor/city/plating,
 /area/vtm/westfield_mall/interior)
 "gfm" = (
@@ -16694,6 +16826,17 @@
 /obj/structure/sign/poster/contraband/jumbo_bar/directional/north,
 /turf/open/floor/wood/smooth,
 /area/vtm/westfield_mall/interior/candy_store)
+"gtQ" = (
+/obj/structure/city_business{
+	territory_id = "westfield_88_94_3";
+	business_name = "Lombard";
+	owner_faction = "camarilla";
+	clerk_offset_x = 9;
+	clerk_offset_y = 1;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/city/plating,
+/area/vtm/westfield_mall/interior)
 "gwV" = (
 /obj/structure/sign/city/skateshop/four/directional/north,
 /turf/open/floor/plating/sidewalk/poor,
@@ -17044,6 +17187,17 @@
 	},
 /turf/open/floor/plating/concrete,
 /area/vtm/westfield_mall/interior/maintenance)
+"iiw" = (
+/obj/structure/city_business{
+	territory_id = "westfield_64_110_2";
+	business_name = "Hot Ishu";
+	owner_faction = "camarilla";
+	clerk_offset_x = -9;
+	clerk_offset_y = 3;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/city/plating_mono,
+/area/vtm/westfield_mall/interior)
 "ikv" = (
 /obj/effect/decal/wallpaper/papers/two,
 /obj/effect/decal/wallpaper/light,
@@ -17095,6 +17249,17 @@
 /obj/structure/filingcabinet/chestdrawer,
 /turf/open/floor/city/plating_mono,
 /area/vtm/westfield_mall/interior)
+"iBi" = (
+/obj/structure/city_business{
+	territory_id = "westfield_43_48_1";
+	business_name = "Black Market";
+	owner_faction = "anarchs";
+	clerk_offset_x = -3;
+	clerk_offset_y = 3;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/rough/cave,
+/area/vtm/interior/sewer)
 "iHZ" = (
 /obj/structure/table,
 /turf/open/floor/city/plating,
@@ -17109,6 +17274,17 @@
 /obj/effect/mapping_helpers/door/autoname,
 /turf/open/floor/carpet/darkpack,
 /area/vtm/interior/littleitaly)
+"iSA" = (
+/obj/structure/city_business{
+	territory_id = "westfield_132_128_2";
+	business_name = "Bubway Menu";
+	owner_faction = "camarilla";
+	clerk_offset_x = 1;
+	clerk_offset_y = -11;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/concrete,
+/area/vtm/westfield_mall/interior/maintenance)
 "iUQ" = (
 /obj/structure/noticeboard/directional/north,
 /obj/item/claymore/machete{
@@ -17222,6 +17398,17 @@
 	},
 /turf/open/floor/iron/grimy,
 /area/vtm/westfield_mall/interior/art_store)
+"jtY" = (
+/obj/structure/city_business{
+	territory_id = "westfield_primogen_nosferatu";
+	business_name = "Nosferatu Office";
+	owner_faction = "camarilla";
+	clerk_offset_x = -13;
+	clerk_offset_y = 19;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/stone,
+/area/vtm/interior/sewer)
 "jwu" = (
 /obj/machinery/hydroponics/soil,
 /turf/open/misc/dirt,
@@ -17297,6 +17484,17 @@
 /obj/machinery/sprinkler,
 /turf/open/floor/wood/smooth/old,
 /area/vtm/westfield_mall/interior/chantry)
+"jSo" = (
+/obj/structure/city_business{
+	territory_id = "westfield_66_99_2";
+	business_name = "Pharmacy";
+	owner_faction = "camarilla";
+	clerk_offset_x = -9;
+	clerk_offset_y = -2;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/city/plating_mono,
+/area/vtm/westfield_mall/interior)
 "jVB" = (
 /obj/effect/decal/wallpaper/light,
 /turf/closed/wall/vampwall/painted,
@@ -17307,6 +17505,17 @@
 /obj/structure/mirror/directional/north,
 /turf/open/floor/city/toilet,
 /area/vtm/interior/sewer)
+"kbH" = (
+/obj/structure/city_business{
+	territory_id = "westfield_130_128_2";
+	business_name = "Gummaguts Menu";
+	owner_faction = "camarilla";
+	clerk_offset_x = -2;
+	clerk_offset_y = -9;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/concrete,
+/area/vtm/westfield_mall/interior/maintenance)
 "kcy" = (
 /mob/living/carbon/human/npc/shop,
 /obj/structure/chair/darkpack/blue,
@@ -17528,6 +17737,17 @@
 /obj/effect/realistic_fog,
 /turf/open/floor/plating/rough/cave,
 /area/vtm/westfield_mall/interior/cave)
+"mim" = (
+/obj/structure/city_business{
+	territory_id = "westfield_primogen_toreador";
+	business_name = "Toreador Office";
+	owner_faction = "camarilla";
+	clerk_offset_x = 17;
+	clerk_offset_y = -13;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/city/plating,
+/area/vtm/westfield_mall/interior)
 "mjJ" = (
 /obj/item/kirbyplants/darkpack/random,
 /obj/effect/turf_decal/siding/white,
@@ -17899,6 +18119,17 @@
 /obj/effect/mapping_helpers/door/access/npc,
 /turf/open/floor/wood/smooth,
 /area/vtm/westfield_mall/interior/candy_store)
+"otB" = (
+/obj/structure/city_business{
+	territory_id = "westfield_134_128_2";
+	business_name = "Bacotell Menu";
+	owner_faction = "camarilla";
+	clerk_offset_x = 4;
+	clerk_offset_y = -9;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/concrete,
+/area/vtm/westfield_mall/interior/maintenance)
 "otF" = (
 /obj/structure/vampdoor/woodglass,
 /obj/effect/mapping_helpers/door/autoname,
@@ -18008,6 +18239,28 @@
 /obj/item/vamp/keys/toreador,
 /turf/open/floor/carpet/darkpack/blacksilver,
 /area/vtm/westfield_mall/interior/theatre)
+"puH" = (
+/obj/structure/city_business{
+	territory_id = "westfield_85_87_3";
+	business_name = "Hardware Store";
+	owner_faction = "camarilla";
+	clerk_offset_x = 6;
+	clerk_offset_y = 2;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/city/plating,
+/area/vtm/westfield_mall/interior)
+"puR" = (
+/obj/structure/city_business{
+	territory_id = "westfield_132_138_3";
+	business_name = "Coffee Shop";
+	owner_faction = "camarilla";
+	clerk_offset_x = 2;
+	clerk_offset_y = 11;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/city/plating,
+/area/vtm/westfield_mall/interior)
 "pxk" = (
 /obj/effect/turf_decal/bordur{
 	dir = 1
@@ -18073,6 +18326,17 @@
 	},
 /turf/open/misc/dirt,
 /area/vtm/interior/sewer)
+"pXD" = (
+/obj/structure/city_business{
+	territory_id = "westfield_132_128_2";
+	business_name = "Bubway Menu";
+	owner_faction = "camarilla";
+	clerk_offset_x = 2;
+	clerk_offset_y = -9;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/concrete,
+/area/vtm/westfield_mall/interior/maintenance)
 "qae" = (
 /obj/effect/decal/wallpaper/light,
 /turf/closed/wall/vampwall/painted,
@@ -18088,6 +18352,17 @@
 	},
 /turf/open/floor/wood/herring,
 /area/vtm/westfield_mall/interior/law_office)
+"qfP" = (
+/obj/structure/city_business{
+	territory_id = "westfield_41_48_2";
+	business_name = "Skate Shop";
+	owner_faction = "camarilla";
+	clerk_offset_x = 9;
+	clerk_offset_y = -5;
+	clerk_offset_z = 1
+	},
+/turf/open/floor/plating/canalplating,
+/area/vtm/interior/sewer)
 "qgf" = (
 /obj/structure/table/wood,
 /obj/structure/retail/coffee_shop{
@@ -18115,6 +18390,17 @@
 /obj/effect/turf_decal/siding/wood,
 /turf/open/floor/wood/smooth,
 /area/vtm/westfield_mall/interior/art_store)
+"qxv" = (
+/obj/structure/city_business{
+	territory_id = "westfield_134_128_2";
+	business_name = "Bacotell Menu";
+	owner_faction = "camarilla";
+	clerk_offset_x = 3;
+	clerk_offset_y = -11;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/concrete,
+/area/vtm/westfield_mall/interior/maintenance)
 "qCk" = (
 /obj/structure/table/wood,
 /obj/effect/decal/pallet,
@@ -18162,6 +18448,17 @@
 /obj/structure/table/countertop,
 /turf/open/floor/carpet/darkpack/orangesilver,
 /area/vtm/westfield_mall/interior/supply)
+"rda" = (
+/obj/structure/city_business{
+	territory_id = "westfield_primogen_lasombra";
+	business_name = "Lasombra Office";
+	owner_faction = "camarilla";
+	clerk_offset_x = 3;
+	clerk_offset_y = 8;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/city/plating,
+/area/vtm/westfield_mall/interior)
 "rfA" = (
 /obj/effect/decal/carpet{
 	pixel_x = 10;
@@ -18217,6 +18514,17 @@
 /obj/effect/mapping_helpers/door/autoname,
 /turf/open/floor/plating/concrete,
 /area/vtm/westfield_mall/interior/skatepark)
+"rxi" = (
+/obj/structure/city_business{
+	territory_id = "westfield_primogen_ventrue";
+	business_name = "Ventrue Office";
+	owner_faction = "camarilla";
+	clerk_offset_x = 11;
+	clerk_offset_y = -4;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/city/plating,
+/area/vtm/westfield_mall/interior)
 "rzY" = (
 /obj/effect/turf_decal/darkpack/dirt/corner,
 /turf/open/floor/plating/rough/cave,
@@ -18310,6 +18618,29 @@
 /obj/structure/closet/crate/wooden/communitygardens/seeds,
 /turf/open/floor/plating/rough/cave,
 /area/vtm/westfield_mall/interior/cave)
+"saU" = (
+/obj/structure/city_business{
+	territory_id = "westfield_85_87_3";
+	business_name = "Hardware Store";
+	owner_faction = "camarilla";
+	clerk_offset_x = 6;
+	clerk_offset_y = 3;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/city/plating,
+/area/vtm/westfield_mall/interior)
+"seL" = (
+/obj/structure/city_business{
+	territory_id = "westfield_81_138_2";
+	business_name = "Grocery Store";
+	owner_faction = "camarilla";
+	clerk_offset_x = -14;
+	clerk_offset_y = 12;
+	clerk_offset_z = 0
+	},
+/obj/machinery/light/directional/north,
+/turf/open/floor/city/plating_mono,
+/area/vtm/westfield_mall/interior)
 "seO" = (
 /obj/machinery/sprinkler,
 /turf/open/floor/plating/concrete,
@@ -18359,6 +18690,17 @@
 /obj/item/clothing/head/beret,
 /turf/open/floor/iron/dark,
 /area/vtm/westfield_mall/interior/art_store)
+"sEs" = (
+/obj/structure/city_business{
+	territory_id = "westfield_40_47_1";
+	business_name = "Blackmarket";
+	owner_faction = "anarchs";
+	clerk_offset_x = 2;
+	clerk_offset_y = 3;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/rough/cave,
+/area/vtm/interior/sewer)
 "sGs" = (
 /obj/structure/city_business{
 	territory_id = "westfield_primogen_toreador";
@@ -18373,6 +18715,17 @@
 "sQh" = (
 /turf/open/floor/carpet/darkpack/purplegold,
 /area/vtm/westfield_mall/interior/law_office)
+"sRw" = (
+/obj/structure/city_business{
+	territory_id = "westfield_41_48_2";
+	business_name = "Skate Shop";
+	owner_faction = "camarilla";
+	clerk_offset_x = 5;
+	clerk_offset_y = 1;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalk/poor,
+/area/vtm/westfield_mall/skatepark)
 "sWK" = (
 /obj/structure/sign/city/skateshop/two/directional/north,
 /turf/open/floor/plating/sidewalk/poor,
@@ -18383,6 +18736,17 @@
 	},
 /turf/open/floor/plating/rough,
 /area/vtm/westfield_mall/interior/anarch)
+"sYT" = (
+/obj/structure/city_business{
+	territory_id = "westfield_primogen_ventrue";
+	business_name = "Ventrue Office";
+	owner_faction = "camarilla";
+	clerk_offset_x = 11;
+	clerk_offset_y = -5;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/city/plating,
+/area/vtm/westfield_mall/interior)
 "taO" = (
 /obj/machinery/button{
 	id = "keepershutters"
@@ -18443,6 +18807,28 @@
 	dir = 4
 	},
 /turf/open/floor/plating/sidewalk/poor,
+/area/vtm/interior/sewer)
+"tzc" = (
+/obj/structure/city_business{
+	territory_id = "westfield_primogen_malkavian";
+	business_name = "Malkavian Office";
+	owner_faction = "camarilla";
+	clerk_offset_x = -4;
+	clerk_offset_y = 2;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/city/plating,
+/area/vtm/westfield_mall/interior)
+"tAg" = (
+/obj/structure/city_business{
+	territory_id = "westfield_43_48_1";
+	business_name = "Black Market";
+	owner_faction = "anarchs";
+	clerk_offset_x = 3;
+	clerk_offset_y = 0;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/rough/cave,
 /area/vtm/interior/sewer)
 "tAm" = (
 /obj/effect/decal/cleanable/blood/oil,
@@ -18680,6 +19066,17 @@
 /obj/effect/landmark/start/darkpack/citizen/janitor,
 /turf/open/floor/carpet/darkpack/old,
 /area/vtm/westfield_mall/interior/janitor)
+"uHp" = (
+/obj/structure/city_business{
+	territory_id = "westfield_87_113_2";
+	business_name = "Smoke Menu";
+	owner_faction = "anarchs";
+	clerk_offset_x = 7;
+	clerk_offset_y = 3;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/city/plating_mono,
+/area/vtm/westfield_mall/interior)
 "uLP" = (
 /obj/machinery/sprinkler,
 /turf/open/floor/wood/smooth/old,
@@ -18807,6 +19204,17 @@
 /obj/effect/spawner/random/flora/rocks,
 /turf/open/floor/plating/rough/cave,
 /area/vtm/westfield_mall/interior/cave)
+"vuw" = (
+/obj/structure/city_business{
+	territory_id = "westfield_primogen_voivode";
+	business_name = "Voivode Office";
+	owner_faction = "sabbat";
+	clerk_offset_x = 7;
+	clerk_offset_y = 2;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/city/plating_mono,
+/area/vtm/westfield_mall/interior)
 "vxJ" = (
 /obj/structure/table/wood,
 /obj/item/paper_bin{
@@ -18946,6 +19354,18 @@
 /obj/effect/decal/cleanable/blood/oil,
 /turf/open/floor/plating/asphalt,
 /area/vtm/westfield_mall/interior/groundskeeper_garage)
+"wqf" = (
+/obj/structure/city_business{
+	territory_id = "westfield_primogen_toreador";
+	business_name = "Toreador Office";
+	owner_faction = "camarilla";
+	clerk_offset_x = 19;
+	clerk_offset_y = -2;
+	clerk_offset_z = 1
+	},
+/obj/machinery/light/directional/east,
+/turf/open/floor/city/plating_mono,
+/area/vtm/westfield_mall/interior)
 "wqy" = (
 /obj/item/storage/fancy/cigarettes/cigpack_candy{
 	pixel_x = -13;
@@ -19010,6 +19430,17 @@
 /obj/structure/reagent_dispensers/watertank,
 /turf/open/floor/plating/concrete,
 /area/vtm/westfield_mall/interior/groundskeeper_garage)
+"wyY" = (
+/obj/structure/city_business{
+	territory_id = "westfield_84_138_2";
+	business_name = "Deli";
+	owner_faction = "camarilla";
+	clerk_offset_x = -13;
+	clerk_offset_y = 12;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/city/plating_mono,
+/area/vtm/westfield_mall/interior)
 "wCv" = (
 /obj/structure/vampdoor/glass{
 	dir = 4
@@ -19140,6 +19571,17 @@
 	},
 /turf/open/floor/plating/concrete,
 /area/vtm/westfield_mall/interior/maintenance)
+"xhU" = (
+/obj/structure/city_business{
+	territory_id = "westfield_66_76_2";
+	business_name = "Library";
+	owner_faction = "camarilla";
+	clerk_offset_x = -9;
+	clerk_offset_y = 2;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/city/plating_mono,
+/area/vtm/westfield_mall/interior)
 "xjy" = (
 /obj/effect/landmark/start/darkpack/hospital/clinic_director,
 /turf/open/floor/wood/smooth,
@@ -19203,6 +19645,17 @@
 /obj/structure/table/modern,
 /turf/open/floor/carpet/green,
 /area/vtm/westfield_mall/interior/law_office)
+"xQQ" = (
+/obj/structure/city_business{
+	territory_id = "westfield_130_108_2";
+	business_name = "Gun Store";
+	owner_faction = "camarilla";
+	clerk_offset_x = -3;
+	clerk_offset_y = 0;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/wood/smooth/old,
+/area/vtm/westfield_mall/interior)
 "xRi" = (
 /obj/structure/flora/rock/stalagmite,
 /turf/open/floor/plating/rough,
@@ -24328,7 +24781,7 @@ aqu
 aNd
 aCi
 aaz
-gAN
+asc
 asc
 asc
 aXt
@@ -24817,7 +25270,7 @@ azz
 aeW
 azE
 aGF
-cVF
+ajf
 aGF
 azz
 aGF
@@ -25272,7 +25725,7 @@ adV
 azz
 azz
 azz
-luw
+azF
 xfk
 azz
 aGF
@@ -25425,7 +25878,7 @@ aBR
 aGF
 aGF
 aGF
-aGF
+tAg
 aGF
 aGF
 aGF
@@ -25579,7 +26032,7 @@ aGF
 aGF
 aGF
 aGF
-aGF
+ezW
 aGF
 aVv
 auK
@@ -25713,7 +26166,7 @@ aTj
 aTj
 aGF
 amx
-amx
+jtY
 amx
 aGF
 aGF
@@ -47164,7 +47617,7 @@ aXH
 adg
 adg
 adg
-heP
+aSw
 aSw
 ags
 aSw
@@ -47465,7 +47918,7 @@ ahL
 ahL
 ahL
 ahL
-ahL
+sRw
 ahL
 ahL
 axq
@@ -51815,7 +52268,7 @@ arT
 aAr
 aAr
 avq
-rtc
+aJl
 aBp
 aBp
 aBp
@@ -52727,7 +53180,7 @@ aAr
 aAr
 aZj
 aJl
-drH
+aJl
 aBp
 aPE
 aLA
@@ -53031,7 +53484,7 @@ akA
 akA
 aZj
 akW
-akW
+iiw
 aBp
 acm
 acm
@@ -53188,8 +53641,19 @@ aUk
 akW
 akW
 akW
+jSo
 akW
 akW
+akW
+aUk
+akW
+akW
+akW
+akW
+akW
+akW
+akW
+aUk
 akW
 akW
 aUk
@@ -53203,19 +53667,8 @@ akW
 aUk
 akW
 akW
-aUk
 akW
-akW
-akW
-akW
-akW
-akW
-akW
-aUk
-nln
-akW
-akW
-akW
+xhU
 akW
 akW
 akW
@@ -53380,7 +53833,7 @@ aJl
 aJl
 aJl
 aJl
-xfu
+aJl
 aJl
 aJl
 aJl
@@ -54090,18 +54543,10 @@ akW
 akW
 akW
 akW
-akW
-akW
-akW
-aOV
+uHp
 akW
 akW
 aOV
-akW
-akW
-akW
-akW
-akW
 akW
 akW
 aOV
@@ -54115,12 +54560,20 @@ akW
 aOV
 akW
 akW
+akW
+akW
+akW
+akW
+akW
+aOV
+akW
+akW
 aOV
 akW
 akW
 akW
 akW
-akW
+vuw
 akW
 akW
 aOV
@@ -54570,7 +55023,7 @@ aws
 aws
 avF
 aJl
-tMY
+aJl
 avF
 awW
 aUV
@@ -54682,7 +55135,7 @@ avi
 avi
 asp
 avF
-nzA
+aPA
 aXr
 aXr
 aMC
@@ -54834,7 +55287,7 @@ avi
 avi
 asp
 avF
-kIP
+akW
 aXr
 aXr
 aMC
@@ -55051,7 +55504,7 @@ akW
 akW
 akW
 akW
-akW
+ffs
 aFv
 aqO
 azW
@@ -56354,7 +56807,7 @@ aws
 aws
 aDY
 avF
-aPA
+seL
 aXr
 aXr
 aMC
@@ -56525,7 +56978,7 @@ aJl
 aJl
 aJl
 aJl
-bTm
+aJl
 aJl
 aJl
 aJl
@@ -56658,7 +57111,7 @@ aws
 aws
 aws
 mEC
-akW
+wyY
 aXr
 aXr
 aMC
@@ -58818,11 +59271,11 @@ akW
 akW
 aUk
 akW
+cUw
 akW
 akW
 akW
 akW
-jri
 akW
 akW
 akW
@@ -59392,7 +59845,7 @@ aJl
 aJl
 aJl
 aJl
-ghx
+aJl
 asy
 akW
 aHC
@@ -61391,8 +61844,8 @@ hRX
 vsC
 hXE
 akW
-akW
-kXl
+cRh
+aUk
 akW
 akW
 akW
@@ -61663,7 +62116,7 @@ adg
 aRw
 aJl
 aJl
-aJl
+otB
 aJE
 axS
 aSu
@@ -61813,9 +62266,9 @@ aQQ
 aQQ
 adg
 aRw
+iSA
 aJl
 aJl
-wkZ
 aJE
 aPN
 aSu
@@ -61967,7 +62420,7 @@ adg
 aRw
 axN
 aJl
-eBA
+kbH
 aJE
 aVe
 aSu
@@ -76900,25 +77353,25 @@ aXr
 aTz
 aXr
 aXr
+fcV
 aXr
-aXr
-aXr
-aXr
-aXr
-aXr
-aTz
-aXr
-aXr
-aXr
+gdg
 aXr
 aXr
 aXr
 aTz
 aXr
 aXr
+gtQ
+aXr
+aXr
+aXr
 aTz
 aXr
 aXr
+aTz
+aXr
+saU
 aXr
 aXr
 aXr
@@ -77351,8 +77804,8 @@ aws
 aws
 aws
 avF
-ezd
-ihh
+aJl
+aJl
 aLi
 ajD
 abV
@@ -78282,9 +78735,9 @@ aXS
 aMS
 aCX
 apq
-uWR
 aJl
-uDx
+aJl
+aJl
 avb
 avF
 aAV
@@ -79349,7 +79802,7 @@ aJl
 aJl
 aJl
 aJl
-nVc
+aJl
 aJl
 aJl
 aJl
@@ -79965,7 +80418,7 @@ afT
 atv
 urj
 atJ
-aXr
+fnI
 aPG
 awB
 awB
@@ -82401,7 +82854,7 @@ aOa
 aOa
 aOa
 aOa
-waA
+aOa
 aJk
 aXr
 aIN
@@ -82551,7 +83004,7 @@ aTz
 aXr
 aXr
 aXr
-aXr
+rxi
 aXr
 aXr
 aXr
@@ -82842,7 +83295,7 @@ aMN
 aeb
 ayZ
 awz
-aXr
+mim
 aFf
 aYl
 anJ
@@ -83454,7 +83907,7 @@ air
 ald
 ayZ
 alt
-sGs
+alt
 lCz
 tPa
 jCI
@@ -84780,7 +85233,7 @@ aeZ
 aVa
 azv
 aXr
-wdf
+aPG
 awB
 awB
 awB
@@ -84931,7 +85384,7 @@ aCX
 aCX
 aCX
 avF
-aXr
+cHj
 aPG
 awB
 awB

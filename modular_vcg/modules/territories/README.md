@@ -73,15 +73,45 @@ the Westfield dojo, and strip clubs are included; offices without a suitable NPC
 receive a shop NPC at an adjacent open tile.
 
 On Westfield, common mall/service passages stand in for street alleys. The Triad
-jobs have start landmarks in the existing dojo. On the large maps some upper-floor
-venues have their mark in the passage below; isolated basements use the nearest
-service passage. These initial large-map positions need multiplayer playtesting.
+jobs have start landmarks in the existing dojo. Upper-floor venues can use a
+public passage below, with clerk offsets retaining the connection to the office.
+Six private locations have documented `public_approach` reference points:
+the San Fangcisco Toreador office, Oakland's warren shop and Nosferatu office,
+and its upper Banu Haqim, Lasombra and Ventrue offices. Their contests stay on
+the public side of the private premises; the approach reference is not a claim
+that the private clerk can walk there through the public pedestrian graph.
+
+Placement was reviewed against exported, live BYOND density, unlocked doors and
+actual stairs/manhole links, including walkable sewer water on approach routes.
+Stairs with a solid ceiling above are rejected, rather than treated as working
+connections. Surface shops retain surface marks; upper-floor and basement
+businesses can use another level at their public approach.
+Marks themselves occupy dry floor with no furniture, random flora or doorway.
+Centers are at least two tiles apart so 48px paintings do not overlap, and at
+least two tiles from asphalt. They connect to the main public pedestrian
+component without crossing locked doors. Clerk/customer routes can cross doors
+and start beside counters. Physical access and setbacks are checked here;
+multiplayer testing still needs to assess combat balance in nearby corridors.
 
 To move a point, edit its TGM tile and keep its manifest coordinate in sync. Do
 not change the outlet's `territory_id` when moving the marker. `plan_maps.py` is a
 one-time seed tool against the base maps, and deliberately refuses to overwrite
 maps which already have markers. It never changes terrain. Review the manifest
-and minimap before adopting new seed positions.
+and minimap before adopting new seed positions. The seed tool now refuses a
+missing flat route instead of guessing an unconnected tile or floor.
+
+To repeat the geometry review, compile with `UNIT_TESTS`, `BUSINESS_TESTS` and
+`BUSINESS_GEOMETRY`, run each map and archive its `data/business_geometry.json`
+as `data/territory_geometry/<map>.json` (`westfield`, `sanfangsisco`, `oakland`).
+`python tools/territories/review_placement.py` writes a proposed review report;
+`--apply` changes only marker tiles, their clerk offsets and the manifest. The
+export records live locks and physical blockers, rather than guessing density
+from object path names. `python tools/territories/render_review.py` renders
+schematic crop atlases. Normal tests do not export world geometry.
+
+Capture presence uses visible range, so an opaque neighboring room cannot hold
+or block a point through a wall. Retail prices now update while the UI is open;
+PIN-based purchases recheck stock, reach, the card and business state after input.
 
 Validation from the repository root (Python 3 + `bidict`):
 

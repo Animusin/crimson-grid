@@ -308,7 +308,8 @@ GLOBAL_LIST_EMPTY(city_business_attacks)
 				clerk.Knockdown(3 SECONDS)
 			var/attackers = FALSE
 			var/defenders = FALSE
-			for(var/mob/living/participant in range(BUSINESS_CAPTURE_RADIUS, src))
+			// An adjoining room behind an opaque wall cannot hold or block the mark.
+			for(var/mob/living/participant in view(BUSINESS_CAPTURE_RADIUS, src))
 				if(!participant.client || participant.stat >= SOFT_CRIT || IS_UNCONSCIOUS(participant) || participant.IsIncapacitated())
 					continue
 				if(participant.city_faction() == attack_faction)

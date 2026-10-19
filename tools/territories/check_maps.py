@@ -16,13 +16,23 @@ for entry in manifest:
     assert model.size == base.size, entry['file']
     expected_changes = set()
     point_ids = set()
+    marker_coords = []
     for business in entry['businesses']:
         identifier = business['id']
         assert identifier not in all_ids, identifier
         all_ids.add(identifier)
         marker_coord = tuple(business['marker'])
+        if business['outlets'] and business['clerk'][2] == 2:
+            assert marker_coord[2] == 2, (identifier, 'surface shop has a sewer mark')
+        assert all(marker_coord[2] != other[2] or max(abs(marker_coord[0]-other[0]), abs(marker_coord[1]-other[1])) >= 2 for other in marker_coords), (identifier, '48px marks overlap')
+        marker_coords.append(marker_coord)
         tile = model.get_tile(marker_coord)
-        assert any(a.startswith('/turf/open/') and '/openspace' not in a and '/space' not in a for a in tile), identifier
+        assert any(a.startswith('/turf/open/floor/') for a in tile), identifier
+        assert not any(a.startswith(('/obj/structure/', '/obj/machinery/', '/mob/', '/obj/effect/spawner/')) and not a.startswith(('/obj/structure/city_business', '/obj/machinery/light')) for a in tile), (identifier, 'furniture or doorway obscures mark')
+        for dx in range(-1, 2):
+            for dy in range(-1, 2):
+                nearby = model.get_tile((marker_coord[0]+dx, marker_coord[1]+dy, marker_coord[2]))
+                assert not any(a.startswith('/turf/') and 'asphalt' in a for a in nearby), (identifier, 'mark on or adjacent to road')
         markers = [a for a in tile if a.startswith('/obj/structure/city_business')]
         assert len(markers) == 1 and f'territory_id = "{identifier}"' in markers[0], identifier
         for axis, offset in zip('xyz', (business['clerk'][i] - business['marker'][i] for i in range(3))):

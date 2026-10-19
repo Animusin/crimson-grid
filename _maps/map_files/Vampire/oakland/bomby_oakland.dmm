@@ -4907,6 +4907,17 @@
 /obj/effect/decal/pallet,
 /turf/open/floor/plating/rough,
 /area/vtm/interior/apartment)
+"bje" = (
+/obj/structure/city_business{
+	territory_id = "oakland_170_170_3";
+	business_name = "Otolleys Menu";
+	owner_faction = "camarilla";
+	clerk_offset_x = 3;
+	clerk_offset_y = 2;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/city/gummaguts,
+/area/vtm/westfield_mall/interior)
 "bjg" = (
 /obj/structure/chair/wood/darkpack/red{
 	dir = 8
@@ -6590,6 +6601,21 @@
 	},
 /turf/open/floor/plating/asphalt,
 /area/vtm/outside/culture/italy)
+"bDQ" = (
+/obj/structure/city_business{
+	territory_id = "oakland_primogen_lasombra";
+	business_name = "Lasombra Office";
+	owner_faction = "camarilla";
+	clerk_offset_x = 5;
+	clerk_offset_y = 2;
+	clerk_offset_z = 2
+	},
+/obj/effect/turf_decal/darkpack/dirt{
+	dir = 1
+	},
+/obj/effect/turf_decal/darkpack/dirt,
+/turf/open/floor/plating/sidewalkalt,
+/area/vtm/graveyard)
 "bDT" = (
 /obj/item/clothing/mask/gas/vampire,
 /obj/structure/closet/cabinet,
@@ -7687,6 +7713,18 @@
 /obj/structure/flora/rock/pile/darkpack,
 /turf/open/water,
 /area/vtm/interior/cog/caern)
+"bRp" = (
+/obj/structure/city_business{
+	territory_id = "oakland_primogen_toreador";
+	business_name = "Toreador Office";
+	owner_faction = "camarilla";
+	clerk_offset_x = -5;
+	clerk_offset_y = -17;
+	clerk_offset_z = 1
+	},
+/obj/effect/landmark/npcbeacon,
+/turf/open/floor/plating/sidewalkalt,
+/area/vtm/outside/unionsquare)
 "bRq" = (
 /obj/effect/turf_decal/bordur,
 /obj/structure/chair/pew/left{
@@ -11833,6 +11871,17 @@
 	},
 /turf/open/misc/grass/nosmooth,
 /area/vtm/interior/millennium_tower/f3)
+"cNI" = (
+/obj/structure/city_business{
+	territory_id = "oakland_171_145_2";
+	business_name = "Smoke Menu";
+	owner_faction = "anarchs";
+	clerk_offset_x = 0;
+	clerk_offset_y = 5;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalkalt,
+/area/vtm/outside/unionsquare)
 "cNM" = (
 /obj/effect/decal/wallpaper/red,
 /turf/closed/wall/vampwall/rich/old,
@@ -15778,6 +15827,17 @@
 	},
 /turf/open/floor/plating/sidewalk/rich,
 /area/vtm/outside/baywalk)
+"dLG" = (
+/obj/structure/city_business{
+	territory_id = "oakland_133_170_2";
+	business_name = "Lombard";
+	owner_faction = "camarilla";
+	clerk_offset_x = 3;
+	clerk_offset_y = 3;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalkalt,
+/area/vtm/outside/chinatown)
 "dLH" = (
 /obj/structure/roofstuff/vent/autotiling,
 /obj/effect/turf_decal/bordur,
@@ -19589,6 +19649,17 @@
 	},
 /turf/open/floor/wood/smooth/old,
 /area/vtm/interior/baali)
+"eGq" = (
+/obj/structure/city_business{
+	territory_id = "oakland_151_61_2";
+	business_name = "Antique";
+	owner_faction = "camarilla";
+	clerk_offset_x = 17;
+	clerk_offset_y = 12;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalk/rich,
+/area/vtm/outside/culture)
 "eGs" = (
 /obj/structure/sign/flag/soviet{
 	pixel_y = 29
@@ -23986,6 +24057,18 @@
 	},
 /turf/open/floor/plating/sidewalk/poor,
 /area/vtm/interior/supply)
+"fHU" = (
+/obj/structure/city_business{
+	territory_id = "oakland_primogen_lasombra";
+	business_name = "Lasombra Office";
+	owner_faction = "camarilla";
+	clerk_offset_x = 18;
+	clerk_offset_y = -23;
+	clerk_offset_z = 2
+	},
+/obj/effect/turf_decal/siding/dark_brown/end,
+/turf/open/floor/carpet/green,
+/area/vtm/outside/forest)
 "fIa" = (
 /obj/structure/vampdoor/old,
 /obj/effect/mapping_helpers/door/lock,
@@ -24048,6 +24131,17 @@
 "fII" = (
 /turf/open/floor/plating/concrete,
 /area/vtm/interior/police)
+"fIL" = (
+/obj/structure/city_business{
+	territory_id = "oakland_169_11_2";
+	business_name = "Costume Store";
+	owner_faction = "camarilla";
+	clerk_offset_x = 7;
+	clerk_offset_y = -3;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalk,
+/area/vtm/outside/baywalk)
 "fIM" = (
 /obj/structure/vampstatue/angel{
 	pixel_y = 8
@@ -26560,6 +26654,17 @@
 	},
 /turf/open/floor/plating/rough,
 /area/vtm/interior/anarch/basement)
+"gnU" = (
+/obj/structure/city_business{
+	territory_id = "oakland_47_65_2";
+	business_name = "General";
+	owner_faction = "camarilla";
+	clerk_offset_x = -12;
+	clerk_offset_y = 13;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalk,
+/area/vtm/outside/pacificheights/industrial)
 "gnV" = (
 /obj/item/chair,
 /turf/open/floor/plating/concrete,
@@ -27012,6 +27117,19 @@
 /obj/effect/mapping_helpers/door/lock_difficulty/four,
 /turf/open/floor/plating/canalplating,
 /area/vtm/interior/sewer)
+"gtW" = (
+/obj/structure/city_business{
+	territory_id = "oakland_132_60_2";
+	business_name = "Library";
+	owner_faction = "camarilla";
+	clerk_offset_x = 9;
+	clerk_offset_y = 9;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalk/rich{
+	color = "#c2c0bc"
+	},
+/area/vtm/outside/culture)
 "gtX" = (
 /obj/structure/vampfence/rich{
 	pixel_y = 4
@@ -28638,6 +28756,17 @@
 	},
 /turf/open/floor/plating/sidewalk/old,
 /area/vtm/interior/tzimisce_sanctum)
+"gOb" = (
+/obj/structure/city_business{
+	territory_id = "oakland_49_43_1";
+	business_name = "Baali";
+	owner_faction = "sabbat";
+	clerk_offset_x = -8;
+	clerk_offset_y = -10;
+	clerk_offset_z = -1
+	},
+/turf/open/floor/plating/sidewalk,
+/area/vtm/outside/pacificheights/industrial)
 "gOg" = (
 /obj/structure/sink/directional/south,
 /obj/structure/mirror{
@@ -34447,6 +34576,17 @@
 /obj/item/claymore/machete,
 /turf/open/floor/city/circled,
 /area/vtm/interior/wyrm_corrupted)
+"ihV" = (
+/obj/structure/city_business{
+	territory_id = "oakland_126_52_1";
+	business_name = "Occult";
+	owner_faction = "camarilla";
+	clerk_offset_x = 2;
+	clerk_offset_y = -2;
+	clerk_offset_z = -1
+	},
+/turf/open/floor/iron/stairs/medium,
+/area/vtm/outside/culture)
 "ihX" = (
 /obj/structure/transport/linear/public,
 /turf/open/floor/plating/elevatorshaft,
@@ -37200,6 +37340,17 @@
 /obj/machinery/light/directional/north,
 /turf/open/floor/city/circled,
 /area/vtm/interior/shop)
+"iLz" = (
+/obj/structure/city_business{
+	territory_id = "oakland_primogen_nosferatu";
+	business_name = "Nosferatu Office";
+	owner_faction = "camarilla";
+	clerk_offset_x = 5;
+	clerk_offset_y = -15;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/canal,
+/area/vtm/interior/sewer)
 "iLB" = (
 /obj/effect/decal/graffiti,
 /obj/effect/decal/cleanable/trash,
@@ -37427,6 +37578,17 @@
 /obj/structure/ladder/manhole/down,
 /turf/open/floor/plating/sidewalkalt,
 /area/vtm/outside/culture)
+"iOK" = (
+/obj/structure/city_business{
+	territory_id = "oakland_180_64_2";
+	business_name = "Deli";
+	owner_faction = "camarilla";
+	clerk_offset_x = 7;
+	clerk_offset_y = 0;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalkalt,
+/area/vtm/outside/culture/italy)
 "iOM" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/item/stack/medical/wrap/sticky_tape/duct,
@@ -39177,6 +39339,17 @@
 "jky" = (
 /turf/open/floor/city/plating_mono,
 /area/vtm/interior/clinic/haven)
+"jkG" = (
+/obj/structure/city_business{
+	territory_id = "oakland_195_50_2";
+	business_name = "Gas Station";
+	owner_faction = "camarilla";
+	clerk_offset_x = 13;
+	clerk_offset_y = -2;
+	clerk_offset_z = 1
+	},
+/turf/open/floor/plating/canal,
+/area/vtm/interior/sewer)
 "jkI" = (
 /obj/structure/vampfence/corner/rich{
 	dir = 4;
@@ -40240,6 +40413,17 @@
 	},
 /turf/open/floor/wood/herring,
 /area/vtm/outside/giovanni/courtyard)
+"jvD" = (
+/obj/structure/city_business{
+	territory_id = "oakland_131_10_2";
+	business_name = "Smoke Menu";
+	owner_faction = "anarchs";
+	clerk_offset_x = 3;
+	clerk_offset_y = 2;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalk/rich,
+/area/vtm/outside/baywalk)
 "jvE" = (
 /obj/effect/turf_decal/bordur/corner{
 	dir = 4
@@ -40876,6 +41060,17 @@
 	},
 /turf/open/misc/dirt,
 /area/vtm/interior/sabbat_lair)
+"jDD" = (
+/obj/structure/city_business{
+	territory_id = "oakland_167_156_2";
+	business_name = "Costume Store";
+	owner_faction = "camarilla";
+	clerk_offset_x = -1;
+	clerk_offset_y = -3;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/wood/smooth/old,
+/area/vtm/westfield_mall/interior)
 "jDG" = (
 /obj/item/kirbyplants/darkpack/random,
 /turf/open/floor/wood/smooth/old,
@@ -41348,6 +41543,18 @@
 /obj/structure/table/countertop/purple,
 /turf/open/floor/iron/white/textured,
 /area/vtm/interior/endron_facility/restricted)
+"jJY" = (
+/obj/structure/city_business{
+	territory_id = "oakland_134_138_2";
+	business_name = "Bubway Menu";
+	owner_faction = "camarilla";
+	clerk_offset_x = 5;
+	clerk_offset_y = -3;
+	clerk_offset_z = 0
+	},
+/obj/effect/decal/cleanable/litter,
+/turf/open/floor/plating/sidewalk,
+/area/vtm/outside/unionsquare)
 "jKj" = (
 /obj/structure/flora/bush/sparsegrass/style_random,
 /obj/structure/flora/bush/flowers_pp/style_random,
@@ -44943,6 +45150,17 @@
 /obj/effect/landmark/npcbeacon,
 /turf/open/floor/plating/sidewalk,
 /area/vtm/outside/ghetto)
+"kCG" = (
+/obj/structure/city_business{
+	territory_id = "oakland_148_182_2";
+	business_name = "Pharmacy";
+	owner_faction = "camarilla";
+	clerk_offset_x = 5;
+	clerk_offset_y = 6;
+	clerk_offset_z = 1
+	},
+/turf/open/floor/plating/canal,
+/area/vtm/interior/sewer)
 "kCH" = (
 /obj/structure/chair/wood/darkpack/red{
 	dir = 8
@@ -45528,6 +45746,18 @@
 /obj/machinery/light/prince/directional/south,
 /turf/open/floor/city/plating_mono,
 /area/vtm/interior/millennium_tower/f3)
+"kKa" = (
+/obj/structure/city_business{
+	territory_id = "oakland_primogen_brujah";
+	business_name = "Brujah Office";
+	owner_faction = "camarilla";
+	clerk_offset_x = 12;
+	clerk_offset_y = -24;
+	clerk_offset_z = -1
+	},
+/obj/effect/decal/cleanable/litter,
+/turf/open/floor/plating/sidewalk/poor,
+/area/vtm/outside/ghetto)
 "kKc" = (
 /obj/effect/turf_decal/bordur/corner{
 	dir = 1
@@ -48956,6 +49186,17 @@
 /obj/item/folder/blue,
 /turf/open/floor/plating/granite/black,
 /area/vtm/interior/jazzclub)
+"lAL" = (
+/obj/structure/city_business{
+	territory_id = "oakland_primogen_ventrue";
+	business_name = "Ventrue Office";
+	owner_faction = "camarilla";
+	clerk_offset_x = -1;
+	clerk_offset_y = 20;
+	clerk_offset_z = 2
+	},
+/turf/open/floor/plating/sidewalkalt,
+/area/vtm/outside/culture/italy)
 "lAM" = (
 /obj/machinery/light/small/directional/south,
 /turf/open/openspace,
@@ -50163,6 +50404,20 @@
 	},
 /turf/open/floor/plating/canal,
 /area/vtm)
+"lQA" = (
+/obj/structure/city_business{
+	territory_id = "oakland_176_9_2";
+	business_name = "Pharmacy";
+	owner_faction = "camarilla";
+	clerk_offset_x = -7;
+	clerk_offset_y = -6;
+	clerk_offset_z = 0
+	},
+/obj/effect/turf_decal/bordur{
+	dir = 4
+	},
+/turf/open/floor/plating/sidewalk,
+/area/vtm/outside/baywalk)
 "lQO" = (
 /obj/effect/decal/wallpaper/red/low,
 /obj/structure/gargoyle{
@@ -50286,6 +50541,17 @@
 /obj/effect/landmark/start/darkpack/hecata/famiglia,
 /turf/open/floor/carpet/royalblack,
 /area/vtm/interior/giovanni)
+"lSd" = (
+/obj/structure/city_business{
+	territory_id = "oakland_151_142_2";
+	business_name = "Bacotell Menu";
+	owner_faction = "camarilla";
+	clerk_offset_x = 16;
+	clerk_offset_y = 13;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalk,
+/area/vtm/outside/financialdistrict)
 "lSf" = (
 /obj/structure/chair/sofa/corp/left{
 	color = "#5aa2fa"
@@ -52904,6 +53170,17 @@
 	},
 /turf/open/floor/city/bacotell,
 /area/vtm/interior)
+"mxN" = (
+/obj/structure/city_business{
+	territory_id = "oakland_primogen_malkavian";
+	business_name = "Malkavian Office";
+	owner_faction = "camarilla";
+	clerk_offset_x = -20;
+	clerk_offset_y = -15;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/canal,
+/area/vtm/interior/sewer)
 "mxS" = (
 /turf/open/floor/carpet/royalblack,
 /area/vtm/interior/millennium_tower/f3)
@@ -60718,6 +60995,17 @@
 /obj/machinery/sprinkler,
 /turf/open/floor/carpet/red,
 /area/vtm/interior/littleitaly)
+"omY" = (
+/obj/structure/city_business{
+	territory_id = "oakland_166_71_2";
+	business_name = "Smoke Menu";
+	owner_faction = "anarchs";
+	clerk_offset_x = -6;
+	clerk_offset_y = 3;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalkalt,
+/area/vtm/outside/culture/italy)
 "onh" = (
 /obj/effect/turf_decal/siding/wideplating/dark{
 	dir = 4
@@ -64349,6 +64637,17 @@
 	},
 /turf/open/floor/city/plating_mono,
 /area/vtm/interior/clinic/haven)
+"pdS" = (
+/obj/structure/city_business{
+	territory_id = "oakland_134_158_2";
+	business_name = "Black Market";
+	owner_faction = "triads";
+	clerk_offset_x = 2;
+	clerk_offset_y = -3;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalkalt,
+/area/vtm/outside/chinatown)
 "pdT" = (
 /obj/structure/table,
 /obj/item/reagent_containers/cup/bowl,
@@ -66891,6 +67190,17 @@
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/city/factory,
 /area/vtm/interior/church/staff)
+"pJh" = (
+/obj/structure/city_business{
+	territory_id = "oakland_191_190_2";
+	business_name = "Smoke Menu";
+	owner_faction = "anarchs";
+	clerk_offset_x = -1;
+	clerk_offset_y = 4;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalk/poor,
+/area/vtm/outside/ghetto)
 "pJi" = (
 /obj/effect/turf_decal/siding/wood/light{
 	dir = 8
@@ -68175,6 +68485,17 @@
 	},
 /turf/open/floor/city/plating,
 /area/vtm/interior/setite)
+"pYC" = (
+/obj/structure/city_business{
+	territory_id = "oakland_161_120_2";
+	business_name = "Clothing Store";
+	owner_faction = "camarilla";
+	clerk_offset_x = -8;
+	clerk_offset_y = 0;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalkalt,
+/area/vtm/outside/financialdistrict)
 "pYD" = (
 /obj/effect/decal/fakelattice{
 	density = 0
@@ -68429,6 +68750,17 @@
 	},
 /turf/open/floor/wood/smooth/old,
 /area/vtm/interior)
+"qbq" = (
+/obj/structure/city_business{
+	territory_id = "oakland_primogen_brujah";
+	business_name = "Brujah Office";
+	owner_faction = "camarilla";
+	clerk_offset_x = -7;
+	clerk_offset_y = -9;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/canal,
+/area/vtm/interior/sewer)
 "qbr" = (
 /obj/structure/table,
 /obj/effect/decal/wallpaper/paper/low,
@@ -69971,6 +70303,17 @@
 /obj/effect/mapping_helpers/door/lock_difficulty/four,
 /turf/open/floor/plating/rough/cave,
 /area/vtm/interior/sewer)
+"quR" = (
+/obj/structure/city_business{
+	territory_id = "oakland_195_29_2";
+	business_name = "Music";
+	owner_faction = "camarilla";
+	clerk_offset_x = -3;
+	clerk_offset_y = 0;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalk,
+/area/vtm/outside/baywalk)
 "quU" = (
 /turf/open/water/bloodwave,
 /area/vtm/interior/chantry/basement)
@@ -70705,6 +71048,17 @@
 	},
 /turf/open/floor/wood/ornate,
 /area/vtm/interior/setite)
+"qEe" = (
+/obj/structure/city_business{
+	territory_id = "oakland_88_57_2";
+	business_name = "Camping";
+	owner_faction = "camarilla";
+	clerk_offset_x = 0;
+	clerk_offset_y = 6;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalk,
+/area/vtm/outside/pacificheights)
 "qEn" = (
 /obj/effect/turf_decal/siding/beige{
 	dir = 1
@@ -71527,6 +71881,17 @@
 /obj/structure/flora/rock/darkpack,
 /turf/open/misc/asteroid/basalt,
 /area/vtm/interior/tzimisce_sanctum)
+"qNO" = (
+/obj/structure/city_business{
+	territory_id = "oakland_82_141_2";
+	business_name = "Gas Station";
+	owner_faction = "camarilla";
+	clerk_offset_x = 4;
+	clerk_offset_y = 6;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalk,
+/area/vtm/outside/pacificheights/community)
 "qNQ" = (
 /obj/effect/decal/cleanable/trash,
 /turf/open/floor/wood/herring,
@@ -79144,6 +79509,17 @@
 	},
 /turf/open/floor/plating/sidewalk/poor,
 /area/vtm/interior/apartment)
+"sEw" = (
+/obj/structure/city_business{
+	territory_id = "oakland_82_39_2";
+	business_name = "Clothing Store";
+	owner_faction = "camarilla";
+	clerk_offset_x = 0;
+	clerk_offset_y = -6;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalk,
+/area/vtm/outside/pacificheights)
 "sEx" = (
 /turf/open/floor/carpet/darkpack/old,
 /area/vtm/interior/library)
@@ -80341,6 +80717,17 @@
 	},
 /turf/open/floor/wood/smooth/old,
 /area/vtm/interior/apartment)
+"sTY" = (
+/obj/structure/city_business{
+	territory_id = "oakland_55_23_2";
+	business_name = "Black Market";
+	owner_faction = "anarchs";
+	clerk_offset_x = -4;
+	clerk_offset_y = 4;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalk,
+/area/vtm/outside/pacificheights/industrial)
 "sUa" = (
 /obj/structure/railing{
 	dir = 1
@@ -80862,6 +81249,18 @@
 	},
 /turf/open/water,
 /area/vtm/westfield_mall/interior)
+"taR" = (
+/obj/structure/city_business{
+	territory_id = "oakland_180_172_2";
+	business_name = "Gun Store";
+	owner_faction = "camarilla";
+	clerk_offset_x = 2;
+	clerk_offset_y = 3;
+	clerk_offset_z = 0
+	},
+/obj/effect/decal/rugs,
+/turf/open/floor/city/plating,
+/area/vtm/westfield_mall/interior)
 "taT" = (
 /obj/effect/turf_decal/siding/grey{
 	dir = 1
@@ -80907,6 +81306,17 @@
 /obj/structure/flora/bush/style_random,
 /obj/effect/decal/cleanable/trash,
 /turf/open/water/vamp_sewer/border,
+/area/vtm/interior/sewer)
+"tbm" = (
+/obj/structure/city_business{
+	territory_id = "oakland_178_56_2";
+	business_name = "Gummaguts Menu";
+	owner_faction = "camarilla";
+	clerk_offset_x = -8;
+	clerk_offset_y = 3;
+	clerk_offset_z = 1
+	},
+/turf/open/floor/plating/canal,
 /area/vtm/interior/sewer)
 "tbs" = (
 /obj/effect/decal/wallpaper/stone/low{
@@ -82745,6 +83155,17 @@
 	},
 /turf/open/floor/plating/rough,
 /area/vtm/interior/clinic)
+"tyn" = (
+/obj/structure/city_business{
+	territory_id = "oakland_195_50_2";
+	business_name = "Gas Station";
+	owner_faction = "camarilla";
+	clerk_offset_x = 3;
+	clerk_offset_y = 6;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalk,
+/area/vtm/outside/culture/italy)
 "typ" = (
 /obj/effect/decal/cleanable/blood/gibs/body,
 /obj/effect/turf_decal/darkpack/cave{
@@ -85305,6 +85726,17 @@
 /obj/item/gun/ballistic/shotgun/vampire,
 /turf/open/floor/city/plating_mono,
 /area/vtm/interior/tzimisce_sanctum)
+"ubN" = (
+/obj/structure/city_business{
+	territory_id = "oakland_149_105_2";
+	business_name = "Grocery Store";
+	owner_faction = "camarilla";
+	clerk_offset_x = 0;
+	clerk_offset_y = 5;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalkalt,
+/area/vtm/outside/financialdistrict)
 "ubO" = (
 /obj/structure/railing{
 	dir = 4
@@ -86927,6 +87359,17 @@
 /obj/effect/turf_decal/bordur,
 /turf/open/floor/plating/sidewalk,
 /area/vtm/outside/culture/italy)
+"uwC" = (
+/obj/structure/city_business{
+	territory_id = "oakland_193_92_2";
+	business_name = "General";
+	owner_faction = "camarilla";
+	clerk_offset_x = -5;
+	clerk_offset_y = 0;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalk,
+/area/vtm/outside/financialdistrict)
 "uwI" = (
 /obj/structure/hedge,
 /obj/effect/turf_decal/bordur/corner{
@@ -89756,6 +90199,17 @@
 	},
 /turf/open/floor/plating/sidewalk,
 /area/vtm/outside/financialdistrict)
+"vfZ" = (
+/obj/structure/city_business{
+	territory_id = "oakland_primogen_banu";
+	business_name = "Banu Office";
+	owner_faction = "camarilla";
+	clerk_offset_x = 2;
+	clerk_offset_y = 1;
+	clerk_offset_z = 1
+	},
+/turf/open/floor/plating/sidewalk/rich,
+/area/vtm/outside/baywalk)
 "vga" = (
 /obj/structure/vampdoor,
 /obj/effect/mapping_helpers/door/lock_difficulty/two,
@@ -90420,6 +90874,17 @@
 /obj/structure/table/wood/fancy/royalblack,
 /turf/open/floor/wood/ornate,
 /area/vtm/interior/giovanni)
+"voj" = (
+/obj/structure/city_business{
+	territory_id = "oakland_148_182_2";
+	business_name = "Pharmacy";
+	owner_faction = "camarilla";
+	clerk_offset_x = -1;
+	clerk_offset_y = -7;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalk/poor,
+/area/vtm/outside/ghetto)
 "vok" = (
 /obj/structure/chair/plastic/darkpack{
 	dir = 1
@@ -90564,6 +91029,17 @@
 /obj/machinery/light/prince/directional/west,
 /turf/open/floor/wood/smooth/old,
 /area/vtm/interior/church)
+"vqX" = (
+/obj/structure/city_business{
+	territory_id = "oakland_46_115_1";
+	business_name = "Costume Store";
+	owner_faction = "camarilla";
+	clerk_offset_x = -12;
+	clerk_offset_y = 2;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/canal,
+/area/vtm/interior/sewer)
 "vrk" = (
 /obj/structure/table,
 /turf/open/floor/wood/smooth/old,
@@ -93912,6 +94388,21 @@
 /obj/structure/barrels/rand,
 /turf/open/floor/plating/sidewalk/poor,
 /area/vtm/interior/endron_facility/plant)
+"wiz" = (
+/obj/structure/city_business{
+	territory_id = "oakland_primogen_malkavian";
+	business_name = "Malkavian Office";
+	owner_faction = "camarilla";
+	clerk_offset_x = -23;
+	clerk_offset_y = -9;
+	clerk_offset_z = -1
+	},
+/obj/effect/turf_decal/bordur{
+	dir = 8
+	},
+/obj/effect/landmark/npcwall,
+/turf/open/floor/plating/sidewalk,
+/area/vtm/outside/culture/italy)
 "wiD" = (
 /obj/structure/fence{
 	dir = 4
@@ -94847,6 +95338,17 @@
 /obj/effect/turf_decal/siding/grey,
 /turf/open/floor/plating/granite/black,
 /area/vtm/interior/millennium_tower/f2)
+"wsG" = (
+/obj/structure/city_business{
+	territory_id = "oakland_venue_38";
+	business_name = "Strip";
+	owner_faction = "camarilla";
+	clerk_offset_x = -14;
+	clerk_offset_y = -2;
+	clerk_offset_z = -1
+	},
+/turf/open/floor/plating/sidewalkalt,
+/area/vtm/outside/unionsquare)
 "wsM" = (
 /obj/effect/decal/wallpaper/grey/low{
 	color = "#6d6d6d"
@@ -98979,6 +99481,17 @@
 	},
 /turf/open/floor/plating/rough,
 /area/vtm/interior/shop)
+"xpr" = (
+/obj/structure/city_business{
+	territory_id = "oakland_153_55_2";
+	business_name = "Bubway Menu";
+	owner_faction = "camarilla";
+	clerk_offset_x = 19;
+	clerk_offset_y = 14;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalkalt,
+/area/vtm/outside/park)
 "xpw" = (
 /obj/effect/decal/rugs,
 /obj/machinery/light/red/directional/north,
@@ -100456,6 +100969,17 @@
 /obj/structure/kitchenspike,
 /turf/open/floor/city/toilet,
 /area/vtm/interior/giovanni)
+"xHc" = (
+/obj/structure/city_business{
+	territory_id = "oakland_135_4_2";
+	business_name = "Clothing Store";
+	owner_faction = "camarilla";
+	clerk_offset_x = 5;
+	clerk_offset_y = -3;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalk/rich,
+/area/vtm/outside/baywalk)
 "xHg" = (
 /obj/effect/turf_decal/siding/wideplating/dark{
 	dir = 8
@@ -102592,6 +103116,17 @@
 /obj/machinery/light/small/directional/north,
 /turf/open/floor/wood/smooth/old,
 /area/vtm/interior/ghetto)
+"yhZ" = (
+/obj/structure/city_business{
+	territory_id = "oakland_60_38_2";
+	business_name = "Gummaguts Menu";
+	owner_faction = "camarilla";
+	clerk_offset_x = 4;
+	clerk_offset_y = 4;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalk,
+/area/vtm/outside/pacificheights/industrial)
 "yia" = (
 /obj/effect/decal/fakelattice{
 	density = 0
@@ -107969,7 +108504,7 @@ seh
 seh
 seh
 mun
-hge
+iLz
 vFf
 kRM
 tuX
@@ -109417,7 +109952,7 @@ doU
 cnu
 vSv
 pUg
-qWx
+fzZ
 fUN
 cOH
 cOH
@@ -111478,7 +112013,7 @@ tls
 amf
 njt
 cSM
-xsW
+xXU
 fhR
 eqn
 rgn
@@ -112969,7 +113504,7 @@ seh
 seh
 seh
 seh
-xfk
+ddP
 ggu
 qHm
 eUY
@@ -114742,7 +115277,7 @@ fZF
 fZF
 lCp
 hge
-hge
+vqX
 hge
 tuX
 uvs
@@ -127458,7 +127993,7 @@ bEj
 bEj
 bEj
 bEj
-ndI
+bEj
 bEj
 bEj
 bEj
@@ -129153,7 +129688,7 @@ sNl
 aej
 vFf
 hge
-gjT
+gfY
 amH
 agj
 agj
@@ -132019,7 +132554,7 @@ hge
 hge
 hge
 hge
-hge
+qbq
 hge
 hge
 hge
@@ -132875,7 +133410,7 @@ skK
 faf
 bmy
 bmy
-rJz
+bmy
 bmy
 bmy
 bmy
@@ -132974,7 +133509,7 @@ bmy
 bmy
 bmy
 bmy
-hJw
+bmy
 bmy
 bmy
 bmy
@@ -137851,7 +138386,7 @@ uvs
 tuX
 aej
 vFf
-hge
+mxN
 qIr
 dQe
 dQe
@@ -152913,7 +153448,7 @@ vOW
 whz
 rFJ
 xni
-rSQ
+bDQ
 fyJ
 xni
 rSQ
@@ -153760,7 +154295,7 @@ heP
 biN
 blS
 gXN
-rtc
+tao
 bHb
 uDw
 vGb
@@ -154815,7 +155350,7 @@ uDw
 vGb
 uDw
 tow
-agZ
+tao
 lIq
 lIq
 ptQ
@@ -155352,7 +155887,7 @@ tks
 tks
 efN
 nqH
-qcr
+jHC
 xny
 xny
 cwc
@@ -155605,7 +156140,7 @@ tow
 oqM
 oyj
 tao
-tao
+gOb
 tao
 gcp
 jYc
@@ -155622,7 +156157,7 @@ beT
 tao
 tML
 tao
-tao
+yhZ
 mmB
 oyj
 oqM
@@ -156013,7 +156548,7 @@ tow
 tao
 tao
 tao
-tao
+gnU
 tao
 tao
 tML
@@ -156237,7 +156772,7 @@ psa
 tdw
 iRM
 gXN
-nln
+tao
 hdQ
 uDw
 vGb
@@ -156453,7 +156988,7 @@ tao
 tML
 tao
 tao
-tao
+sTY
 tML
 tao
 tao
@@ -160011,7 +160546,7 @@ unz
 unz
 sWE
 rjV
-sAM
+qNO
 blw
 kKu
 fCn
@@ -160209,7 +160744,7 @@ nQV
 nQV
 nQV
 nQV
-kIP
+vRa
 sWU
 iwl
 jhh
@@ -160511,7 +161046,7 @@ pUu
 lLR
 pUu
 gzb
-hIb
+pUu
 fzc
 inG
 hXd
@@ -161121,7 +161656,7 @@ eKk
 xSl
 mtv
 pUu
-pUu
+sEw
 gdO
 iZu
 xQB
@@ -161929,7 +162464,7 @@ kWD
 yaA
 koW
 oQL
-ghx
+jxB
 pUu
 siO
 riu
@@ -162133,7 +162668,7 @@ nAv
 nAv
 nAv
 vhL
-pUu
+qEe
 pUu
 qYl
 eKk
@@ -169070,7 +169605,7 @@ gZq
 oab
 nkd
 guM
-guM
+gtW
 guM
 guM
 ylg
@@ -169476,7 +170011,7 @@ oQp
 oQp
 xsa
 bVo
-kEM
+ihV
 guM
 aNJ
 guM
@@ -170332,8 +170867,8 @@ fzy
 djk
 fzy
 fzy
+vfZ
 fzy
-mOc
 fzy
 jLI
 eef
@@ -170407,7 +170942,7 @@ xIi
 keR
 keR
 keR
-cEQ
+jJY
 keR
 keR
 fYm
@@ -170540,7 +171075,7 @@ lqx
 lqx
 scr
 fzy
-fzy
+jvD
 jLI
 kRl
 mjT
@@ -170585,14 +171120,14 @@ eNI
 qCc
 qMW
 eAi
-qCc
-ayG
-qCc
-qCc
+dLG
+lAx
 qCc
 qCc
 qCc
 qCc
+qCc
+pdS
 qCc
 qCc
 qCc
@@ -170950,7 +171485,7 @@ fzy
 eBA
 fzy
 fzy
-jOi
+xHc
 mEJ
 eEz
 nqD
@@ -171358,7 +171893,7 @@ lqx
 lqx
 djk
 gtD
-gAN
+djk
 iQm
 kUI
 eEz
@@ -171405,7 +171940,7 @@ xQB
 xVY
 vtv
 qCc
-uWR
+qCc
 ftt
 wUV
 seF
@@ -171643,7 +172178,7 @@ bJm
 gXN
 vtC
 vtC
-vtC
+lSd
 qNc
 qdG
 bKU
@@ -171724,14 +172259,14 @@ gJe
 ilH
 wpN
 uux
-uux
+eGq
 ylg
 lSw
 hwV
 qIo
 jbK
 lwZ
-hwV
+xpr
 lul
 kXS
 jwG
@@ -172245,7 +172780,7 @@ keR
 lHP
 keR
 keR
-wdf
+lHP
 cEQ
 lHP
 keR
@@ -172326,7 +172861,7 @@ hOq
 uux
 hOq
 uux
-uze
+hOq
 uux
 uux
 hOq
@@ -173876,7 +174411,7 @@ xIi
 keR
 keR
 lHP
-wIm
+rnX
 ape
 sYU
 pGs
@@ -173912,7 +174447,7 @@ dNM
 lEF
 hvY
 lEF
-pco
+lEF
 hXY
 luB
 luB
@@ -173958,7 +174493,7 @@ lxz
 hXE
 iEh
 iEh
-sDO
+hXE
 eMw
 hjP
 oXU
@@ -174439,7 +174974,7 @@ pLS
 pLS
 fAa
 lFh
-agC
+voj
 ktB
 inA
 vlN
@@ -174530,7 +175065,7 @@ wXa
 nka
 rcJ
 fXQ
-fXQ
+ubN
 qQZ
 xDZ
 cIw
@@ -175264,7 +175799,7 @@ pDb
 vlN
 tXH
 qwZ
-ezd
+agC
 eIo
 pJF
 afs
@@ -175328,7 +175863,7 @@ gnp
 gnp
 gnp
 gnp
-jQj
+oBK
 mDD
 jcZ
 uTa
@@ -175599,7 +176134,7 @@ aKD
 xHS
 iam
 gXN
-uZC
+iEh
 pii
 dfK
 dfK
@@ -176599,7 +177134,7 @@ qtm
 hCl
 wca
 vxQ
-obH
+ilK
 vxQ
 vxQ
 vxQ
@@ -176960,7 +177495,7 @@ xQB
 wDS
 vrk
 fyE
-hVT
+oBK
 mDD
 jcZ
 uTa
@@ -177344,7 +177879,7 @@ dBY
 kea
 ffg
 kea
-kea
+wsG
 gnp
 gnp
 gnp
@@ -177471,7 +178006,7 @@ rAn
 eWO
 eWO
 eWO
-eWO
+fIL
 bEO
 ltr
 eWO
@@ -177752,7 +178287,7 @@ dBY
 kea
 kea
 kea
-pcg
+bRp
 gnp
 gnp
 gnp
@@ -178215,7 +178750,7 @@ fXQ
 fXQ
 fXQ
 fXQ
-tCn
+fXQ
 fXQ
 aFu
 fXQ
@@ -178346,8 +178881,8 @@ pLj
 uEW
 iYm
 iYm
-hsD
-hZu
+bYi
+jDD
 hZu
 sDu
 njI
@@ -178359,7 +178894,7 @@ kQM
 vTs
 kQM
 pGs
-ltM
+keR
 xeq
 eEz
 eEz
@@ -178385,7 +178920,7 @@ fXQ
 fXQ
 sQC
 fXQ
-fXQ
+pYC
 fXQ
 grD
 tvt
@@ -178489,7 +179024,7 @@ sjP
 adJ
 rAn
 eWO
-qZC
+eWO
 rSt
 aUD
 aUD
@@ -178978,7 +179513,7 @@ tPz
 ekm
 rcJ
 rcJ
-kea
+cNI
 kea
 kea
 uLJ
@@ -179049,7 +179584,7 @@ iqD
 mVb
 fjd
 qHj
-qHj
+omY
 fTs
 tmD
 kgo
@@ -179251,7 +179786,7 @@ qtm
 dCc
 hpT
 qHj
-qHj
+lAL
 qHj
 qHj
 qHj
@@ -179665,8 +180200,8 @@ qHj
 mPo
 qPT
 mPo
-qHj
-orc
+iOK
+tmD
 vKm
 qGj
 nhF
@@ -179713,7 +180248,7 @@ sjP
 adJ
 rAn
 eWO
-scv
+fSC
 ePK
 hGZ
 mui
@@ -180375,7 +180910,7 @@ vLW
 mFL
 vLW
 lYL
-wmH
+taR
 rWZ
 drX
 uEW
@@ -180784,7 +181319,7 @@ aGh
 ixD
 rWZ
 wmH
-hzS
+rWZ
 drX
 uEW
 uEW
@@ -181551,7 +182086,7 @@ rAn
 eWO
 fjk
 gTB
-gTB
+lQA
 gTB
 bTP
 gTB
@@ -182806,7 +183341,7 @@ qMh
 agC
 agC
 nUY
-fWx
+agC
 agC
 nUY
 agC
@@ -182900,7 +183435,7 @@ vtC
 oBK
 vtC
 oBK
-oqw
+vtC
 drv
 oBK
 vtC
@@ -183419,7 +183954,7 @@ gyo
 egD
 egD
 ebp
-agC
+pJh
 oTv
 mnX
 jlD
@@ -183552,7 +184087,7 @@ ava
 kjZ
 ava
 ava
-roc
+xOc
 iwl
 bFu
 eEz
@@ -183561,7 +184096,7 @@ eEz
 lEB
 iwl
 pbo
-pbo
+tyn
 bFq
 mrO
 iQC
@@ -183987,7 +184522,7 @@ sWU
 vnN
 dRW
 sWU
-fQY
+eWO
 eWO
 pFK
 aaK
@@ -184534,7 +185069,7 @@ nSc
 nSc
 nSc
 kEP
-vtC
+uwC
 uum
 cmK
 ije
@@ -184800,7 +185335,7 @@ fBK
 lrP
 gnZ
 bEO
-eWO
+quR
 eWO
 bEO
 eWO
@@ -219546,7 +220081,7 @@ uEW
 uEW
 uEW
 uEW
-uEW
+bje
 qmg
 uEW
 uEW
@@ -220564,7 +221099,7 @@ tqe
 tLr
 tBO
 jQF
-uPs
+aOv
 dlV
 wKk
 jFW

@@ -17,6 +17,46 @@
 #ifdef BUSINESS_TESTS
 	test_flags = UNIT_TEST_FOCUS
 #endif
+#ifdef BUSINESS_GEOMETRY
+/datum/unit_test/city_business/geometry_export/Run()
+	var/list/tiles = list()
+	var/list/marks = list()
+	for(var/obj/structure/city_business/business as anything in GLOB.city_businesses)
+		if(business.mapped_business)
+			marks[business.territory_id] = list(business.x, business.y, business.z)
+	for(var/turf/open/tile in world)
+		if(isspaceturf(tile) || isopenspaceturf(tile))
+			continue
+		var/blocked = FALSE
+		var/door = FALSE
+		var/restricted = FALSE
+		var/list/links = list()
+		for(var/atom/movable/obstacle in tile)
+			if(istype(obstacle, /obj/structure/vampdoor))
+				door = TRUE
+				var/obj/structure/vampdoor/vampdoor = obstacle
+				restricted = vampdoor.locked
+			else if(istype(obstacle, /obj/machinery/door))
+				door = TRUE
+				restricted = TRUE
+			else if(!ismob(obstacle) && obstacle.density)
+				blocked = TRUE
+			if(istype(obstacle, /obj/structure/stairs))
+				var/obj/structure/stairs/stair = obstacle
+				if(stair.isTerminator() && isopenspaceturf(get_step_multiz(stair, UP)))
+					var/turf/landing = get_step_multiz(stair, stair.dir|UP)
+					if(landing)
+						links += list(list(landing.x, landing.y, landing.z))
+			if(istype(obstacle, /obj/structure/ladder))
+				var/obj/structure/ladder/ladder = obstacle
+				if(ladder.up)
+					links += list(list(ladder.up.x, ladder.up.y, ladder.up.z))
+				if(ladder.down)
+					links += list(list(ladder.down.x, ladder.down.y, ladder.down.z))
+		tiles += list(list(tile.x, tile.y, tile.z, blocked, door, links, restricted))
+	fdel("data/business_geometry.json")
+	WRITE_FILE(file("data/business_geometry.json"), json_encode(list("version" = 2, "tiles" = tiles, "marks" = marks)))
+#endif
 
 /datum/unit_test/city_business/economy/Run()
 	var/mob/living/carbon/human/business_test/customer = allocate(/mob/living/carbon/human/business_test)
@@ -125,6 +165,14 @@
 		if(!business.territory_id || business.territory_id in ids)
 			Fail("Every mapped business must have a unique ID: [business.territory_id]")
 		ids += business.territory_id
+		if(!istype(get_turf(business), /turf/open/floor))
+			Fail("[business.territory_id] must be on a dry floor.")
+		for(var/atom/movable/obstacle in get_turf(business))
+			if(obstacle.density && !ismob(obstacle))
+				Fail("[business.territory_id] overlaps dense [obstacle.type].")
+		for(var/obj/structure/city_business/other as anything in GLOB.city_businesses)
+			if(other != business && other.z == business.z && get_dist(other, business) < 2)
+				Fail("[business.territory_id] has an overlapping 48px mark: [other.territory_id].")
 		if(QDELETED(business.clerk) || business.clerk.territory_employer != business)
 			Fail("[business.territory_id] must have a bound living clerk.")
 		for(var/atom/outlet as anything in business.outlets)

@@ -110,6 +110,9 @@
 
 /obj/structure/retail/ui_data(mob/user)
 	. = list()
+	.["prices"] = list()
+	for(var/datum/data/vending_product/product in products_list)
+		.["prices"][REF(product)] = business_price(user, product.price)
 	.["user"] = list()
 	.["user"]["money"] = 0
 	.["user"]["is_card"] = 0
@@ -177,6 +180,9 @@
 						to_chat(user, span_alert("The [creditcard] has no linked account."))
 						return
 					if(!used_account.check_pin(user, purchase_price, creditcard))
+						return
+					// PIN entry yields: stock, reach and the card can change meanwhile.
+					if(QDELETED(creditcard) || creditcard.loc != user || product.amount == 0 || !can_interact(user))
 						return
 					if(purchase_price != business_price(user, product.price) || (territory && (!territory.clerk_available() || territory.active_conflict)))
 						return

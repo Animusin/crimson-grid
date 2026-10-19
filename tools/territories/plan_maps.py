@@ -69,24 +69,7 @@ def plan_map(map_id, filename):
                     visited.add(other)
                     queue.append((other, steps + 1))
         if not candidates:
-            # Some basement shops use stairs/teleport transitions, not a flat route.
-            # Keep their point outside the room and record this explicitly for review.
-            for coord, tile in tiles.items():
-                if distance(origin, coord) > 30 or coord in used or not walkable(coord):
-                    continue
-                if any(s in tile[-1] for s in ['/outside', '/maintenance', '/sewer']):
-                    candidates.append((distance(origin, coord) + 30, coord))
-            print('Non-flat entrance:', map_id, origin, '->', min(candidates)[1] if candidates else 'NONE')
-        if not candidates:
-            for coord, tile in tiles.items():
-                planar_distance = max(abs(origin[0] - coord[0]), abs(origin[1] - coord[1]))
-                if coord[2] >= origin[2] or planar_distance > 30 or coord in used or not walkable(coord):
-                    continue
-                if any(s in tile[-1] for s in ['/outside', '/maintenance', '/sewer']):
-                    candidates.append((planar_distance + 40 * (origin[2] - coord[2]), coord))
-            print('Downstairs entrance:', map_id, origin, '->', min(candidates)[1] if candidates else 'NONE')
-        if not candidates:
-            raise RuntimeError(f'No service passage near {origin} in {map_id}')
+            raise RuntimeError(f'No flat service route near {origin} in {map_id}; map an explicit entrance and use review_placement.py with runtime geometry. Never fall back to unconnected floors.')
         return min(candidates)[1]
 
     npcs = {c: next(a for a in t if a.startswith('/mob/living/carbon/human/npc')) for c, t in tiles.items() if any(a.startswith('/mob/living/carbon/human/npc') for a in t)}
