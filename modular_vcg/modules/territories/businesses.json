@@ -1,0 +1,2796 @@
+[
+  {
+    "map": "westfield",
+    "file": "_maps/map_files/Vampire/westfield_mall/westfield_mall.dmm",
+    "businesses": [
+      {
+        "id": "westfield_40_47_1",
+        "name": "Blackmarket",
+        "owner": "anarchs",
+        "clerk": [
+          39,
+          47,
+          1
+        ],
+        "outlets": [
+          [
+            40,
+            47,
+            1
+          ]
+        ],
+        "area": "/area/vtm/interior/sewer",
+        "marker": [
+          37,
+          47,
+          1
+        ]
+      },
+      {
+        "id": "westfield_43_48_1",
+        "name": "Black Market",
+        "owner": "anarchs",
+        "clerk": [
+          44,
+          47,
+          1
+        ],
+        "outlets": [
+          [
+            43,
+            48,
+            1
+          ]
+        ],
+        "area": "/area/vtm/interior/sewer",
+        "marker": [
+          40,
+          48,
+          1
+        ]
+      },
+      {
+        "id": "westfield_41_48_2",
+        "name": "Skate Shop",
+        "owner": "camarilla",
+        "clerk": [
+          41,
+          49,
+          2
+        ],
+        "outlets": [
+          [
+            41,
+            48,
+            2
+          ]
+        ],
+        "area": "/area/vtm/westfield_mall/interior/skatepark",
+        "marker": [
+          34,
+          45,
+          2
+        ]
+      },
+      {
+        "id": "westfield_64_110_2",
+        "name": "Hot Ishu",
+        "owner": "camarilla",
+        "clerk": [
+          64,
+          109,
+          2
+        ],
+        "outlets": [
+          [
+            64,
+            110,
+            2
+          ]
+        ],
+        "area": "/area/vtm/westfield_mall/interior/hot_ishu",
+        "marker": [
+          65,
+          106,
+          2
+        ]
+      },
+      {
+        "id": "westfield_66_99_2",
+        "name": "Pharmacy",
+        "owner": "camarilla",
+        "clerk": [
+          65,
+          99,
+          2
+        ],
+        "outlets": [
+          [
+            66,
+            99,
+            2
+          ]
+        ],
+        "area": "/area/vtm/westfield_mall/interior/vet_clinic",
+        "marker": [
+          71,
+          106,
+          2
+        ]
+      },
+      {
+        "id": "westfield_66_76_2",
+        "name": "Library",
+        "owner": "camarilla",
+        "clerk": [
+          65,
+          76,
+          2
+        ],
+        "outlets": [
+          [
+            66,
+            76,
+            2
+          ]
+        ],
+        "area": "/area/vtm/westfield_mall/interior/chantry",
+        "marker": [
+          74,
+          77,
+          2
+        ]
+      },
+      {
+        "id": "westfield_81_138_2",
+        "name": "Grocery Store",
+        "owner": "camarilla",
+        "clerk": [
+          81,
+          139,
+          2
+        ],
+        "outlets": [
+          [
+            81,
+            138,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop",
+        "marker": [
+          85,
+          127,
+          2
+        ]
+      },
+      {
+        "id": "westfield_81_62_2",
+        "name": "Clothing Store",
+        "owner": "camarilla",
+        "clerk": [
+          80,
+          62,
+          2
+        ],
+        "outlets": [
+          [
+            81,
+            62,
+            2
+          ]
+        ],
+        "area": "/area/vtm/westfield_mall/interior/clothing_store",
+        "marker": [
+          75,
+          61,
+          2
+        ]
+      },
+      {
+        "id": "westfield_84_138_2",
+        "name": "Deli",
+        "owner": "camarilla",
+        "clerk": [
+          84,
+          139,
+          2
+        ],
+        "outlets": [
+          [
+            84,
+            138,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop",
+        "marker": [
+          84,
+          127,
+          2
+        ]
+      },
+      {
+        "id": "westfield_87_113_2",
+        "name": "Smoke Menu",
+        "owner": "anarchs",
+        "clerk": [
+          87,
+          114,
+          2
+        ],
+        "outlets": [
+          [
+            87,
+            113,
+            2
+          ]
+        ],
+        "area": "/area/vtm/westfield_mall/interior/smokeshop",
+        "marker": [
+          96,
+          108,
+          2
+        ]
+      },
+      {
+        "id": "westfield_106_93_2",
+        "name": "Smoke Menu",
+        "owner": "anarchs",
+        "clerk": [
+          105,
+          93,
+          2
+        ],
+        "outlets": [
+          [
+            106,
+            93,
+            2
+          ]
+        ],
+        "area": "/area/vtm/westfield_mall/interior/anarch",
+        "marker": [
+          111,
+          91,
+          2
+        ]
+      },
+      {
+        "id": "westfield_130_128_2",
+        "name": "Gummaguts Menu",
+        "owner": "camarilla",
+        "clerk": [
+          130,
+          129,
+          2
+        ],
+        "outlets": [
+          [
+            130,
+            128,
+            2
+          ]
+        ],
+        "area": "/area/vtm/westfield_mall/interior/foodcourt/restaurant",
+        "marker": [
+          115,
+          129,
+          2
+        ]
+      },
+      {
+        "id": "westfield_130_108_2",
+        "name": "Gun Store",
+        "owner": "camarilla",
+        "clerk": [
+          130,
+          109,
+          2
+        ],
+        "outlets": [
+          [
+            130,
+            108,
+            2
+          ]
+        ],
+        "area": "/area/vtm/westfield_mall/interior",
+        "marker": [
+          128,
+          105,
+          2
+        ]
+      },
+      {
+        "id": "westfield_132_128_2",
+        "name": "Bubway Menu",
+        "owner": "camarilla",
+        "clerk": [
+          132,
+          129,
+          2
+        ],
+        "outlets": [
+          [
+            132,
+            128,
+            2
+          ]
+        ],
+        "area": "/area/vtm/westfield_mall/interior/foodcourt/restaurant",
+        "marker": [
+          132,
+          138,
+          2
+        ]
+      },
+      {
+        "id": "westfield_134_128_2",
+        "name": "Bacotell Menu",
+        "owner": "camarilla",
+        "clerk": [
+          134,
+          129,
+          2
+        ],
+        "outlets": [
+          [
+            134,
+            128,
+            2
+          ]
+        ],
+        "area": "/area/vtm/westfield_mall/interior/foodcourt/restaurant",
+        "marker": [
+          131,
+          138,
+          2
+        ]
+      },
+      {
+        "id": "westfield_85_87_3",
+        "name": "Hardware Store",
+        "owner": "camarilla",
+        "clerk": [
+          86,
+          87,
+          3
+        ],
+        "outlets": [
+          [
+            85,
+            87,
+            3
+          ],
+          [
+            85,
+            86,
+            3
+          ]
+        ],
+        "area": "/area/vtm/interior/shop",
+        "marker": [
+          89,
+          86,
+          3
+        ]
+      },
+      {
+        "id": "westfield_88_94_3",
+        "name": "Lombard",
+        "owner": "camarilla",
+        "clerk": [
+          89,
+          94,
+          3
+        ],
+        "outlets": [
+          [
+            88,
+            94,
+            3
+          ]
+        ],
+        "area": "/area/vtm/interior/shop",
+        "marker": [
+          89,
+          88,
+          3
+        ]
+      },
+      {
+        "id": "westfield_132_138_3",
+        "name": "Coffee Shop",
+        "owner": "camarilla",
+        "clerk": [
+          131,
+          138,
+          3
+        ],
+        "outlets": [
+          [
+            132,
+            138,
+            3
+          ]
+        ],
+        "area": "/area/vtm/interior/shop",
+        "marker": [
+          132,
+          126,
+          3
+        ]
+      },
+      {
+        "id": "westfield_venue_18",
+        "name": "Dojo",
+        "owner": "triads",
+        "clerk": [
+          81,
+          103,
+          3
+        ],
+        "outlets": [],
+        "area": "/area/vtm/westfield_mall/interior/dojo",
+        "marker": [
+          83,
+          106,
+          3
+        ]
+      },
+      {
+        "id": "westfield_primogen_nosferatu",
+        "name": "Nosferatu Office",
+        "owner": "camarilla",
+        "clerk": [
+          30,
+          82,
+          1
+        ],
+        "outlets": [],
+        "area": "/area/vtm/interior/sewer/nosferatu_town",
+        "marker": [
+          34,
+          80,
+          1
+        ]
+      },
+      {
+        "id": "westfield_primogen_voivode",
+        "name": "Voivode Office",
+        "owner": "sabbat",
+        "clerk": [
+          87,
+          83,
+          2
+        ],
+        "outlets": [],
+        "area": "/area/vtm/interior/shop",
+        "marker": [
+          83,
+          87,
+          2
+        ]
+      },
+      {
+        "id": "westfield_primogen_banu",
+        "name": "Banu Office",
+        "owner": "camarilla",
+        "clerk": [
+          88,
+          101,
+          3
+        ],
+        "outlets": [],
+        "area": "/area/vtm/westfield_mall/interior/dojo",
+        "marker": [
+          83,
+          107,
+          3
+        ]
+      },
+      {
+        "id": "westfield_primogen_lasombra",
+        "name": "Lasombra Office",
+        "owner": "camarilla",
+        "clerk": [
+          105,
+          85,
+          3
+        ],
+        "outlets": [],
+        "area": "/area/vtm/interior/church",
+        "marker": [
+          96,
+          85,
+          3
+        ]
+      },
+      {
+        "id": "westfield_primogen_malkavian",
+        "name": "Malkavian Office",
+        "owner": "camarilla",
+        "clerk": [
+          107,
+          94,
+          3
+        ],
+        "outlets": [],
+        "area": "/area/vtm/interior/clinic",
+        "marker": [
+          111,
+          91,
+          3
+        ]
+      },
+      {
+        "id": "westfield_primogen_ventrue",
+        "name": "Ventrue Office",
+        "owner": "camarilla",
+        "clerk": [
+          128,
+          71,
+          3
+        ],
+        "outlets": [],
+        "area": "/area/vtm/westfield_mall/interior/law_office",
+        "marker": [
+          116,
+          73,
+          3
+        ]
+      },
+      {
+        "id": "westfield_primogen_toreador",
+        "name": "Toreador Office",
+        "owner": "camarilla",
+        "clerk": [
+          136,
+          75,
+          3
+        ],
+        "outlets": [],
+        "area": "/area/vtm/westfield_mall/interior/theatre",
+        "marker": [
+          123,
+          84,
+          3
+        ]
+      }
+    ]
+  },
+  {
+    "map": "sanfangsisco",
+    "file": "_maps/map_files/Vampire/san_fangsisco/sanfangsisco.dmm",
+    "businesses": [
+      {
+        "id": "sanfangsisco_40_217_1",
+        "name": "Costume Store",
+        "owner": "anarchs",
+        "clerk": [
+          40,
+          218,
+          1
+        ],
+        "outlets": [
+          [
+            40,
+            217,
+            1
+          ]
+        ],
+        "area": "/area/vtm/interior/sewer/nosferatu_town",
+        "marker": [
+          40,
+          214,
+          1
+        ]
+      },
+      {
+        "id": "sanfangsisco_52_143_1",
+        "name": "Baali",
+        "owner": "sabbat",
+        "clerk": [
+          51,
+          142,
+          1
+        ],
+        "outlets": [
+          [
+            52,
+            143,
+            1
+          ]
+        ],
+        "area": "/area/vtm/interior/baali",
+        "marker": [
+          46,
+          149,
+          1
+        ]
+      },
+      {
+        "id": "sanfangsisco_140_116_1",
+        "name": "Black Market",
+        "owner": "anarchs",
+        "clerk": [
+          140,
+          117,
+          1
+        ],
+        "outlets": [
+          [
+            140,
+            116,
+            1
+          ],
+          [
+            141,
+            116,
+            1
+          ]
+        ],
+        "area": "/area/vtm/interior/sewer",
+        "marker": [
+          140,
+          113,
+          1
+        ]
+      },
+      {
+        "id": "sanfangsisco_169_144_1",
+        "name": "Occult",
+        "owner": "camarilla",
+        "clerk": [
+          168,
+          143,
+          1
+        ],
+        "outlets": [
+          [
+            169,
+            144,
+            1
+          ]
+        ],
+        "area": "/area/vtm/interior/chantry/basement",
+        "marker": [
+          166,
+          147,
+          1
+        ]
+      },
+      {
+        "id": "sanfangsisco_29_119_2",
+        "name": "Gummaguts Menu",
+        "owner": "camarilla",
+        "clerk": [
+          29,
+          120,
+          2
+        ],
+        "outlets": [
+          [
+            29,
+            119,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/otolleys",
+        "marker": [
+          34,
+          119,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_39_150_2",
+        "name": "Junkfood Menu",
+        "owner": "camarilla",
+        "clerk": [
+          39,
+          151,
+          2
+        ],
+        "outlets": [
+          [
+            39,
+            150,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/smoke_shop",
+        "marker": [
+          38,
+          146,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_53_162_2",
+        "name": "Grocery Store",
+        "owner": "camarilla",
+        "clerk": [
+          53,
+          163,
+          2
+        ],
+        "outlets": [
+          [
+            53,
+            162,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/grocery",
+        "marker": [
+          54,
+          165,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_53_160_2",
+        "name": "Grocery Store",
+        "owner": "camarilla",
+        "clerk": [
+          53,
+          159,
+          2
+        ],
+        "outlets": [
+          [
+            53,
+            160,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/grocery",
+        "marker": [
+          56,
+          160,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_54_150_2",
+        "name": "Art Store",
+        "owner": "camarilla",
+        "clerk": [
+          54,
+          151,
+          2
+        ],
+        "outlets": [
+          [
+            54,
+            150,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/arts",
+        "marker": [
+          56,
+          147,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_56_175_2",
+        "name": "Gummaguts Menu",
+        "owner": "camarilla",
+        "clerk": [
+          56,
+          176,
+          2
+        ],
+        "outlets": [
+          [
+            56,
+            175,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/gummaguts",
+        "marker": [
+          54,
+          178,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_61_174_2",
+        "name": "Gun Store",
+        "owner": "camarilla",
+        "clerk": [
+          61,
+          175,
+          2
+        ],
+        "outlets": [
+          [
+            61,
+            174,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/gunshop",
+        "marker": [
+          62,
+          171,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_66_99_2",
+        "name": "Lombard",
+        "owner": "camarilla",
+        "clerk": [
+          66,
+          100,
+          2
+        ],
+        "outlets": [
+          [
+            66,
+            99,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/pawnshop",
+        "marker": [
+          70,
+          98,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_67_46_2",
+        "name": "Gas Station",
+        "owner": "camarilla",
+        "clerk": [
+          68,
+          46,
+          2
+        ],
+        "outlets": [
+          [
+            67,
+            46,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/gasstation",
+        "marker": [
+          63,
+          44,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_74_116_2",
+        "name": "Clothing Store",
+        "owner": "camarilla",
+        "clerk": [
+          74,
+          117,
+          2
+        ],
+        "outlets": [
+          [
+            74,
+            116,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/clothing_store",
+        "marker": [
+          73,
+          111,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_86_113_2",
+        "name": "Smoke Menu",
+        "owner": "anarchs",
+        "clerk": [
+          85,
+          113,
+          2
+        ],
+        "outlets": [
+          [
+            86,
+            113,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/smoke_shop",
+        "marker": [
+          89,
+          113,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_88_228_2",
+        "name": "Clothing Store",
+        "owner": "camarilla",
+        "clerk": [
+          87,
+          228,
+          2
+        ],
+        "outlets": [
+          [
+            88,
+            228,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/clothing_store",
+        "marker": [
+          92,
+          222,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_90_208_2",
+        "name": "Clothing Store",
+        "owner": "camarilla",
+        "clerk": [
+          90,
+          207,
+          2
+        ],
+        "outlets": [
+          [
+            90,
+            208,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/clothing_store",
+        "marker": [
+          85,
+          214,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_95_228_2",
+        "name": "Art Store",
+        "owner": "camarilla",
+        "clerk": [
+          95,
+          229,
+          2
+        ],
+        "outlets": [
+          [
+            95,
+            228,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/arts",
+        "marker": [
+          94,
+          222,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_97_187_2",
+        "name": "Smoke Menu",
+        "owner": "anarchs",
+        "clerk": [
+          96,
+          187,
+          2
+        ],
+        "outlets": [
+          [
+            97,
+            187,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/smoke_shop",
+        "marker": [
+          94,
+          187,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_98_208_2",
+        "name": "General",
+        "owner": "camarilla",
+        "clerk": [
+          98,
+          207,
+          2
+        ],
+        "outlets": [
+          [
+            98,
+            208,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/hardware_store",
+        "marker": [
+          101,
+          206,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_111_176_2",
+        "name": "Clothing Store",
+        "owner": "camarilla",
+        "clerk": [
+          111,
+          177,
+          2
+        ],
+        "outlets": [
+          [
+            111,
+            176,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/clothing_store",
+        "marker": [
+          110,
+          171,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_111_157_2",
+        "name": "Flower Shop",
+        "owner": "camarilla",
+        "clerk": [
+          110,
+          157,
+          2
+        ],
+        "outlets": [
+          [
+            111,
+            157,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/flower_shop",
+        "marker": [
+          108,
+          152,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_127_234_2",
+        "name": "Gas Station",
+        "owner": "camarilla",
+        "clerk": [
+          128,
+          234,
+          2
+        ],
+        "outlets": [
+          [
+            127,
+            234,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/gasstation",
+        "marker": [
+          131,
+          233,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_130_174_2",
+        "name": "Music",
+        "owner": "camarilla",
+        "clerk": [
+          131,
+          174,
+          2
+        ],
+        "outlets": [
+          [
+            130,
+            174,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/music_store",
+        "marker": [
+          130,
+          171,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_131_185_2",
+        "name": "Clothing Store",
+        "owner": "camarilla",
+        "clerk": [
+          131,
+          184,
+          2
+        ],
+        "outlets": [
+          [
+            131,
+            185,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/clothing_store",
+        "marker": [
+          130,
+          190,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_139_157_2",
+        "name": "Antique",
+        "owner": "camarilla",
+        "clerk": [
+          139,
+          158,
+          2
+        ],
+        "outlets": [
+          [
+            139,
+            157,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/antiques",
+        "marker": [
+          138,
+          152,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_140_187_2",
+        "name": "Pharmacy",
+        "owner": "camarilla",
+        "clerk": [
+          139,
+          187,
+          2
+        ],
+        "outlets": [
+          [
+            140,
+            187,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/pharmacy",
+        "marker": [
+          140,
+          190,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_141_176_2",
+        "name": "Bacotell Menu",
+        "owner": "camarilla",
+        "clerk": [
+          141,
+          177,
+          2
+        ],
+        "outlets": [
+          [
+            141,
+            176,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/bacotell",
+        "marker": [
+          141,
+          171,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_143_57_2",
+        "name": "Camping",
+        "owner": "camarilla",
+        "clerk": [
+          144,
+          57,
+          2
+        ],
+        "outlets": [
+          [
+            143,
+            57,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/camping_store",
+        "marker": [
+          139,
+          60,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_159_203_2",
+        "name": "Costume Store",
+        "owner": "camarilla",
+        "clerk": [
+          159,
+          204,
+          2
+        ],
+        "outlets": [
+          [
+            159,
+            203,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/clothing_store",
+        "marker": [
+          156,
+          201,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_169_121_2",
+        "name": "Bacotell Menu",
+        "owner": "camarilla",
+        "clerk": [
+          169,
+          122,
+          2
+        ],
+        "outlets": [
+          [
+            169,
+            121,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/bacotell",
+        "marker": [
+          168,
+          124,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_173_172_2",
+        "name": "Library",
+        "owner": "camarilla",
+        "clerk": [
+          173,
+          173,
+          2
+        ],
+        "outlets": [
+          [
+            173,
+            172,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/museum",
+        "marker": [
+          173,
+          167,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_175_95_2",
+        "name": "Red Dragon Menu",
+        "owner": "triads",
+        "clerk": [
+          175,
+          96,
+          2
+        ],
+        "outlets": [
+          [
+            175,
+            95,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/laundromat",
+        "marker": [
+          169,
+          97,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_179_116_2",
+        "name": "Clothing Store",
+        "owner": "camarilla",
+        "clerk": [
+          180,
+          116,
+          2
+        ],
+        "outlets": [
+          [
+            179,
+            116,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/clothing_store",
+        "marker": [
+          177,
+          111,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_180_139_2",
+        "name": "Library",
+        "owner": "camarilla",
+        "clerk": [
+          180,
+          140,
+          2
+        ],
+        "outlets": [
+          [
+            180,
+            139,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/chantry",
+        "marker": [
+          170,
+          138,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_181_228_2",
+        "name": "Bubway Menu",
+        "owner": "camarilla",
+        "clerk": [
+          182,
+          228,
+          2
+        ],
+        "outlets": [
+          [
+            181,
+            228,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/bubway",
+        "marker": [
+          181,
+          223,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_184_99_2",
+        "name": "Gun Store",
+        "owner": "triads",
+        "clerk": [
+          184,
+          100,
+          2
+        ],
+        "outlets": [
+          [
+            184,
+            99,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/laundromat",
+        "marker": [
+          182,
+          86,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_193_55_2",
+        "name": "Skate Shop",
+        "owner": "camarilla",
+        "clerk": [
+          193,
+          56,
+          2
+        ],
+        "outlets": [
+          [
+            193,
+            55,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/skate_shop",
+        "marker": [
+          190,
+          54,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_204_95_2",
+        "name": "Black Market",
+        "owner": "triads",
+        "clerk": [
+          203,
+          95,
+          2
+        ],
+        "outlets": [
+          [
+            204,
+            95,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/laundromat",
+        "marker": [
+          200,
+          97,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_205_76_2",
+        "name": "General",
+        "owner": "camarilla",
+        "clerk": [
+          205,
+          75,
+          2
+        ],
+        "outlets": [
+          [
+            205,
+            76,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/hardware_store",
+        "marker": [
+          200,
+          77,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_215_205_2",
+        "name": "Pharmacy",
+        "owner": "camarilla",
+        "clerk": [
+          214,
+          205,
+          2
+        ],
+        "outlets": [
+          [
+            215,
+            205,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/salubri",
+        "marker": [
+          216,
+          208,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_231_115_2",
+        "name": "Gun Store",
+        "owner": "camarilla",
+        "clerk": [
+          231,
+          116,
+          2
+        ],
+        "outlets": [
+          [
+            231,
+            115,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/gunshop",
+        "marker": [
+          229,
+          111,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_232_154_2",
+        "name": "Lombard",
+        "owner": "camarilla",
+        "clerk": [
+          232,
+          155,
+          2
+        ],
+        "outlets": [
+          [
+            232,
+            154,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop/pawnshop",
+        "marker": [
+          223,
+          152,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_236_37_2",
+        "name": "Blackmarket",
+        "owner": "anarchs",
+        "clerk": [
+          236,
+          38,
+          2
+        ],
+        "outlets": [
+          [
+            236,
+            37,
+            2
+          ],
+          [
+            237,
+            37,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/supply",
+        "marker": [
+          241,
+          40,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_53_128_3",
+        "name": "Strip Club",
+        "owner": "camarilla",
+        "clerk": [
+          53,
+          129,
+          3
+        ],
+        "outlets": [
+          [
+            53,
+            128,
+            3
+          ]
+        ],
+        "area": "/area/vtm/interior/strip",
+        "marker": [
+          50,
+          131,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_primogen_nosferatu",
+        "name": "Nosferatu Office",
+        "owner": "camarilla",
+        "clerk": [
+          30,
+          241,
+          1
+        ],
+        "outlets": [],
+        "area": "/area/vtm/interior/sewer/nosferatu_town",
+        "marker": [
+          33,
+          242,
+          1
+        ]
+      },
+      {
+        "id": "sanfangsisco_primogen_brujah",
+        "name": "Brujah Office",
+        "owner": "camarilla",
+        "clerk": [
+          52,
+          179,
+          1
+        ],
+        "outlets": [],
+        "area": "/area/vtm/interior",
+        "marker": [
+          61,
+          170,
+          1
+        ]
+      },
+      {
+        "id": "sanfangsisco_primogen_malkavian",
+        "name": "Malkavian Office",
+        "owner": "camarilla",
+        "clerk": [
+          119,
+          224,
+          1
+        ],
+        "outlets": [],
+        "area": "/area/vtm/interior/clinic/haven",
+        "marker": [
+          125,
+          218,
+          1
+        ]
+      },
+      {
+        "id": "sanfangsisco_primogen_ventrue",
+        "name": "Ventrue Office",
+        "owner": "camarilla",
+        "clerk": [
+          123,
+          99,
+          3
+        ],
+        "outlets": [],
+        "area": "/area/vtm/interior/jazzclub",
+        "marker": [
+          119,
+          103,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_primogen_banu",
+        "name": "Banu Office",
+        "owner": "camarilla",
+        "clerk": [
+          243,
+          234,
+          3
+        ],
+        "outlets": [],
+        "area": "/area/vtm/interior/banu/haven",
+        "marker": [
+          244,
+          233,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_primogen_toreador",
+        "name": "Toreador Office",
+        "owner": "camarilla",
+        "clerk": [
+          59,
+          113,
+          4
+        ],
+        "outlets": [],
+        "area": "/area/vtm/interior",
+        "marker": [
+          57,
+          111,
+          2
+        ]
+      },
+      {
+        "id": "sanfangsisco_primogen_voivode",
+        "name": "Voivode Office",
+        "owner": "sabbat",
+        "clerk": [
+          226,
+          55,
+          4
+        ],
+        "outlets": [],
+        "area": "/area/vtm/interior/tzimisce_manor",
+        "marker": [
+          223,
+          52,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "map": "oakland",
+    "file": "_maps/map_files/Vampire/oakland/bomby_oakland.dmm",
+    "businesses": [
+      {
+        "id": "oakland_46_115_1",
+        "name": "Costume Store",
+        "owner": "camarilla",
+        "clerk": [
+          46,
+          116,
+          1
+        ],
+        "outlets": [
+          [
+            46,
+            115,
+            1
+          ],
+          [
+            47,
+            115,
+            1
+          ]
+        ],
+        "area": "/area/vtm/interior/nosferatu_office",
+        "marker": [
+          42,
+          114,
+          1
+        ]
+      },
+      {
+        "id": "oakland_49_43_1",
+        "name": "Baali",
+        "owner": "sabbat",
+        "clerk": [
+          48,
+          42,
+          1
+        ],
+        "outlets": [
+          [
+            49,
+            43,
+            1
+          ]
+        ],
+        "area": "/area/vtm/interior/baali",
+        "marker": [
+          49,
+          51,
+          1
+        ]
+      },
+      {
+        "id": "oakland_126_82_1",
+        "name": "Blackmarket",
+        "owner": "anarchs",
+        "clerk": [
+          127,
+          82,
+          1
+        ],
+        "outlets": [
+          [
+            126,
+            82,
+            1
+          ]
+        ],
+        "area": "/area/vtm/interior/shop",
+        "marker": [
+          120,
+          81,
+          1
+        ]
+      },
+      {
+        "id": "oakland_126_52_1",
+        "name": "Occult",
+        "owner": "camarilla",
+        "clerk": [
+          126,
+          51,
+          1
+        ],
+        "outlets": [
+          [
+            126,
+            52,
+            1
+          ]
+        ],
+        "area": "/area/vtm/interior/chantry/basement",
+        "marker": [
+          120,
+          46,
+          1
+        ]
+      },
+      {
+        "id": "oakland_47_65_2",
+        "name": "General",
+        "owner": "camarilla",
+        "clerk": [
+          46,
+          65,
+          2
+        ],
+        "outlets": [
+          [
+            47,
+            65,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop",
+        "marker": [
+          47,
+          61,
+          2
+        ]
+      },
+      {
+        "id": "oakland_55_23_2",
+        "name": "Black Market",
+        "owner": "anarchs",
+        "clerk": [
+          56,
+          24,
+          2
+        ],
+        "outlets": [
+          [
+            55,
+            23,
+            2
+          ],
+          [
+            56,
+            23,
+            2
+          ],
+          [
+            57,
+            23,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/supply",
+        "marker": [
+          52,
+          26,
+          2
+        ]
+      },
+      {
+        "id": "oakland_60_38_2",
+        "name": "Gummaguts Menu",
+        "owner": "camarilla",
+        "clerk": [
+          60,
+          39,
+          2
+        ],
+        "outlets": [
+          [
+            60,
+            38,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop",
+        "marker": [
+          59,
+          32,
+          2
+        ]
+      },
+      {
+        "id": "oakland_82_141_2",
+        "name": "Gas Station",
+        "owner": "camarilla",
+        "clerk": [
+          82,
+          140,
+          2
+        ],
+        "outlets": [
+          [
+            82,
+            141,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop",
+        "marker": [
+          79,
+          140,
+          2
+        ]
+      },
+      {
+        "id": "oakland_82_39_2",
+        "name": "Clothing Store",
+        "owner": "camarilla",
+        "clerk": [
+          83,
+          38,
+          2
+        ],
+        "outlets": [
+          [
+            82,
+            39,
+            2
+          ],
+          [
+            83,
+            39,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop",
+        "marker": [
+          80,
+          42,
+          2
+        ]
+      },
+      {
+        "id": "oakland_84_57_2",
+        "name": "Lombard",
+        "owner": "camarilla",
+        "clerk": [
+          84,
+          58,
+          2
+        ],
+        "outlets": [
+          [
+            84,
+            57,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop",
+        "marker": [
+          83,
+          52,
+          2
+        ]
+      },
+      {
+        "id": "oakland_88_57_2",
+        "name": "Camping",
+        "owner": "camarilla",
+        "clerk": [
+          88,
+          58,
+          2
+        ],
+        "outlets": [
+          [
+            88,
+            57,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop",
+        "marker": [
+          87,
+          52,
+          2
+        ]
+      },
+      {
+        "id": "oakland_124_160_2",
+        "name": "Red Dragon Menu",
+        "owner": "triads",
+        "clerk": [
+          124,
+          161,
+          2
+        ],
+        "outlets": [
+          [
+            124,
+            160,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/laundromat",
+        "marker": [
+          127,
+          157,
+          2
+        ]
+      },
+      {
+        "id": "oakland_131_10_2",
+        "name": "Smoke Menu",
+        "owner": "anarchs",
+        "clerk": [
+          132,
+          11,
+          2
+        ],
+        "outlets": [
+          [
+            131,
+            10,
+            2
+          ]
+        ],
+        "area": "/area/vtm/outside/baywalk",
+        "marker": [
+          131,
+          7,
+          2
+        ]
+      },
+      {
+        "id": "oakland_132_60_2",
+        "name": "Library",
+        "owner": "camarilla",
+        "clerk": [
+          131,
+          60,
+          2
+        ],
+        "outlets": [
+          [
+            132,
+            60,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/library",
+        "marker": [
+          138,
+          59,
+          2
+        ]
+      },
+      {
+        "id": "oakland_133_170_2",
+        "name": "Lombard",
+        "owner": "camarilla",
+        "clerk": [
+          133,
+          171,
+          2
+        ],
+        "outlets": [
+          [
+            133,
+            170,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop",
+        "marker": [
+          130,
+          167,
+          2
+        ]
+      },
+      {
+        "id": "oakland_134_158_2",
+        "name": "Black Market",
+        "owner": "triads",
+        "clerk": [
+          132,
+          158,
+          2
+        ],
+        "outlets": [
+          [
+            134,
+            158,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/laundromat",
+        "marker": [
+          134,
+          164,
+          2
+        ]
+      },
+      {
+        "id": "oakland_134_138_2",
+        "name": "Bubway Menu",
+        "owner": "camarilla",
+        "clerk": [
+          134,
+          139,
+          2
+        ],
+        "outlets": [
+          [
+            134,
+            138,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop",
+        "marker": [
+          138,
+          140,
+          2
+        ]
+      },
+      {
+        "id": "oakland_135_4_2",
+        "name": "Clothing Store",
+        "owner": "camarilla",
+        "clerk": [
+          136,
+          4,
+          2
+        ],
+        "outlets": [
+          [
+            135,
+            4,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop",
+        "marker": [
+          133,
+          7,
+          2
+        ]
+      },
+      {
+        "id": "oakland_148_182_2",
+        "name": "Pharmacy",
+        "owner": "camarilla",
+        "clerk": [
+          148,
+          183,
+          2
+        ],
+        "outlets": [
+          [
+            148,
+            182,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/salubri",
+        "marker": [
+          153,
+          181,
+          2
+        ]
+      },
+      {
+        "id": "oakland_149_105_2",
+        "name": "Grocery Store",
+        "owner": "camarilla",
+        "clerk": [
+          149,
+          104,
+          2
+        ],
+        "outlets": [
+          [
+            149,
+            105,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop",
+        "marker": [
+          146,
+          105,
+          2
+        ]
+      },
+      {
+        "id": "oakland_151_142_2",
+        "name": "Bacotell Menu",
+        "owner": "camarilla",
+        "clerk": [
+          151,
+          143,
+          2
+        ],
+        "outlets": [
+          [
+            151,
+            142,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop",
+        "marker": [
+          146,
+          141,
+          2
+        ]
+      },
+      {
+        "id": "oakland_151_61_2",
+        "name": "Antique",
+        "owner": "camarilla",
+        "clerk": [
+          152,
+          61,
+          2
+        ],
+        "outlets": [
+          [
+            151,
+            61,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop",
+        "marker": [
+          146,
+          59,
+          2
+        ]
+      },
+      {
+        "id": "oakland_153_55_2",
+        "name": "Bubway Menu",
+        "owner": "camarilla",
+        "clerk": [
+          154,
+          56,
+          2
+        ],
+        "outlets": [
+          [
+            153,
+            55,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop",
+        "marker": [
+          154,
+          50,
+          2
+        ]
+      },
+      {
+        "id": "oakland_161_120_2",
+        "name": "Clothing Store",
+        "owner": "camarilla",
+        "clerk": [
+          160,
+          120,
+          2
+        ],
+        "outlets": [
+          [
+            161,
+            120,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop",
+        "marker": [
+          161,
+          117,
+          2
+        ]
+      },
+      {
+        "id": "oakland_166_71_2",
+        "name": "Smoke Menu",
+        "owner": "anarchs",
+        "clerk": [
+          165,
+          71,
+          2
+        ],
+        "outlets": [
+          [
+            166,
+            71,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/littleitaly",
+        "marker": [
+          159,
+          70,
+          2
+        ]
+      },
+      {
+        "id": "oakland_167_156_2",
+        "name": "Costume Store",
+        "owner": "camarilla",
+        "clerk": [
+          167,
+          155,
+          2
+        ],
+        "outlets": [
+          [
+            167,
+            156,
+            2
+          ],
+          [
+            168,
+            155,
+            2
+          ]
+        ],
+        "area": "/area/vtm/westfield_mall/interior",
+        "marker": [
+          168,
+          159,
+          2
+        ]
+      },
+      {
+        "id": "oakland_169_11_2",
+        "name": "Costume Store",
+        "owner": "camarilla",
+        "clerk": [
+          170,
+          11,
+          2
+        ],
+        "outlets": [
+          [
+            169,
+            11,
+            2
+          ],
+          [
+            170,
+            12,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop",
+        "marker": [
+          168,
+          16,
+          2
+        ]
+      },
+      {
+        "id": "oakland_170_7_2",
+        "name": "Blackmarket",
+        "owner": "anarchs",
+        "clerk": [
+          171,
+          7,
+          2
+        ],
+        "outlets": [
+          [
+            170,
+            7,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop",
+        "marker": [
+          167,
+          4,
+          2
+        ]
+      },
+      {
+        "id": "oakland_171_145_2",
+        "name": "Smoke Menu",
+        "owner": "anarchs",
+        "clerk": [
+          171,
+          144,
+          2
+        ],
+        "outlets": [
+          [
+            171,
+            145,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop",
+        "marker": [
+          168,
+          146,
+          2
+        ]
+      },
+      {
+        "id": "oakland_176_9_2",
+        "name": "Pharmacy",
+        "owner": "camarilla",
+        "clerk": [
+          176,
+          8,
+          2
+        ],
+        "outlets": [
+          [
+            176,
+            9,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop",
+        "marker": [
+          174,
+          16,
+          2
+        ]
+      },
+      {
+        "id": "oakland_178_56_2",
+        "name": "Gummaguts Menu",
+        "owner": "camarilla",
+        "clerk": [
+          177,
+          56,
+          2
+        ],
+        "outlets": [
+          [
+            178,
+            56,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop",
+        "marker": [
+          181,
+          51,
+          2
+        ]
+      },
+      {
+        "id": "oakland_180_172_2",
+        "name": "Gun Store",
+        "owner": "camarilla",
+        "clerk": [
+          180,
+          173,
+          2
+        ],
+        "outlets": [
+          [
+            180,
+            172,
+            2
+          ]
+        ],
+        "area": "/area/vtm/westfield_mall/interior",
+        "marker": [
+          180,
+          169,
+          2
+        ]
+      },
+      {
+        "id": "oakland_180_64_2",
+        "name": "Deli",
+        "owner": "camarilla",
+        "clerk": [
+          181,
+          64,
+          2
+        ],
+        "outlets": [
+          [
+            180,
+            64,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/littleitaly",
+        "marker": [
+          174,
+          63,
+          2
+        ]
+      },
+      {
+        "id": "oakland_191_190_2",
+        "name": "Smoke Menu",
+        "owner": "anarchs",
+        "clerk": [
+          192,
+          190,
+          2
+        ],
+        "outlets": [
+          [
+            191,
+            190,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/ghetto",
+        "marker": [
+          190,
+          187,
+          2
+        ]
+      },
+      {
+        "id": "oakland_193_92_2",
+        "name": "General",
+        "owner": "camarilla",
+        "clerk": [
+          193,
+          91,
+          2
+        ],
+        "outlets": [
+          [
+            193,
+            92,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop",
+        "marker": [
+          190,
+          93,
+          2
+        ]
+      },
+      {
+        "id": "oakland_195_50_2",
+        "name": "Gas Station",
+        "owner": "camarilla",
+        "clerk": [
+          196,
+          50,
+          2
+        ],
+        "outlets": [
+          [
+            195,
+            50,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop",
+        "marker": [
+          193,
+          53,
+          2
+        ]
+      },
+      {
+        "id": "oakland_195_29_2",
+        "name": "Music",
+        "owner": "camarilla",
+        "clerk": [
+          196,
+          29,
+          2
+        ],
+        "outlets": [
+          [
+            195,
+            29,
+            2
+          ]
+        ],
+        "area": "/area/vtm/interior/shop",
+        "marker": [
+          195,
+          26,
+          2
+        ]
+      },
+      {
+        "id": "oakland_170_170_3",
+        "name": "Otolleys Menu",
+        "owner": "camarilla",
+        "clerk": [
+          171,
+          170,
+          3
+        ],
+        "outlets": [
+          [
+            170,
+            170,
+            3
+          ]
+        ],
+        "area": "/area/vtm/westfield_mall/interior",
+        "marker": [
+          173,
+          170,
+          3
+        ]
+      },
+      {
+        "id": "oakland_venue_38",
+        "name": "Strip",
+        "owner": "camarilla",
+        "clerk": [
+          149,
+          139,
+          1
+        ],
+        "outlets": [],
+        "area": "/area/vtm/interior/strip",
+        "marker": [
+          147,
+          137,
+          1
+        ]
+      },
+      {
+        "id": "oakland_primogen_nosferatu",
+        "name": "Nosferatu Office",
+        "owner": "camarilla",
+        "clerk": [
+          30,
+          140,
+          1
+        ],
+        "outlets": [],
+        "area": "/area/vtm/interior/nosferatu_office",
+        "marker": [
+          32,
+          135,
+          1
+        ]
+      },
+      {
+        "id": "oakland_primogen_brujah",
+        "name": "Brujah Office",
+        "owner": "camarilla",
+        "clerk": [
+          136,
+          168,
+          1
+        ],
+        "outlets": [],
+        "area": "/area/vtm/interior",
+        "marker": [
+          129,
+          187,
+          1
+        ]
+      },
+      {
+        "id": "oakland_primogen_malkavian",
+        "name": "Malkavian Office",
+        "owner": "camarilla",
+        "clerk": [
+          151,
+          42,
+          1
+        ],
+        "outlets": [],
+        "area": "/area/vtm/interior/clinic/haven",
+        "marker": [
+          147,
+          38,
+          1
+        ]
+      },
+      {
+        "id": "oakland_primogen_voivode",
+        "name": "Voivode Office",
+        "owner": "sabbat",
+        "clerk": [
+          26,
+          198,
+          2
+        ],
+        "outlets": [],
+        "area": "/area/vtm/interior/tzimisce_manor",
+        "marker": [
+          25,
+          181,
+          2
+        ]
+      },
+      {
+        "id": "oakland_primogen_banu",
+        "name": "Banu Office",
+        "owner": "camarilla",
+        "clerk": [
+          130,
+          14,
+          3
+        ],
+        "outlets": [],
+        "area": "/area/vtm/interior/banu/haven",
+        "marker": [
+          128,
+          12,
+          2
+        ]
+      },
+      {
+        "id": "oakland_primogen_toreador",
+        "name": "Toreador Office",
+        "owner": "camarilla",
+        "clerk": [
+          160,
+          124,
+          3
+        ],
+        "outlets": [],
+        "area": "/area/vtm/interior/strip",
+        "marker": [
+          153,
+          117,
+          2
+        ]
+      },
+      {
+        "id": "oakland_primogen_lasombra",
+        "name": "Lasombra Office",
+        "owner": "camarilla",
+        "clerk": [
+          48,
+          94,
+          4
+        ],
+        "outlets": [],
+        "area": "/area/vtm/interior/church/staff",
+        "marker": [
+          55,
+          101,
+          2
+        ]
+      },
+      {
+        "id": "oakland_primogen_ventrue",
+        "name": "Ventrue Office",
+        "owner": "camarilla",
+        "clerk": [
+          171,
+          90,
+          4
+        ],
+        "outlets": [],
+        "area": "/area/vtm/interior/jazzclub",
+        "marker": [
+          167,
+          86,
+          2
+        ]
+      }
+    ]
+  }
+]

@@ -100,6 +100,8 @@
 
 	if (!can_npc_move())
 		return
+	if(flee_city_conflict())
+		return
 	nutrition = 400
 	if (get_dist(danger_source, src) < 7)
 		last_antagonised = world.time
@@ -250,6 +252,8 @@
 	return FALSE
 
 /mob/living/carbon/human/npc/proc/handle_automated_movement()
+	if(flee_city_conflict())
+		return
 	if (!can_npc_move())
 		return
 

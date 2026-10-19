@@ -52,6 +52,8 @@
 
 /// Sell a single item
 /obj/lombard/proc/sell_one_item(obj/item/sold, mob/living/user)
+	if(!business_can_sell(user))
+		return FALSE
 	var/datum/component/selling/selling_comp = sold.GetComponent(/datum/component/selling)
 	if(!selling_comp)
 		return FALSE
@@ -63,6 +65,8 @@
 	sell_masquerade_sensitive_item(user, selling_comp)
 
 	var/sale_price = calculate_sale_price(sold, user, selling_comp)
+	if(!business_can_sell(user))
+		return FALSE
 	spawn_money(sale_price, loc)
 
 	if(ishuman(user) && selling_comp.humanity_loss)
@@ -80,6 +84,8 @@
 /// Sell multiple items of the same category
 /// Returns list of successfully sold items
 /obj/lombard/proc/sell_multiple_items(list/items_to_sell, mob/living/user)
+	if(!business_can_sell(user))
+		return list()
 	if(!length(items_to_sell))
 		return list()
 
@@ -116,6 +122,8 @@
 
 	if(!length(sold_items))
 		return list()
+	if(!business_can_sell(user))
+		return list()
 
 	spawn_money(total_sale_price, loc)
 	playsound(loc, 'modular_darkpack/modules/deprecated/sounds/sell.ogg', 50, TRUE)
@@ -124,6 +132,9 @@
 
 /// calculate the actual sale price for an item - each success adds var/cost from selling component
 /obj/lombard/proc/calculate_sale_price(obj/item/sold, mob/living/user, datum/component/selling/selling_comp, negotiation_success_count = null)
+	// Cannabis has a fixed $50 price per dried leaf, independent of fencing successes.
+	if(istype(selling_comp, /datum/component/selling/cannabis))
+		return 50
 	var/base_price = selling_comp.cost
 
 	// handle for stacks - gold bars from bank vaults for example

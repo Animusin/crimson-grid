@@ -55,13 +55,13 @@ endmap
 	maxplayers 40
 endmap
 
-#map westfieldmall
+map westfieldmall
     votable
+    default
 endmap
 
 map sanfangsisco
     votable
-    default
 endmap
 
 map bomby_oakland

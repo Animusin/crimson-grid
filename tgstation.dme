@@ -8530,3 +8530,6 @@
 #include "modular_vcg\modules\weapons\code\projectiles.dm"
 #include "modular_vcg\modules\wyrm\taint.dm"
 // END_INCLUDE
+#include "modular_vcg\modules\territories\code\territories.dm"
+#include "modular_vcg\modules\territories\code\trading.dm"
+#include "modular_vcg\modules\territories\code\tests.dm"

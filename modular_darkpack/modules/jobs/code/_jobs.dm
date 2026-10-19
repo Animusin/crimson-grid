@@ -84,6 +84,7 @@
 
 /datum/job/after_spawn(mob/living/spawned, client/player_client)
 	. = ..()
+	spawned.issue_city_badge()
 	if(!(guestbook_flags & GUESTBOOK_FORGETMENOT))
 		for(var/mob/player_mob as anything in GLOB.player_list)
 			if((player_mob == spawned) || !player_mob.mind?.assigned_role)
