@@ -25,8 +25,8 @@ without frame or direction changes. The slim uniform receives the same single
 pixel trouser-channel correction as other native trousers, only where its
 standard art already separates the legs; hats, vests and skirts are unaffected.
 The costumes behave as ordinary removable clothing. The chief vest reuses the equivalent
-modern protective-vest armor datum. No shop inventories, round-start equipment,
-map placements or existing item prices change.
+modern protective-vest armor datum. The current catalogue, store and cargo routes
+and their role restrictions are documented in [WARDROBE.md](WARDROBE.md).
 
 Source artwork: `code/modules/wod13/clothing.dmi`, `onfloor.dmi`, `worn.dmi`,
 and `worn_slim_f.dmi`. Imported artwork retains

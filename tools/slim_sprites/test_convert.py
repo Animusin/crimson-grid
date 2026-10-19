@@ -11,6 +11,29 @@ from body_fit import fit_frame, leg_gap_frame, make_maps
 
 
 class ConverterTest(unittest.TestCase):
+    def test_continuous_broad_armor_keeps_the_profile_pixel(self):
+        armor = read_dmi('icons/mob/clothing/suits/armor.dmi')['marine_command'][1]
+        maps = make_maps()
+        for direction, point in [(2, (20,13)), (3, (11,13))]:
+            fitted = fit_frame(armor[direction], direction, maps)
+            self.assertTrue(fitted.getpixel(point)[3])
+            self.assertTrue(fitted.getpixel((point[0],12))[3])
+            self.assertTrue(fitted.getpixel((point[0],14))[3])
+
+    def test_profile_cloth_tip_does_not_exceed_native_breast(self):
+        clothes = read_dmi('icons/mob/clothing/under/color.dmi')
+        masks = read_dmi('icons/mob/clothing/under/masking_helpers.dmi')
+        body = read_dmi('modular_vcg/modules/slim_bodies/icons/bodyparts.dmi')
+        for draped, state, mask in [(False, 'jumpsuit', 'female_full'), (True, 'jumpskirt', 'female_top')]:
+            maps = make_maps(draped=draped)
+            for direction, outside, inside in [(2, (20, 13), (19, 13)), (3, (11, 13), (12, 13))]:
+                source = ImageChops.multiply(clothes[state][1][direction], masks[mask][1][direction])
+                fitted = fit_frame(source, direction, maps)
+                self.assertEqual(body['human_chest_f'][1][direction].getpixel(outside)[3], 0)
+                self.assertEqual(fitted.getpixel(outside)[3], 0)
+                self.assertTrue(body['human_chest_f'][1][direction].getpixel(inside)[3])
+                self.assertTrue(fitted.getpixel(inside)[3])
+
     def test_breast_band_height_retains_the_original_cutout(self):
         maps = make_maps()
         underwear = read_dmi('icons/mob/clothing/underwear.dmi')

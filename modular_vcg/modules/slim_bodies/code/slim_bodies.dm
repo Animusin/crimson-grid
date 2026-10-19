@@ -90,6 +90,32 @@
 			region.Shift(offset[2] > 0 ? NORTH : SOUTH, abs(offset[2]))
 		region.Blend(icon(mask_file, state), ICON_MULTIPLY)
 		result.Blend(region, ICON_OVERLAY)
+	return slim_trim_cloth_tip(result)
+
+/// Trim only an isolated exterior breast point. Neighbor alpha keeps continuous
+/// broad armor/outerwear intact; whole-icon operations retain every dir/frame.
+/proc/slim_trim_cloth_tip(icon/source)
+	var/icon/alpha = icon(source)
+	alpha.MapColors(0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,255, 1,1,1,0)
+	var/icon/support = icon(alpha)
+	support.Shift(NORTH, 1)
+	var/icon/below = icon(alpha)
+	below.Shift(SOUTH, 1)
+	support.Blend(below, ICON_OR)
+	var/icon/east = icon(alpha)
+	east.Shift(WEST, 1)
+	east.Blend(icon('modular_vcg/modules/slim_bodies/icons/cloth_tip.dmi', "east"), ICON_MULTIPLY)
+	support.Blend(east, ICON_OR)
+	var/icon/west = icon(alpha)
+	west.Shift(EAST, 1)
+	west.Blend(icon('modular_vcg/modules/slim_bodies/icons/cloth_tip.dmi', "west"), ICON_MULTIPLY)
+	support.Blend(west, ICON_OR)
+	var/icon/keep = icon(source)
+	keep.MapColors(0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 1,1,1,1)
+	keep.Blend(icon('modular_vcg/modules/slim_bodies/icons/cloth_tip.dmi', "keep"), ICON_MULTIPLY)
+	keep.Blend(support, ICON_OR)
+	var/icon/result = icon(source)
+	result.Blend(keep, ICON_MULTIPLY)
 	return result
 
 /// Copy the complete appearance tree, including inherited-icon accessory/blood layers.

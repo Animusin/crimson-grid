@@ -1,6 +1,18 @@
 /obj/structure/retail/clothing_store
 	desc = "Purchase all the finest outfits.. Or don't wagie.."
 	products_list = list(
+		new /datum/data/vending_product("underwear (choose style)", /obj/item/undergarment/underwear, 10),
+		new /datum/data/vending_product("bra or undershirt (choose style)", /obj/item/undergarment/undershirt, 10),
+		new /datum/data/vending_product("socks or stockings (choose style)", /obj/item/undergarment/socks, 5),
+		new /datum/data/vending_product("blue shirt", /obj/item/clothing/under/vampire/bogatyr, 20),
+		new /datum/data/vending_product("blue shirt and skirt", /obj/item/clothing/under/vampire/bogatyr/female, 20),
+		new /datum/data/vending_product("grey attire", /obj/item/clothing/under/vampire/salubri, 20),
+		new /datum/data/vending_product("grey skirt attire", /obj/item/clothing/under/vampire/salubri/female, 20),
+		new /datum/data/vending_product("punk rocker outfit", /obj/item/clothing/under/vampire/punk, 20),
+		new /datum/data/vending_product("dirty attire", /obj/item/clothing/under/vampire/homeless, 10),
+		new /datum/data/vending_product("dirty skirt attire", /obj/item/clothing/under/vampire/homeless/female, 10),
+		new /datum/data/vending_product("high boots", /obj/item/clothing/shoes/vampire/jackboots/high, 20),
+		new /datum/data/vending_product("punk boots", /obj/item/clothing/shoes/vampire/jackboots/punk, 20),
 		new /datum/data/vending_product("crimson red dress", /obj/item/clothing/under/vampire/primogen_toreador/female	,	350),
 		new /datum/data/vending_product("black dress", /obj/item/clothing/under/vampire/business,	250),
 		new /datum/data/vending_product("black gown", /obj/item/clothing/under/vampire/gown_black,	250),

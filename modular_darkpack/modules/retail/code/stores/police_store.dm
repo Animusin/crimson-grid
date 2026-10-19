@@ -1,5 +1,6 @@
 /obj/structure/retail/police_equipment
 	product_types = list(
+		/obj/item/clothing/suit/vampire/vest/police/chief,
 		/obj/item/clothing/under/vampire/police,
 		/obj/item/clothing/under/vampire/police/long,
 		/obj/item/clothing/under/vampire/police/turtleneck,

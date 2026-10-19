@@ -17,13 +17,16 @@ below the pelvis. Their outside contours, feet and side poses retain native art.
 ## Clothes and conversion
 
 Crimson already contains `modular_darkpack/modules/clothes/icons/worn_slim_f.dmi`
-(267 states). This PR activates layout-compatible native states through
+(267 unique state names). This PR activates layout-compatible native states through
 `compatible_worn_f.dmi`, generated against the corresponding standard clothing
-sheet (238 compatible states). A two-frame source with only one native frame
-falls back to conversion, preserving its animation. The complete old female wardrobe is also
-retained in `icons/legacy_worn_f.dmi` (223 states), including states no longer
-present in the current native sheet. This is an overlay port, not a duplicate
-set of item definitions or additions to shop inventories.
+sheet (238 compatible entries, including 237 named clothing states). A two-frame
+source with only one native frame falls back to conversion, preserving its
+animation. The complete old female wardrobe is also
+retained in `icons/legacy_worn_f.dmi` (223 unique state names, 225 standing/moving
+blocks), including states no longer present in the current native sheet.
+The wardrobe reuses canonical item types and restores three missing types.
+Its loadout, retail and cargo routes and reusable physical underclothes are
+documented in [WARDROBE.md](WARDROBE.md).
 
 Native replacements are matched by source file **and** state. An unrelated item
 with the same state name cannot accidentally receive a vampire outfit. Native
@@ -46,6 +49,9 @@ GAGS colors are processed before fitting. Head pixels, palette, alpha, direction
 and animation frames are preserved. `body_fit.py` derives the map from both body
 sheets and writes translation masks used by the runtime and offline converter.
 Breast-band and neckline rows retain their height; only the lower torso shortens.
+An isolated exterior breast point is trimmed per direction and animation frame
+only when no cloth continues above, below or outward. Continuous broad armor
+retains its fabric; native body and clothing artwork are unchanged.
 Existing cutouts remain source alpha. Dresses and TOP_ONLY skirts without leg
 coverage use a draped map: the lower garment narrows uniformly while its original
 hem rows and center fabric bridge remain intact, rather than following each leg.
@@ -117,7 +123,8 @@ The normal BYOND build and focused engine tests cover selection/default restore,
 all native bodypart states, unchanged skin tone, standard item icon isolation,
 four-direction native clothes and two-frame/four-direction fallback conversion.
 The anatomical test compares every runtime pixel against offline conversion for
-two animation frames in all four directions, then checks an actual GAGS uniform's
+two animation frames in all four directions, including thin-jumpsuit/broad-armor
+frames that require different contour masks, then checks an actual GAGS uniform's
 chest, upper-arm and trouser coverage. Its original one-pixel side hem notch is
 preserved. Native and fallback underwear tests verify the composited palette and
 selected tint in every direction. CLI tests check pants/skirt alpha, the hem,
@@ -128,11 +135,12 @@ Use `UNIT_TESTS` and `SLIM_BODY_TESTS` for the focused group.
 The preference test also runs the complete mock-client `apply_prefs_to` pipeline
 through Slim → Standard → Slim, checking limb caches and held-item offsets.
 The visual tester equips actual mobs, then exports their real overlay trees in
-four directions to `data/slim_visual/` (30 scenarios × two builds × four directions,
-240 renders). It covers the nude body, native/fallback/long-sleeve uniforms, skirts,
+four directions to `data/slim_visual/` (31 scenarios × two builds × four directions,
+248 renders). It covers the nude body, native/fallback/long-sleeve uniforms, skirts,
 colored native bikini and briefs, a modern-only bra, native/current socks,
-modern-only swimwear and undershirt, workboots, dress shoes, high/punk boots and two
-heel variants, restored legacy uniform/cap/vest and the Bogatyr skirt,
+modern-only swimwear and undershirt, continuous broad armor, workboots, dress
+shoes, high/punk boots and two heel variants, restored legacy uniform/cap/vest
+and the Bogatyr skirt,
 backpacks/satchels/duffels, every visible wearable slot, bloody damaged clothes
 with an accessory, body injuries, held tools and handcuffs. Source sprites and
 the standard wearer's appearances must remain unchanged.
@@ -141,7 +149,7 @@ After running those engine tests, generate the review artifacts with:
 
 ```text
 python tools/slim_sprites/review.py
-python tools/slim_sprites/review.py --output modular_vcg/modules/slim_bodies/review/fit --scenarios body fallback_uniform long_sleeve skirt native_bikini briefs bra socks modern_underwear modern_socks --directions S E
+python tools/slim_sprites/review.py --output modular_vcg/modules/slim_bodies/review/fit --scenarios body fallback_uniform long_sleeve skirt native_bikini briefs bra socks modern_underwear modern_socks undershirt broad_armor --directions S E
 python tools/slim_sprites/review.py --output modular_vcg/modules/slim_bodies/review/footwear --scenarios workboots dress_shoes high_boots punk_boots heels red_heels
 python tools/slim_sprites/review.py --output modular_vcg/modules/slim_bodies/review/legacy --scenarios legacy_uniform legacy_cap chief_vest bogatyr_skirt
 ```
@@ -151,3 +159,9 @@ viewer with zoom/background controls and embedded engine renders. These inspect
 the mob's composited appearances; client lighting/filter rendering and unusual
 item variants still need normal in-game playtesting. They are not substitutes
 for every asset in the repository.
+
+`review/breast_tip/equipment.png` and its portable HTML compare the five reported
+garments before and after the contour correction in both profile directions.
+The engine pixel comparison preserves all 120 previous Standard renders and
+every native/body pixel, changing only one exterior pixel in each of ten Slim
+profiles. Broad armor remains continuous in the added regression scenario.

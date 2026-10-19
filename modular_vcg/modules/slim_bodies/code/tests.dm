@@ -125,6 +125,24 @@
 /datum/unit_test/slim_anatomy/Run()
 	var/icon/source = icon('modular_vcg/modules/slim_bodies/icons/converter_fixture.dmi', "sample")
 	var/icon/fitted = slim_fit_icon(source)
+	var/icon/broad_armor = slim_fit_icon(icon('icons/mob/clothing/suits/armor.dmi', "marine_command"))
+	for(var/direction in list(EAST, WEST))
+		var/icon/armor_profile = icon(broad_armor, "", direction)
+		var/outline_x = direction == EAST ? 21 : 12
+		if(!armor_profile.GetPixel(outline_x, 19) || !armor_profile.GetPixel(outline_x, 18) || !armor_profile.GetPixel(outline_x, 20))
+			Fail("Continuous broad armor must retain its profile cloth without a pinhole, dir [direction].")
+	// Frame one is a real female jumpsuit; frame two is broad marine armor.
+	// Conditional alpha must differ per frame, not leak between animation poses.
+	var/icon/tip_fitted = slim_fit_icon(icon('modular_vcg/modules/slim_bodies/icons/cloth_tip_fixture.dmi', "sample"))
+	for(var/direction in GLOB.cardinals)
+		for(var/frame in 1 to 2)
+			var/icon/actual = icon(tip_fitted, "", direction, frame)
+			var/icon/expected = icon('modular_vcg/modules/slim_bodies/icons/cloth_tip_expected.dmi', "sample", direction, frame)
+			for(var/x in 1 to 32)
+				for(var/y in 1 to 32)
+					if(actual.GetPixel(x, y) != expected.GetPixel(x, y))
+						Fail("Neighbor-aware cloth tip alpha differs from offline conversion at [x],[y], dir [direction], frame [frame].")
+						return
 	for(var/direction in GLOB.cardinals)
 		for(var/frame in 1 to 2)
 			var/icon/actual = icon(fitted, "", direction, frame)
@@ -149,6 +167,11 @@
 	human.regenerate_icons()
 	for(var/direction in GLOB.cardinals)
 		var/icon/clothes = getFlatIcon(human.overlays_standing[UNIFORM_LAYER], no_anim = TRUE, defdir = direction)
+		if(direction == EAST || direction == WEST)
+			var/outside_x = direction == EAST ? 21 : 12
+			var/inside_x = direction == EAST ? 20 : 13
+			if(clothes.GetPixel(outside_x, 19) || !clothes.GetPixel(inside_x, 19))
+				Fail("A fitted uniform must cover the native breast without a one-pixel exterior cloth tip, dir [direction].")
 		for(var/part in list("chest_f", "l_arm", "r_arm", "l_leg", "r_leg"))
 			var/icon/body = icon('modular_vcg/modules/slim_bodies/icons/bodyparts.dmi', "human_[part]", direction)
 			for(var/x in 1 to 32)
@@ -269,7 +292,7 @@
 #endif
 
 /datum/unit_test/slim_visual/Run()
-	var/list/scenarios = list("body", "native", "fallback_uniform", "long_sleeve", "skirt", "native_bikini", "briefs", "bra", "socks", "modern_underwear", "modern_socks", "undershirt", "workboots", "dress_shoes", "high_boots", "punk_boots", "heels", "red_heels", "legacy_uniform", "legacy_cap", "chief_vest", "bogatyr_skirt", "backpack", "satchel", "duffel", "all_slots", "blood_accessory", "injury", "held_items", "restraints")
+	var/list/scenarios = list("body", "native", "fallback_uniform", "long_sleeve", "skirt", "native_bikini", "briefs", "bra", "socks", "modern_underwear", "modern_socks", "undershirt", "broad_armor", "workboots", "dress_shoes", "high_boots", "punk_boots", "heels", "red_heels", "legacy_uniform", "legacy_cap", "chief_vest", "bogatyr_skirt", "backpack", "satchel", "duffel", "all_slots", "blood_accessory", "injury", "held_items", "restraints")
 	var/list/manifest = list("directions" = list("N", "S", "E", "W"), "scenarios" = scenarios, "builds" = list("Standard", "Slim"))
 	for(var/scenario in scenarios)
 		for(var/build in list("Standard", "Slim"))
@@ -310,6 +333,9 @@
 				human.socks = /datum/sprite_accessory/clothing/socks/stockings_cyan::name
 			else if(scenario == "undershirt")
 				human.undershirt = /datum/sprite_accessory/clothing/undershirt/bluejersey::name
+			else if(scenario == "broad_armor")
+				equip(human, /obj/item/clothing/under/color/grey, ITEM_SLOT_ICLOTHING)
+				equip(human, /obj/item/clothing/suit/armor/vest/marine, ITEM_SLOT_OCLOTHING)
 			else if(scenario == "workboots")
 				equip(human, /obj/item/clothing/shoes/workboots, ITEM_SLOT_FEET)
 			else if(scenario == "dress_shoes")
@@ -373,7 +399,14 @@
 			for(var/direction in GLOB.cardinals)
 				direction_index++
 				human.setDir(direction)
-				fcopy(getFlatIcon(human, no_anim = TRUE, defdir = direction), "data/slim_visual/[scenario]_[build]_[direction_index].png")
+				var/icon/render = getFlatIcon(human, no_anim = TRUE, defdir = direction)
+				if(build == "Slim" && (scenario in list("fallback_uniform", "long_sleeve", "skirt", "modern_underwear", "undershirt")) && (direction == EAST || direction == WEST))
+					if(render.GetPixel(direction == EAST ? 21 : 12, 19))
+						Fail("The actual [scenario] render has a stray exterior breast pixel, dir [direction].")
+				if(build == "Slim" && scenario == "broad_armor" && (direction == EAST || direction == WEST))
+					if(!render.GetPixel(direction == EAST ? 21 : 12, 19))
+						Fail("Actual broad armor must retain continuous cloth at the profile breast, dir [direction].")
+				fcopy(render, "data/slim_visual/[scenario]_[build]_[direction_index].png")
 	fdel("data/slim_visual/manifest.json")
 	text2file(json_encode(manifest), "data/slim_visual/manifest.json")
 

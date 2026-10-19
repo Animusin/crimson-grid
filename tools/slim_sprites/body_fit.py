@@ -18,6 +18,7 @@ NATIVE = Path("modular_vcg/modules/slim_bodies/icons/bodyparts.dmi")
 MASKS = Path("modular_vcg/modules/slim_bodies/icons/body_fit.dmi")
 SKIRT_MASKS = Path("modular_vcg/modules/slim_bodies/icons/body_fit_skirt.dmi")
 SOCK_MASK = Path("modular_vcg/modules/slim_bodies/icons/sock_fit.dmi")
+TIP_MASK = Path("modular_vcg/modules/slim_bodies/icons/cloth_tip.dmi")
 
 
 def leg_gap_frame(frame, direction, bodypart=False, source=None):
@@ -129,6 +130,13 @@ def fit_frame(frame, direction, maps=None):
     output = Image.new("RGBA", (32, 32))
     for target, source in mapping.items():
         output.putpixel(target, frame.getpixel(source))
+    if direction in (2, 3):
+        x, y = (20 if direction == 2 else 11), 13
+        outward = 1 if direction == 2 else -1
+        # Broad armor/outerwear continues above, below or outward and retains
+        # its art. Only an isolated exterior point is an extrapolation artifact.
+        if not any(output.getpixel(p)[3] for p in [(x, y-1), (x, y+1), (x+outward, y)]):
+            output.putpixel((x, y), (0, 0, 0, 0))
     return output
 
 
@@ -161,7 +169,20 @@ def write_sock_mask(path=SOCK_MASK):
     write_dmi(path, {'socks': ('state = "socks"\n\tdirs = 4\n\tframes = 1', frames)})
 
 
+def write_tip_masks(path=TIP_MASK):
+    keep = [Image.new('RGBA', (32,32), 'white') for _ in range(4)]
+    east = [Image.new('RGBA', (32,32)) for _ in range(4)]
+    west = [Image.new('RGBA', (32,32)) for _ in range(4)]
+    keep[2].putpixel((20,13), (0,0,0,0))
+    keep[3].putpixel((11,13), (0,0,0,0))
+    east[2].putpixel((20,13), (255,255,255,255))
+    west[3].putpixel((11,13), (255,255,255,255))
+    write_dmi(path, {name: (f'state = "{name}"\n\tdirs = 4\n\tframes = 1', frames)
+                     for name, frames in [('keep', keep), ('east', east), ('west', west)]})
+
+
 if __name__ == "__main__":
     print(f"{write_masks()} anatomy translation masks written to {MASKS}")
     print(f"{write_masks(SKIRT_MASKS, make_maps(draped=True))} draped translation masks written to {SKIRT_MASKS}")
     write_sock_mask()
+    write_tip_masks()

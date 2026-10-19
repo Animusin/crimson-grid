@@ -1,6 +1,11 @@
 /obj/structure/retail/costume_store
 	desc = "Purchase a mask for that ugly mug."
 	products_list = list(
+		new /datum/data/vending_product("historical uniform", /obj/item/clothing/under/vampire/nazi, 35),
+		new /datum/data/vending_product("historical uniform cap", /obj/item/clothing/head/vampire/nazi, 15),
+		new /datum/data/vending_product("French emperor suit", /obj/item/clothing/under/vampire/napoleon, 35),
+		new /datum/data/vending_product("French admiral hat", /obj/item/clothing/head/vampire/napoleon, 15),
+		new /datum/data/vending_product("military fatigues", /obj/item/clothing/under/vampire/military_fatigues, 25),
 		new /datum/data/vending_product("balaclava", /obj/item/clothing/mask/vampire/balaclava, 10),
 		new /datum/data/vending_product("face scarf", /obj/item/clothing/mask/facescarf/vampire, 10),
 		new /datum/data/vending_product("bandana", /obj/item/clothing/mask/bandana/vampire, 10),
