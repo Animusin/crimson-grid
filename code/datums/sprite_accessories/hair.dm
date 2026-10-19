@@ -23,7 +23,8 @@
 
 // Cache of each hairstyle's icon after being blended with the given masks
 // "joined mask types" is each mask's type as a string joined by commas (for no masks, it is the empty string)
-// /datum/sprite_accessory/hair path -> list(joined mask types -> icon)
+// Accessory type + source icon/state -> list(joined mask types -> icon).
+// Body-build variants can share a datum type while using different native art.
 GLOBAL_LIST_EMPTY(blended_hair_icons_cache)
 
 /datum/sprite_accessory/hair
@@ -42,9 +43,10 @@ GLOBAL_LIST_EMPTY(blended_hair_icons_cache)
 /datum/sprite_accessory/hair/proc/getCachedIcon(list/hair_masks)
 	var/icon/cachedIcon
 	var/joinedMasks = LAZYLEN(hair_masks) ? jointext(hair_masks, ",") : ""
-	var/list/masks_to_icons = GLOB.blended_hair_icons_cache[type]
+	var/cache_key = "[type]|[icon]|[icon_state]"
+	var/list/masks_to_icons = GLOB.blended_hair_icons_cache[cache_key]
 	if(!masks_to_icons)
-		GLOB.blended_hair_icons_cache[type] = list()
+		GLOB.blended_hair_icons_cache[cache_key] = list()
 	else
 		cachedIcon = masks_to_icons[joinedMasks]
 
@@ -100,7 +102,7 @@ GLOBAL_LIST_EMPTY(blended_hair_icons_cache)
 					var/icon/appendage_icon = icon(icon, appendage_icon_state)
 					cachedIcon.Blend(appendage_icon, ICON_OVERLAY)
 		// set cache
-		GLOB.blended_hair_icons_cache[type][joinedMasks] = cachedIcon
+		GLOB.blended_hair_icons_cache[cache_key][joinedMasks] = cachedIcon
 	return cachedIcon
 
 

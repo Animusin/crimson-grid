@@ -1226,6 +1226,9 @@
 
 	limb_gender = (human_owner.physique == MALE) ? "m" : "f"
 	slim_body_build = human_owner.uses_slim_body() && limb_id == SPECIES_HUMAN && icon_greyscale == DEFAULT_BODYPART_ICON_ORGANIC
+	if(istype(src, /obj/item/bodypart/arm))
+		var/obj/item/bodypart/arm/arm = src
+		arm.update_slim_hand_offset()
 	if(HAS_TRAIT(human_owner, TRAIT_USES_SKINTONES))
 		skin_tone = human_owner.skin_tone
 	else if(HAS_TRAIT(human_owner, TRAIT_MUTANT_COLORS))

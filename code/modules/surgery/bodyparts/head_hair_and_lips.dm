@@ -115,7 +115,7 @@
 /obj/item/bodypart/head/proc/get_base_hair_overlays(dropped)
 	PRIVATE_PROC(TRUE)
 	. = list()
-	var/datum/sprite_accessory/hair/hair_sprite_accessory = SSaccessories.hairstyles_list[hairstyle]
+	var/datum/sprite_accessory/hair/hair_sprite_accessory = get_slim_compatible_hair_accessory()
 	if(!hair_sprite_accessory || hair_sprite_accessory.icon_state == SPRITE_ACCESSORY_NONE)
 		return .
 

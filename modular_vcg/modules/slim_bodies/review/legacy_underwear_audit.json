@@ -1,0 +1,402 @@
+{
+  "source_repository": "Animusin/World-of-Darkness-13",
+  "source_commit": "39142647cb5de07c201e9242a7474fd9d66bd5bf",
+  "source_url": "https://github.com/Animusin/World-of-Darkness-13/tree/39142647cb5de07c201e9242a7474fd9d66bd5bf",
+  "selector_source": "code/modules/mob/dead/new_player/sprite_accessories.dm",
+  "native_source": "icons/mob/clothing/underwear_s_female.dmi",
+  "native_destination": "modular_vcg/modules/slim_bodies/icons/compatible_underwear_f.dmi",
+  "asset_license": "CC-BY-SA-3.0",
+  "license_source": "README.md:54 at source_commit",
+  "scope": "Active legacy selector definitions only; block-commented obsolete choices are excluded. Existing modern names/types are reused without duplicate selectors. The one blank native DMI state is not an additional style.",
+  "active_legacy_counts": {
+    "underwear": 16,
+    "undershirt": 21,
+    "socks": 10
+  },
+  "active_modern_counts": {
+    "underwear": 31,
+    "undershirt": 55,
+    "socks": 40
+  },
+  "missing_selector_count": 0,
+  "native_style_count": 44,
+  "choices": [
+    {
+      "category": "underwear",
+      "legacy_path": "/datum/sprite_accessory/underwear/nude",
+      "legacy_name": "Nude",
+      "current_path": "/datum/sprite_accessory/clothing/underwear/nude",
+      "current_name": "Nude",
+      "icon_state": null
+    },
+    {
+      "category": "underwear",
+      "legacy_path": "/datum/sprite_accessory/underwear/male_briefs",
+      "legacy_name": "Men's Briefs",
+      "current_path": "/datum/sprite_accessory/clothing/underwear/male_briefs",
+      "current_name": "Briefs",
+      "icon_state": "male_briefs"
+    },
+    {
+      "category": "underwear",
+      "legacy_path": "/datum/sprite_accessory/underwear/male_boxers",
+      "legacy_name": "Men's Boxer",
+      "current_path": "/datum/sprite_accessory/clothing/underwear/male_boxers",
+      "current_name": "Boxers",
+      "icon_state": "male_boxers"
+    },
+    {
+      "category": "underwear",
+      "legacy_path": "/datum/sprite_accessory/underwear/male_stripe",
+      "legacy_name": "Men's Striped Boxer",
+      "current_path": "/datum/sprite_accessory/clothing/underwear/male_stripe",
+      "current_name": "Striped Boxers",
+      "icon_state": "male_stripe"
+    },
+    {
+      "category": "underwear",
+      "legacy_path": "/datum/sprite_accessory/underwear/male_kinky",
+      "legacy_name": "Men's Kinky",
+      "current_path": "/datum/sprite_accessory/clothing/underwear/male_kinky",
+      "current_name": "Jockstrap",
+      "icon_state": "male_kinky"
+    },
+    {
+      "category": "underwear",
+      "legacy_path": "/datum/sprite_accessory/underwear/male_mankini",
+      "legacy_name": "Mankini",
+      "current_path": "/datum/sprite_accessory/clothing/underwear/male_mankini",
+      "current_name": "Mankini",
+      "icon_state": "male_mankini"
+    },
+    {
+      "category": "underwear",
+      "legacy_path": "/datum/sprite_accessory/underwear/male_hearts",
+      "legacy_name": "Men's Hearts Boxer",
+      "current_path": "/datum/sprite_accessory/clothing/underwear/male_hearts",
+      "current_name": "Hearts Boxers",
+      "icon_state": "male_hearts"
+    },
+    {
+      "category": "underwear",
+      "legacy_path": "/datum/sprite_accessory/underwear/female_bikini",
+      "legacy_name": "Ladies' Bikini",
+      "current_path": "/datum/sprite_accessory/clothing/underwear/female_bikini",
+      "current_name": "Bikini",
+      "icon_state": "female_bikini"
+    },
+    {
+      "category": "underwear",
+      "legacy_path": "/datum/sprite_accessory/underwear/female_lace",
+      "legacy_name": "Ladies' Lace",
+      "current_path": "/datum/sprite_accessory/clothing/underwear/female_lace",
+      "current_name": "Lace Bikini",
+      "icon_state": "female_lace"
+    },
+    {
+      "category": "underwear",
+      "legacy_path": "/datum/sprite_accessory/underwear/female_bralette",
+      "legacy_name": "Ladies' Bralette",
+      "current_path": "/datum/sprite_accessory/clothing/underwear/female_bralette",
+      "current_name": "Bralette w/ Boyshorts",
+      "icon_state": "female_bralette"
+    },
+    {
+      "category": "underwear",
+      "legacy_path": "/datum/sprite_accessory/underwear/female_sport",
+      "legacy_name": "Ladies' Sport",
+      "current_path": "/datum/sprite_accessory/clothing/underwear/female_sport",
+      "current_name": "Sports Bra w/ Boyshorts",
+      "icon_state": "female_sport"
+    },
+    {
+      "category": "underwear",
+      "legacy_path": "/datum/sprite_accessory/underwear/female_thong",
+      "legacy_name": "Ladies' Thong",
+      "current_path": "/datum/sprite_accessory/clothing/underwear/female_thong",
+      "current_name": "Thong",
+      "icon_state": "female_thong"
+    },
+    {
+      "category": "underwear",
+      "legacy_path": "/datum/sprite_accessory/underwear/female_strapless",
+      "legacy_name": "Ladies' Strapless",
+      "current_path": "/datum/sprite_accessory/clothing/underwear/female_strapless",
+      "current_name": "Strapless Bikini",
+      "icon_state": "female_strapless"
+    },
+    {
+      "category": "underwear",
+      "legacy_path": "/datum/sprite_accessory/underwear/female_babydoll",
+      "legacy_name": "Babydoll",
+      "current_path": "/datum/sprite_accessory/clothing/underwear/female_babydoll",
+      "current_name": "Babydoll",
+      "icon_state": "female_babydoll"
+    },
+    {
+      "category": "underwear",
+      "legacy_path": "/datum/sprite_accessory/underwear/swimsuit_onepiece",
+      "legacy_name": "Ladies' One Piece Swimsuit",
+      "current_path": "/datum/sprite_accessory/clothing/underwear/swimsuit_onepiece",
+      "current_name": "One-Piece Swimsuit",
+      "icon_state": "swim_onepiece"
+    },
+    {
+      "category": "underwear",
+      "legacy_path": "/datum/sprite_accessory/underwear/female_kinky",
+      "legacy_name": "Ladies' Kinky",
+      "current_path": "/datum/sprite_accessory/clothing/underwear/female_kinky",
+      "current_name": "Lingerie",
+      "icon_state": "female_kinky"
+    },
+    {
+      "category": "undershirt",
+      "legacy_path": "/datum/sprite_accessory/undershirt/nude",
+      "legacy_name": "Nude",
+      "current_path": "/datum/sprite_accessory/clothing/undershirt/nude",
+      "current_name": "Nude",
+      "icon_state": null
+    },
+    {
+      "category": "undershirt",
+      "legacy_path": "/datum/sprite_accessory/undershirt/bluepolo",
+      "legacy_name": "Polo Shirt (Blue)",
+      "current_path": "/datum/sprite_accessory/clothing/undershirt/bluepolo",
+      "current_name": "Polo Shirt (Blue)",
+      "icon_state": "bluepolo"
+    },
+    {
+      "category": "undershirt",
+      "legacy_path": "/datum/sprite_accessory/undershirt/grayyellowpolo",
+      "legacy_name": "Polo Shirt (Gray-Yellow)",
+      "current_path": "/datum/sprite_accessory/clothing/undershirt/grayyellowpolo",
+      "current_name": "Polo Shirt (Gray-Yellow)",
+      "icon_state": "grayyellowpolo"
+    },
+    {
+      "category": "undershirt",
+      "legacy_path": "/datum/sprite_accessory/undershirt/redpolo",
+      "legacy_name": "Polo Shirt (Red)",
+      "current_path": "/datum/sprite_accessory/clothing/undershirt/redpolo",
+      "current_name": "Polo Shirt (Red)",
+      "icon_state": "redpolo"
+    },
+    {
+      "category": "undershirt",
+      "legacy_path": "/datum/sprite_accessory/undershirt/whitepolo",
+      "legacy_name": "Polo Shirt (White)",
+      "current_path": "/datum/sprite_accessory/clothing/undershirt/whitepolo",
+      "current_name": "Polo Shirt (White)",
+      "icon_state": "whitepolo"
+    },
+    {
+      "category": "undershirt",
+      "legacy_path": "/datum/sprite_accessory/undershirt/alienshirt",
+      "legacy_name": "Shirt (Alien)",
+      "current_path": "/datum/sprite_accessory/clothing/undershirt/alienshirt",
+      "current_name": "Shirt (Alien)",
+      "icon_state": "shirt_alien"
+    },
+    {
+      "category": "undershirt",
+      "legacy_path": "/datum/sprite_accessory/undershirt/mondmondjaja",
+      "legacy_name": "Shirt (Band)",
+      "current_path": "/datum/sprite_accessory/clothing/undershirt/mondmondjaja",
+      "current_name": "Shirt (Band)",
+      "icon_state": "band"
+    },
+    {
+      "category": "undershirt",
+      "legacy_path": "/datum/sprite_accessory/undershirt/shirt_black",
+      "legacy_name": "Shirt (Black)",
+      "current_path": "/datum/sprite_accessory/clothing/undershirt/shirt_black",
+      "current_name": "Shirt (Black)",
+      "icon_state": "shirt_black"
+    },
+    {
+      "category": "undershirt",
+      "legacy_path": "/datum/sprite_accessory/undershirt/shirt_grey",
+      "legacy_name": "Shirt (Grey)",
+      "current_path": "/datum/sprite_accessory/clothing/undershirt/shirt_grey",
+      "current_name": "Shirt (Grey)",
+      "icon_state": "shirt_grey"
+    },
+    {
+      "category": "undershirt",
+      "legacy_path": "/datum/sprite_accessory/undershirt/lover",
+      "legacy_name": "Shirt (Lover)",
+      "current_path": "/datum/sprite_accessory/clothing/undershirt/lover",
+      "current_name": "Shirt (Lover)",
+      "icon_state": "lover"
+    },
+    {
+      "category": "undershirt",
+      "legacy_path": "/datum/sprite_accessory/undershirt/matroska",
+      "legacy_name": "Shirt (Matroska)",
+      "current_path": "/datum/sprite_accessory/clothing/undershirt/matroska",
+      "current_name": "Shirt (Matroska)",
+      "icon_state": "matroska"
+    },
+    {
+      "category": "undershirt",
+      "legacy_path": "/datum/sprite_accessory/undershirt/question",
+      "legacy_name": "Shirt (Question)",
+      "current_path": "/datum/sprite_accessory/clothing/undershirt/question",
+      "current_name": "Shirt (Question)",
+      "icon_state": "shirt_question"
+    },
+    {
+      "category": "undershirt",
+      "legacy_path": "/datum/sprite_accessory/undershirt/redshirt",
+      "legacy_name": "Shirt (Red)",
+      "current_path": "/datum/sprite_accessory/clothing/undershirt/redshirt",
+      "current_name": "Shirt (Red)",
+      "icon_state": "shirt_red"
+    },
+    {
+      "category": "undershirt",
+      "legacy_path": "/datum/sprite_accessory/undershirt/skull",
+      "legacy_name": "Shirt (Skull)",
+      "current_path": "/datum/sprite_accessory/clothing/undershirt/skull",
+      "current_name": "Shirt (Skull)",
+      "icon_state": "shirt_skull"
+    },
+    {
+      "category": "undershirt",
+      "legacy_path": "/datum/sprite_accessory/undershirt/shirt_white",
+      "legacy_name": "Shirt (White)",
+      "current_path": "/datum/sprite_accessory/clothing/undershirt/shirt_white",
+      "current_name": "Shirt (White)",
+      "icon_state": "shirt_white"
+    },
+    {
+      "category": "undershirt",
+      "legacy_path": "/datum/sprite_accessory/undershirt/tank_black",
+      "legacy_name": "Tank Top (Black)",
+      "current_path": "/datum/sprite_accessory/clothing/undershirt/tank_black",
+      "current_name": "Tank Top (Black)",
+      "icon_state": "tank_black"
+    },
+    {
+      "category": "undershirt",
+      "legacy_path": "/datum/sprite_accessory/undershirt/tankfire",
+      "legacy_name": "Tank Top (Fire)",
+      "current_path": "/datum/sprite_accessory/clothing/undershirt/tankfire",
+      "current_name": "Tank Top (Fire)",
+      "icon_state": "tank_fire"
+    },
+    {
+      "category": "undershirt",
+      "legacy_path": "/datum/sprite_accessory/undershirt/tank_grey",
+      "legacy_name": "Tank Top (Grey)",
+      "current_path": "/datum/sprite_accessory/clothing/undershirt/tank_grey",
+      "current_name": "Tank Top (Grey)",
+      "icon_state": "tank_grey"
+    },
+    {
+      "category": "undershirt",
+      "legacy_path": "/datum/sprite_accessory/undershirt/tank_red",
+      "legacy_name": "Tank Top (Red)",
+      "current_path": "/datum/sprite_accessory/clothing/undershirt/tank_red",
+      "current_name": "Tank Top (Red)",
+      "icon_state": "tank_red"
+    },
+    {
+      "category": "undershirt",
+      "legacy_path": "/datum/sprite_accessory/undershirt/tankstripe",
+      "legacy_name": "Tank Top (Striped)",
+      "current_path": "/datum/sprite_accessory/clothing/undershirt/tankstripe",
+      "current_name": "Tank Top (Striped)",
+      "icon_state": "tank_stripes"
+    },
+    {
+      "category": "undershirt",
+      "legacy_path": "/datum/sprite_accessory/undershirt/tank_white",
+      "legacy_name": "Tank Top (White)",
+      "current_path": "/datum/sprite_accessory/clothing/undershirt/tank_white",
+      "current_name": "Tank Top (White)",
+      "icon_state": "tank_white"
+    },
+    {
+      "category": "socks",
+      "legacy_path": "/datum/sprite_accessory/socks/nude",
+      "legacy_name": "Nude",
+      "current_path": "/datum/sprite_accessory/clothing/socks/nude",
+      "current_name": "Nude",
+      "icon_state": null
+    },
+    {
+      "category": "socks",
+      "legacy_path": "/datum/sprite_accessory/socks/black_knee",
+      "legacy_name": "Knee-high (Black)",
+      "current_path": "/datum/sprite_accessory/clothing/socks/black_knee",
+      "current_name": "Knee-high (Black)",
+      "icon_state": "black_knee"
+    },
+    {
+      "category": "socks",
+      "legacy_path": "/datum/sprite_accessory/socks/thin_knee",
+      "legacy_name": "Knee-high (Thin)",
+      "current_path": "/datum/sprite_accessory/clothing/socks/thin_knee",
+      "current_name": "Knee-high (Thin)",
+      "icon_state": "thin_knee"
+    },
+    {
+      "category": "socks",
+      "legacy_path": "/datum/sprite_accessory/socks/white_knee",
+      "legacy_name": "Knee-high (White)",
+      "current_path": "/datum/sprite_accessory/clothing/socks/white_knee",
+      "current_name": "Knee-high (White)",
+      "icon_state": "white_knee"
+    },
+    {
+      "category": "socks",
+      "legacy_path": "/datum/sprite_accessory/socks/black_norm",
+      "legacy_name": "Normal (Black)",
+      "current_path": "/datum/sprite_accessory/clothing/socks/black_norm",
+      "current_name": "Normal (Black)",
+      "icon_state": "black_norm"
+    },
+    {
+      "category": "socks",
+      "legacy_path": "/datum/sprite_accessory/socks/white_norm",
+      "legacy_name": "Normal (White)",
+      "current_path": "/datum/sprite_accessory/clothing/socks/white_norm",
+      "current_name": "Normal (White)",
+      "icon_state": "white_norm"
+    },
+    {
+      "category": "socks",
+      "legacy_path": "/datum/sprite_accessory/socks/pantyhose",
+      "legacy_name": "Pantyhose",
+      "current_path": "/datum/sprite_accessory/clothing/socks/pantyhose",
+      "current_name": "Pantyhose",
+      "icon_state": "pantyhose"
+    },
+    {
+      "category": "socks",
+      "legacy_path": "/datum/sprite_accessory/socks/black_thigh",
+      "legacy_name": "Thigh-high (Black)",
+      "current_path": "/datum/sprite_accessory/clothing/socks/black_thigh",
+      "current_name": "Thigh-high (Black)",
+      "icon_state": "black_thigh"
+    },
+    {
+      "category": "socks",
+      "legacy_path": "/datum/sprite_accessory/socks/thin_thigh",
+      "legacy_name": "Thigh-high (Thin)",
+      "current_path": "/datum/sprite_accessory/clothing/socks/thin_thigh",
+      "current_name": "Thigh-high (Thin)",
+      "icon_state": "thin_thigh"
+    },
+    {
+      "category": "socks",
+      "legacy_path": "/datum/sprite_accessory/socks/white_thigh",
+      "legacy_name": "Thigh-high (White)",
+      "current_path": "/datum/sprite_accessory/clothing/socks/white_thigh",
+      "current_name": "Thigh-high (White)",
+      "icon_state": "white_thigh"
+    }
+  ],
+  "native_rendering": "Native clothing palettes and pixels are retained. Socks intentionally trim alpha to the slim legs and lower waist; the blank donor state is not a style."
+}

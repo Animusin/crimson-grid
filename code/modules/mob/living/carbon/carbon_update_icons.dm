@@ -302,6 +302,8 @@
 	if(isnull(damage_overlay))
 		return
 
+	if(ishuman(src) && astype(src, /mob/living/carbon/human).uses_slim_body())
+		damage_overlay = slim_worn_appearance(damage_overlay)
 	apply_height(damage_overlay, ENTIRE_BODY)
 	overlays_standing[DAMAGE_LAYER] = damage_overlay
 	apply_overlay(DAMAGE_LAYER)
@@ -325,6 +327,8 @@
 	if(isnull(wound_overlay))
 		return
 
+	if(ishuman(src) && astype(src, /mob/living/carbon/human).uses_slim_body())
+		wound_overlay = slim_worn_appearance(wound_overlay)
 	apply_height(wound_overlay, ENTIRE_BODY)
 	overlays_standing[WOUND_LAYER] = wound_overlay
 	apply_overlay(WOUND_LAYER)
@@ -336,7 +340,10 @@
 		return
 	if(astype(legcuffed, /obj/item/restraints/legcuffs)?.legcuff_state)
 		var/obj/item/restraints/legcuffs/cuffs = legcuffed
-		overlays_standing[LEGCUFF_LAYER] = mutable_appearance('icons/mob/simple/mob.dmi', cuffs.legcuff_state, -LEGCUFF_LAYER)
+		var/mutable_appearance/cuff_overlay = mutable_appearance('icons/mob/simple/mob.dmi', cuffs.legcuff_state, -LEGCUFF_LAYER)
+		if(ishuman(src) && astype(src, /mob/living/carbon/human).uses_slim_body())
+			cuff_overlay = slim_worn_appearance(cuff_overlay)
+		overlays_standing[LEGCUFF_LAYER] = cuff_overlay
 	apply_overlay(LEGCUFF_LAYER)
 	throw_alert("legcuffed", /atom/movable/screen/alert/restrained/legcuffed, new_master = src.legcuffed)
 
@@ -347,6 +354,8 @@
 		var/mutable_appearance/handcuff_overlay = mutable_appearance('icons/mob/simple/mob.dmi', "handcuff1", -HANDCUFF_LAYER)
 		if(handcuffed.blocks_emissive != EMISSIVE_BLOCK_NONE)
 			handcuff_overlay.overlays += emissive_blocker(handcuff_overlay.icon, handcuff_overlay.icon_state, src, alpha = handcuff_overlay.alpha)
+		if(ishuman(src) && astype(src, /mob/living/carbon/human).uses_slim_body())
+			handcuff_overlay = slim_worn_appearance(handcuff_overlay)
 		apply_height(handcuff_overlay, LOWER_BODY) // low hanging
 		overlays_standing[HANDCUFF_LAYER] = handcuff_overlay
 		apply_overlay(HANDCUFF_LAYER)

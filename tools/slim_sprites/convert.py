@@ -75,15 +75,27 @@ def main():
     parser.add_argument('--native', action='append', default=[], help='Native sheet, in priority order; repeatable')
     parser.add_argument('--extract-body', action='store_true')
     parser.add_argument('--native-only', action='store_true', help='Extract only layout-compatible native states')
+    parser.add_argument('--body-fit', action='store_true', help='Fit fallback sprites to separate slim anatomical regions')
+    parser.add_argument('--draped', action='store_true', help='With --body-fit, preserve skirt/dress hem rows')
+    parser.add_argument('--leg-gap', action='store_true', help='Preserve the native front/back leg channel; retain skirt bridges')
     args = parser.parse_args()
     if Path(args.source).resolve() == Path(args.output).resolve():
         parser.error('Use a separate output path')
     source = read_dmi(args.source)
+    if args.body_fit or args.leg_gap:
+        from body_fit import fit_frame, leg_gap_frame, make_maps
+    if args.draped and not args.body_fit:
+        parser.error('--draped requires --body-fit')
+    maps = make_maps(draped=args.draped) if args.body_fit else None
     if args.extract_body:
         output = {name[1:]: (block.replace('state = "shuman_', 'state = "human_', 1), frames)
                   for name, (block, frames) in source.items() if isinstance(name, str) and name.startswith('shuman_')}
         if len(output) != 10:
             raise ValueError('Expected ten native slim human bodypart states')
+        if args.leg_gap:
+            for name, (block, frames) in output.items():
+                if name in ('human_l_leg', 'human_r_leg'):
+                    output[name] = (block, [leg_gap_frame(frame, i % 4, bodypart=True) for i, frame in enumerate(frames)])
     else:
         native_sheets = [read_dmi(path) for path in args.native]
         if args.native_only and not args.native:
@@ -97,9 +109,17 @@ def main():
                 and re.findall(r'movement = .*', sheet[name][0]) == re.findall(r'movement = .*', block)), None)
             # Source timing/layout are authoritative. Never silently truncate frames.
             if replacement:
-                output[name] = (block, replacement[1])
+                native_frames = replacement[1]
+                if args.leg_gap:
+                    dirs = int(re.search(r'dirs = (\d+)', block)[1])
+                    native_frames = [leg_gap_frame(frame, i % dirs, source=frames[i]) for i, frame in enumerate(native_frames)]
+                output[name] = (block, native_frames)
             elif not args.native_only:
-                output[name] = (block, [convert_frame(frame) for frame in frames])
+                dirs = int(re.search(r'dirs = (\d+)', block)[1])
+                # Anatomy maps describe cardinal poses. Retain the generic
+                # converter for eight-direction assets rather than truncating
+                # their diagonal frames or inventing diagonal anatomy.
+                output[name] = (block, [fit_frame(frame, i % dirs, maps) if args.body_fit and dirs in (1, 4) else convert_frame(frame) for i, frame in enumerate(frames)])
     write_dmi(args.output, output)
     print(f'{len(output)} states written to {args.output}')
 

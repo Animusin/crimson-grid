@@ -1,0 +1,1925 @@
+{
+  "donor_repository": "Animusin/World-of-Darkness-13",
+  "donor_revision": "39142647cb5de07c201e9242a7474fd9d66bd5bf",
+  "donor_source": "code/modules/wod13/clothcode.dm",
+  "items": [
+    {
+      "old_type": "/obj/item/clothing/under/vampire",
+      "current_type": "/obj/item/clothing/under/vampire",
+      "status": "existing",
+      "old_name": "clothes",
+      "current_name": "clothes",
+      "old_state": "error",
+      "current_state": null
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/brujah",
+      "current_type": "/obj/item/clothing/under/vampire/brujah",
+      "status": "existing",
+      "old_name": "Punk attire",
+      "current_name": "punk attire",
+      "old_state": "brujah_m",
+      "current_state": "brujah_m"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/brujah/female",
+      "current_type": "/obj/item/clothing/under/vampire/brujah/female",
+      "status": "existing",
+      "old_name": "Punk attire",
+      "current_name": "punk attire",
+      "old_state": "brujah_f",
+      "current_state": "brujah_f"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/gangrel",
+      "current_type": "/obj/item/clothing/under/vampire/gangrel",
+      "status": "existing",
+      "old_name": "Rugged attire",
+      "current_name": "Rugged attire",
+      "old_state": "gangrel_m",
+      "current_state": "gangrel_m"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/gangrel/female",
+      "current_type": "/obj/item/clothing/under/vampire/gangrel/female",
+      "status": "existing",
+      "old_name": "Rugged attire",
+      "current_name": "Rugged attire",
+      "old_state": "gangrel_f",
+      "current_state": "gangrel_f"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/malkavian",
+      "current_type": "/obj/item/clothing/under/vampire/malkavian",
+      "status": "existing",
+      "old_name": "Grimey pants",
+      "current_name": "Grimey pants",
+      "old_state": "malkavian_m",
+      "current_state": "malkavian_m"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/malkavian/female",
+      "current_type": "/obj/item/clothing/under/vampire/malkavian/female",
+      "status": "existing",
+      "old_name": "Odd Goth schoolgirl attire",
+      "current_name": "schoolgirl attire",
+      "old_state": "malkavian_f",
+      "current_state": "malkavian_f"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/nosferatu",
+      "current_type": "/obj/item/clothing/under/vampire/nosferatu",
+      "status": "existing",
+      "old_name": "Gimp outfit",
+      "current_name": "gimp outfit",
+      "old_state": "nosferatu_m",
+      "current_state": "nosferatu_m"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/nosferatu/female",
+      "current_type": "/obj/item/clothing/under/vampire/nosferatu/female",
+      "status": "existing",
+      "old_name": "Gimp outfit",
+      "current_name": "feminine gimp outfit",
+      "old_state": "nosferatu_f",
+      "current_state": "nosferatu_f"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/toreador",
+      "current_type": "/obj/item/clothing/under/vampire/toreador",
+      "status": "existing",
+      "old_name": "flamboyant outfit",
+      "current_name": "flamboyant outfit",
+      "old_state": "toreador_m",
+      "current_state": "toreador_m"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/toreador/female",
+      "current_type": "/obj/item/clothing/under/vampire/toreador/female",
+      "status": "existing",
+      "old_name": "flamboyant outfit",
+      "current_name": "dancer's offwear",
+      "old_state": "toreador_f",
+      "current_state": "toreador_f"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/tremere",
+      "current_type": "/obj/item/clothing/under/vampire/tremere",
+      "status": "existing",
+      "old_name": "Burgundy suit",
+      "current_name": "burgundy suit",
+      "old_state": "tremere_m",
+      "current_state": "tremere_m"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/tremere/female",
+      "current_type": "/obj/item/clothing/under/vampire/tremere/female",
+      "status": "existing",
+      "old_name": "Burgundy suit skirt",
+      "current_name": "burgundy suit skirt",
+      "old_state": "tremere_f",
+      "current_state": "tremere_f"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/ventrue",
+      "current_type": "/obj/item/clothing/under/vampire/ventrue",
+      "status": "existing",
+      "old_name": "Black luxury suit",
+      "current_name": "brown luxury shirt",
+      "old_state": "ventrue_m",
+      "current_state": "ventrue_m"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/ventrue/female",
+      "current_type": "/obj/item/clothing/under/vampire/ventrue/female",
+      "status": "existing",
+      "old_name": "Black luxury suit skirt",
+      "current_name": "brown luxury suit skirt",
+      "old_state": "ventrue_f",
+      "current_state": "ventrue_f"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/baali",
+      "current_type": "/obj/item/clothing/under/vampire/baali",
+      "status": "existing",
+      "old_name": "Odd outfit",
+      "current_name": "edgy outfit",
+      "old_state": "baali_m",
+      "current_state": "baali_m"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/baali/female",
+      "current_type": "/obj/item/clothing/under/vampire/baali/female",
+      "status": "existing",
+      "old_name": "Odd outfit",
+      "current_name": "edgy outfit",
+      "old_state": "baali_f",
+      "current_state": "baali_f"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/salubri",
+      "current_type": "/obj/item/clothing/under/vampire/salubri",
+      "status": "existing",
+      "old_name": "Grey attire",
+      "current_name": "grey attire",
+      "old_state": "salubri_m",
+      "current_state": "salubri_m"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/salubri/female",
+      "current_type": "/obj/item/clothing/under/vampire/salubri/female",
+      "status": "existing",
+      "old_name": "Grey attire",
+      "current_name": "grey attire",
+      "old_state": "salubri_f",
+      "current_state": "salubri_f"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/punk",
+      "current_type": "/obj/item/clothing/under/vampire/punk",
+      "status": "existing",
+      "old_name": "clothes",
+      "current_name": "punk rocker outfit",
+      "old_state": "dirty",
+      "current_state": "dirty"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/napoleon",
+      "current_type": "/obj/item/clothing/under/vampire/napoleon",
+      "status": "existing",
+      "old_name": "French Admiral suit",
+      "current_name": "french emperor suit",
+      "old_state": "napoleon",
+      "current_state": "napoleon"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/nazi",
+      "current_type": "/obj/item/clothing/under/vampire/nazi",
+      "status": "restored",
+      "old_name": "clothes",
+      "current_name": "historical uniform",
+      "old_state": "nazi",
+      "current_state": "nazi"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/military_fatigues",
+      "current_type": "/obj/item/clothing/under/vampire/military_fatigues",
+      "status": "existing",
+      "old_name": "Military fatigues",
+      "current_name": "military fatigues",
+      "old_state": "milfatigues",
+      "current_state": "milfatigues"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/larry",
+      "current_type": "/obj/item/clothing/under/vampire/larry",
+      "status": "existing",
+      "old_name": "White tanktop",
+      "current_name": "yellow tanktop",
+      "old_state": "larry",
+      "current_state": "larry"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/bandit",
+      "current_type": "/obj/item/clothing/under/vampire/bandit",
+      "status": "existing",
+      "old_name": "Tan tanktop",
+      "current_name": "white tanktop",
+      "old_state": "bandit",
+      "current_state": "bandit"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/biker",
+      "current_type": "/obj/item/clothing/under/vampire/biker",
+      "status": "existing",
+      "old_name": "Biker attire",
+      "current_name": "biker attire",
+      "old_state": "biker",
+      "current_state": "biker"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/mechanic",
+      "current_type": "/obj/item/clothing/under/vampire/mechanic",
+      "status": "existing",
+      "old_name": "Blue overalls",
+      "current_name": "blue overalls",
+      "old_state": "mechanic",
+      "current_state": "mechanic"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/sport",
+      "current_type": "/obj/item/clothing/under/vampire/sport",
+      "status": "existing",
+      "old_name": "Red track suit",
+      "current_name": "red tracksuit",
+      "old_state": "sport",
+      "current_state": "sport"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/office",
+      "current_type": "/obj/item/clothing/under/vampire/office",
+      "status": "existing",
+      "old_name": "Dark suit",
+      "current_name": "white shirt",
+      "old_state": "office",
+      "current_state": "office"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/sexy",
+      "current_type": "/obj/item/clothing/under/vampire/sexy",
+      "status": "existing",
+      "old_name": "purple outfit",
+      "current_name": "purple outfit",
+      "old_state": "sexy",
+      "current_state": "sexy"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/slickback",
+      "current_type": "/obj/item/clothing/under/vampire/slickback",
+      "status": "existing",
+      "old_name": "clothes",
+      "current_name": "slick suit",
+      "old_state": "slickback",
+      "current_state": "slickback"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/burlesque",
+      "current_type": "/obj/item/clothing/under/vampire/burlesque",
+      "status": "existing",
+      "old_name": "clothes",
+      "current_name": "burlesque outfit",
+      "old_state": "burlesque",
+      "current_state": "burlesque"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/burlesque/daisyd",
+      "current_type": "/obj/item/clothing/under/vampire/burlesque/daisyd",
+      "status": "existing",
+      "old_name": "clothes",
+      "current_name": "daisy dukes",
+      "old_state": "daisyd",
+      "current_state": "daisyd"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/emo",
+      "current_type": "/obj/item/clothing/under/vampire/emo",
+      "status": "existing",
+      "old_name": "Uncolorful attire",
+      "current_name": "uncolorful attire",
+      "old_state": "emo",
+      "current_state": "emo"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/black",
+      "current_type": "/obj/item/clothing/under/vampire/black",
+      "status": "existing",
+      "old_name": "clothes",
+      "current_name": "black croptop",
+      "old_state": "black",
+      "current_state": "black"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/red",
+      "current_type": "/obj/item/clothing/under/vampire/red",
+      "status": "existing",
+      "old_name": "clothes",
+      "current_name": "red croptop",
+      "old_state": "red",
+      "current_state": "red"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/gothic",
+      "current_type": "/obj/item/clothing/under/vampire/gothic",
+      "status": "existing",
+      "old_name": "clothes",
+      "current_name": "gothic getup",
+      "old_state": "gothic",
+      "current_state": "gothic"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/rich",
+      "current_type": "/obj/item/clothing/under/vampire/rich",
+      "status": "existing",
+      "old_name": "clothes",
+      "current_name": "rich suit",
+      "old_state": "rich",
+      "current_state": "rich"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/business",
+      "current_type": "/obj/item/clothing/under/vampire/business",
+      "status": "existing",
+      "old_name": "clothes",
+      "current_name": "black dress",
+      "old_state": "business",
+      "current_state": "business"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/homeless",
+      "current_type": "/obj/item/clothing/under/vampire/homeless",
+      "status": "existing",
+      "old_name": "Old dirty attire",
+      "current_name": "dirty attire",
+      "old_state": "homeless_m",
+      "current_state": "homeless_m"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/homeless/female",
+      "current_type": "/obj/item/clothing/under/vampire/homeless/female",
+      "status": "existing",
+      "old_name": "Old dirty attire",
+      "current_name": "dirty attire",
+      "old_state": "homeless_f",
+      "current_state": "homeless_f"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/police",
+      "current_type": "/obj/item/clothing/under/vampire/police",
+      "status": "existing",
+      "old_name": "Police officer uniform",
+      "current_name": "police uniform",
+      "old_state": "police",
+      "current_state": "police"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/guard",
+      "current_type": "/obj/item/clothing/under/vampire/guard",
+      "status": "existing",
+      "old_name": "Security guard uniform",
+      "current_name": "security guard uniform",
+      "old_state": "guard",
+      "current_state": "guard"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/janitor",
+      "current_type": "/obj/item/clothing/under/vampire/janitor",
+      "status": "existing",
+      "old_name": "janitorial uniform",
+      "current_name": "janitorial uniform",
+      "old_state": "janitor",
+      "current_state": "janitor"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/nurse",
+      "current_type": "/obj/item/clothing/under/vampire/nurse",
+      "status": "existing",
+      "old_name": "nurse scrubs",
+      "current_name": "nurse scrubs",
+      "old_state": "nurse",
+      "current_state": "nurse"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/graveyard",
+      "current_type": "/obj/item/clothing/under/vampire/graveyard",
+      "status": "existing",
+      "old_name": "clothes",
+      "current_name": "clothes",
+      "old_state": "graveyard",
+      "current_state": "graveyard"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/suit",
+      "current_type": "/obj/item/clothing/under/vampire/suit",
+      "status": "existing",
+      "old_name": "suit",
+      "current_name": "suit",
+      "old_state": "suit",
+      "current_state": "suit"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/suit/female",
+      "current_type": "/obj/item/clothing/under/vampire/suit/female",
+      "status": "existing",
+      "old_name": "suitskirt",
+      "current_name": "suitskirt",
+      "old_state": "suit_f",
+      "current_state": "suit_f"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/sheriff",
+      "current_type": "/obj/item/clothing/under/vampire/sheriff",
+      "status": "existing",
+      "old_name": "suit",
+      "current_name": "red suit",
+      "old_state": "sheriff",
+      "current_state": "sheriff"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/sheriff/female",
+      "current_type": "/obj/item/clothing/under/vampire/sheriff/female",
+      "status": "existing",
+      "old_name": "suitskirt",
+      "current_name": "red suitskirt",
+      "old_state": "sheriff_f",
+      "current_state": "sheriff_f"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/clerk",
+      "current_type": "/obj/item/clothing/under/vampire/clerk",
+      "status": "existing",
+      "old_name": "suit",
+      "current_name": "blue suit",
+      "old_state": "clerk",
+      "current_state": "clerk"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/clerk/female",
+      "current_type": "/obj/item/clothing/under/vampire/clerk/female",
+      "status": "existing",
+      "old_name": "suitskirt",
+      "current_name": "blue suitskirt",
+      "old_state": "clerk_f",
+      "current_state": "clerk_f"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/prince",
+      "current_type": "/obj/item/clothing/under/vampire/prince",
+      "status": "existing",
+      "old_name": "suit",
+      "current_name": "fancy black suit",
+      "old_state": "prince",
+      "current_state": "prince"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/prince/female",
+      "current_type": "/obj/item/clothing/under/vampire/prince/female",
+      "status": "existing",
+      "old_name": "suitskirt",
+      "current_name": "fancy black suitskirt",
+      "old_state": "prince_f",
+      "current_state": "prince_f"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/agent",
+      "current_type": "/obj/item/clothing/under/vampire/hound",
+      "status": "renamed",
+      "old_name": "suit",
+      "current_name": "scruffy black suit",
+      "old_state": "agent",
+      "current_state": "agent"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/archivist",
+      "current_type": "/obj/item/clothing/under/vampire/archivist",
+      "status": "existing",
+      "old_name": "suit",
+      "current_name": "brown and red suit",
+      "old_state": "archivist",
+      "current_state": "archivist"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/archivist/female",
+      "current_type": "/obj/item/clothing/under/vampire/archivist/female",
+      "status": "existing",
+      "old_name": "suitskirt",
+      "current_name": "brown and red suitskirt",
+      "old_state": "archivist_f",
+      "current_state": "archivist_f"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/bar",
+      "current_type": "/obj/item/clothing/under/vampire/bar",
+      "status": "existing",
+      "old_name": "suit",
+      "current_name": "red shirt",
+      "old_state": "bar",
+      "current_state": "bar"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/bar/female",
+      "current_type": "/obj/item/clothing/under/vampire/bar/female",
+      "status": "existing",
+      "old_name": "skirt",
+      "current_name": "red skirt",
+      "old_state": "bar_f",
+      "current_state": "bar_f"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/bouncer",
+      "current_type": "/obj/item/clothing/under/vampire/bouncer",
+      "status": "existing",
+      "old_name": "suit",
+      "current_name": "loose shirt",
+      "old_state": "bouncer",
+      "current_state": "bouncer"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/supply",
+      "current_type": "/obj/item/clothing/under/vampire/supply",
+      "status": "existing",
+      "old_name": "uniform",
+      "current_name": "cargo jumpsuit",
+      "old_state": "supply",
+      "current_state": "supply"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/primogen_malkavian",
+      "current_type": "/obj/item/clothing/under/vampire/primogen_malkavian",
+      "status": "existing",
+      "old_name": "pants",
+      "current_name": "stark white pants",
+      "old_state": "malkav_pants",
+      "current_state": "malkav_pants"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/voivode",
+      "current_type": "/obj/item/clothing/under/vampire/voivode",
+      "status": "existing",
+      "old_name": "suit",
+      "current_name": "blue windbreaker",
+      "old_state": "voivode",
+      "current_state": "voivode"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/bogatyr",
+      "current_type": "/obj/item/clothing/under/vampire/bogatyr",
+      "status": "existing",
+      "old_name": "suit",
+      "current_name": "blue shirt",
+      "old_state": "bogatyr",
+      "current_state": "bogatyr"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/bogatyr/female",
+      "current_type": "/obj/item/clothing/under/vampire/bogatyr/female",
+      "status": "existing",
+      "old_name": "suit",
+      "current_name": "blue skirt",
+      "old_state": "bogatyr_f",
+      "current_state": "bogatyr_f"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/primogen_malkavian/female",
+      "current_type": "/obj/item/clothing/under/vampire/primogen_malkavian/female",
+      "status": "existing",
+      "old_name": "suit",
+      "current_name": "catsuit",
+      "old_state": "malkav_suit",
+      "current_state": "malkav_suit"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/primogen_toreador",
+      "current_type": "/obj/item/clothing/under/vampire/primogen_toreador",
+      "status": "existing",
+      "old_name": "suit",
+      "current_name": "white suit",
+      "old_state": "toreador_male",
+      "current_state": "toreador_male"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/primogen_toreador/female",
+      "current_type": "/obj/item/clothing/under/vampire/primogen_toreador/female",
+      "status": "existing",
+      "old_name": "Crimson red dress",
+      "current_name": "crimson red dress",
+      "old_state": "toreador_female",
+      "current_state": "toreador_female"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/trench/malkav",
+      "current_type": "/obj/item/clothing/suit/vampire/trench/malkav",
+      "status": "existing",
+      "old_name": "trenchcoat",
+      "current_name": "trenchcoat",
+      "old_state": "malkav_coat",
+      "current_state": "malkav_coat"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/malkav",
+      "current_type": "/obj/item/clothing/head/vampire/malkav",
+      "status": "existing",
+      "old_name": "weirdo hat",
+      "current_name": "weirdo hat",
+      "old_state": "malkav_hat",
+      "current_state": "malkav_hat"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/fancy_gray",
+      "current_type": "/obj/item/clothing/under/vampire/fancy_gray",
+      "status": "existing",
+      "old_name": "Fancy gray suit",
+      "current_name": "fancy red suit",
+      "old_state": "fancy_gray",
+      "current_state": "fancy_gray"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/fancy_red",
+      "current_type": "/obj/item/clothing/under/vampire/fancy_red",
+      "status": "existing",
+      "old_name": "Fancy red suit",
+      "current_name": "Fancy grey suit",
+      "old_state": "fancy_red",
+      "current_state": "fancy_red"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/leatherpants",
+      "current_type": "/obj/item/clothing/under/vampire/leatherpants",
+      "status": "existing",
+      "old_name": "Leather pants",
+      "current_name": "leather pants",
+      "old_state": "leather_pants",
+      "current_state": "leather_pants"
+    },
+    {
+      "old_type": "/obj/item/clothing/shoes/vampire",
+      "current_type": "/obj/item/clothing/shoes/vampire",
+      "status": "existing",
+      "old_name": "shoes",
+      "current_name": "shoes",
+      "old_state": "shoes",
+      "current_state": "shoes"
+    },
+    {
+      "old_type": "/obj/item/clothing/shoes/vampire/brown",
+      "current_type": "/obj/item/clothing/shoes/vampire/brown",
+      "status": "existing",
+      "old_name": "shoes",
+      "current_name": "shoes",
+      "old_state": "shoes_brown",
+      "current_state": "shoes_brown"
+    },
+    {
+      "old_type": "/obj/item/clothing/shoes/vampire/white",
+      "current_type": "/obj/item/clothing/shoes/vampire/white",
+      "status": "existing",
+      "old_name": "shoes",
+      "current_name": "shoes",
+      "old_state": "shoes_white",
+      "current_state": "shoes_white"
+    },
+    {
+      "old_type": "/obj/item/clothing/shoes/vampire/jackboots",
+      "current_type": "/obj/item/clothing/shoes/vampire/jackboots",
+      "status": "existing",
+      "old_name": "boots",
+      "current_name": "jackboots",
+      "old_state": "jackboots",
+      "current_state": "jackboots"
+    },
+    {
+      "old_type": "/obj/item/clothing/shoes/vampire/jackboots/high",
+      "current_type": "/obj/item/clothing/shoes/vampire/jackboots/high",
+      "status": "existing",
+      "old_name": "high boots",
+      "current_name": "high boots",
+      "old_state": "tall_boots",
+      "current_state": "tall_boots"
+    },
+    {
+      "old_type": "/obj/item/clothing/shoes/vampire/jackboots/punk",
+      "current_type": "/obj/item/clothing/shoes/vampire/jackboots/punk",
+      "status": "existing",
+      "old_name": "boots",
+      "current_name": "jackboots",
+      "old_state": "daboots",
+      "current_state": "daboots"
+    },
+    {
+      "old_type": "/obj/item/clothing/shoes/vampire/jackboots/work",
+      "current_type": "/obj/item/clothing/shoes/vampire/jackboots/work",
+      "status": "existing",
+      "old_name": "boots",
+      "current_name": "jackboots",
+      "old_state": "jackboots_work",
+      "current_state": "jackboots_work"
+    },
+    {
+      "old_type": "/obj/item/clothing/shoes/vampire/sneakers",
+      "current_type": "/obj/item/clothing/shoes/vampire/sneakers",
+      "status": "existing",
+      "old_name": "sneakers",
+      "current_name": "sneakers",
+      "old_state": "sneakers",
+      "current_state": "sneakers"
+    },
+    {
+      "old_type": "/obj/item/clothing/shoes/vampire/sneakers/red",
+      "current_type": "/obj/item/clothing/shoes/vampire/sneakers/red",
+      "status": "existing",
+      "old_name": "sneakers",
+      "current_name": "sneakers",
+      "old_state": "sneakers_red",
+      "current_state": "sneakers_red"
+    },
+    {
+      "old_type": "/obj/item/clothing/shoes/vampire/heels",
+      "current_type": "/obj/item/clothing/shoes/vampire/heels",
+      "status": "existing",
+      "old_name": "heels",
+      "current_name": "heels",
+      "old_state": "heels",
+      "current_state": "heels"
+    },
+    {
+      "old_type": "/obj/item/clothing/shoes/vampire/heels/red",
+      "current_type": "/obj/item/clothing/shoes/vampire/heels/red",
+      "status": "existing",
+      "old_name": "heels",
+      "current_name": "heels",
+      "old_state": "heels_red",
+      "current_state": "heels_red"
+    },
+    {
+      "old_type": "/obj/item/clothing/shoes/vampire/businessscaly",
+      "current_type": "/obj/item/clothing/shoes/vampire/businessscaly",
+      "status": "existing",
+      "old_name": "scaly shoes",
+      "current_name": "scaly shoes",
+      "old_state": "scales_shoes",
+      "current_state": "scales_shoes"
+    },
+    {
+      "old_type": "/obj/item/clothing/shoes/vampire/businessblack",
+      "current_type": "/obj/item/clothing/shoes/vampire/businessblack",
+      "status": "existing",
+      "old_name": "black shoes",
+      "current_name": "black shoes",
+      "old_state": "business_shoes",
+      "current_state": "business_shoes"
+    },
+    {
+      "old_type": "/obj/item/clothing/shoes/vampire/businesstip",
+      "current_type": "/obj/item/clothing/shoes/vampire/businesstip",
+      "status": "existing",
+      "old_name": "metal tip shoes",
+      "current_name": "metal tip shoes",
+      "old_state": "metal_shoes",
+      "current_state": "metal_shoes"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire",
+      "current_type": "/obj/item/clothing/suit/vampire",
+      "status": "existing",
+      "old_name": null,
+      "current_name": "suit",
+      "old_state": null,
+      "current_state": null
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/hooded/heisenberg",
+      "current_type": "/obj/item/clothing/suit/hooded/heisenberg",
+      "status": "existing",
+      "old_name": "chemical costume",
+      "current_name": "chemical costume",
+      "old_state": "heisenberg",
+      "current_state": "heisenberg"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/hooded/heisenberg_hood",
+      "current_type": "/obj/item/clothing/head/hooded/heisenberg_hood",
+      "status": "existing",
+      "old_name": "chemical hood",
+      "current_name": "chemical hood",
+      "old_state": "heisenberg_helm",
+      "current_state": "heisenberg_helm"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/hooded/robes",
+      "current_type": "/obj/item/clothing/suit/hooded/robes",
+      "status": "existing",
+      "old_name": "white robe",
+      "current_name": "white robe",
+      "old_state": "robes",
+      "current_state": "robes"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/hooded/robes_hood",
+      "current_type": "/obj/item/clothing/head/hooded/robes_hood",
+      "status": "existing",
+      "old_name": "white hood",
+      "current_name": "white hood",
+      "old_state": "robes_hood",
+      "current_state": "robes_hood"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/hooded/robes/black",
+      "current_type": "/obj/item/clothing/suit/hooded/robes/black",
+      "status": "existing",
+      "old_name": "black robe",
+      "current_name": "black robe",
+      "old_state": "robes_black",
+      "current_state": "robes_black"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/hooded/robes_hood/black",
+      "current_type": "/obj/item/clothing/head/hooded/robes_hood/black",
+      "status": "existing",
+      "old_name": "black hood",
+      "current_name": "black hood",
+      "old_state": "robes_black_hood",
+      "current_state": "robes_black_hood"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/hooded/robes/grey",
+      "current_type": "/obj/item/clothing/suit/hooded/robes/grey",
+      "status": "existing",
+      "old_name": "grey robe",
+      "current_name": "grey robe",
+      "old_state": "robes_grey",
+      "current_state": "robes_grey"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/hooded/robes_hood/grey",
+      "current_type": "/obj/item/clothing/head/hooded/robes_hood/grey",
+      "status": "existing",
+      "old_name": "grey hood",
+      "current_name": "grey hood",
+      "old_state": "robes_grey_hood",
+      "current_state": "robes_grey_hood"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/hooded/robes/darkred",
+      "current_type": "/obj/item/clothing/suit/hooded/robes/darkred",
+      "status": "existing",
+      "old_name": "dark red robe",
+      "current_name": "dark red robe",
+      "old_state": "robes_darkred",
+      "current_state": "robes_darkred"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/hooded/robes_hood/darkred",
+      "current_type": "/obj/item/clothing/head/hooded/robes_hood/darkred",
+      "status": "existing",
+      "old_name": "dark red hood",
+      "current_name": "dark red hood",
+      "old_state": "robes_darkred_hood",
+      "current_state": "robes_darkred_hood"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/hooded/robes/yellow",
+      "current_type": "/obj/item/clothing/suit/hooded/robes/yellow",
+      "status": "existing",
+      "old_name": "yellow robe",
+      "current_name": "yellow robe",
+      "old_state": "robes_yellow",
+      "current_state": "robes_yellow"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/hooded/robes_hood/yellow",
+      "current_type": "/obj/item/clothing/head/hooded/robes_hood/yellow",
+      "status": "existing",
+      "old_name": "yellow hood",
+      "current_name": "yellow hood",
+      "old_state": "robes_yellow_hood",
+      "current_state": "robes_yellow_hood"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/hooded/robes/green",
+      "current_type": "/obj/item/clothing/suit/hooded/robes/green",
+      "status": "existing",
+      "old_name": "green robe",
+      "current_name": "green robe",
+      "old_state": "robes_green",
+      "current_state": "robes_green"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/hooded/robes_hood/green",
+      "current_type": "/obj/item/clothing/head/hooded/robes_hood/green",
+      "status": "existing",
+      "old_name": "green hood",
+      "current_name": "green hood",
+      "old_state": "robes_green_hood",
+      "current_state": "robes_green_hood"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/hooded/robes/red",
+      "current_type": "/obj/item/clothing/suit/hooded/robes/red",
+      "status": "existing",
+      "old_name": "red robe",
+      "current_name": "red robe",
+      "old_state": "robes_red",
+      "current_state": "robes_red"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/hooded/robes_hood/red",
+      "current_type": "/obj/item/clothing/head/hooded/robes_hood/red",
+      "status": "existing",
+      "old_name": "red hood",
+      "current_name": "red hood",
+      "old_state": "robes_red_hood",
+      "current_state": "robes_red_hood"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/hooded/robes/purple",
+      "current_type": "/obj/item/clothing/suit/hooded/robes/purple",
+      "status": "existing",
+      "old_name": "purple robe",
+      "current_name": "purple robe",
+      "old_state": "robes_purple",
+      "current_state": "robes_purple"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/hooded/robes_hood/purple",
+      "current_type": "/obj/item/clothing/head/hooded/robes_hood/purple",
+      "status": "existing",
+      "old_name": "purple hood",
+      "current_name": "purple hood",
+      "old_state": "robes_purple_hood",
+      "current_state": "robes_purple_hood"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/coat",
+      "current_type": "/obj/item/clothing/suit/vampire/coat",
+      "status": "existing",
+      "old_name": "coat",
+      "current_name": "brown coat",
+      "old_state": "coat1",
+      "current_state": "coat1"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/coat/alt",
+      "current_type": "/obj/item/clothing/suit/vampire/coat/alt",
+      "status": "existing",
+      "old_name": "coat",
+      "current_name": "green coat",
+      "old_state": "coat2",
+      "current_state": "coat2"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/coat/winter",
+      "current_type": "/obj/item/clothing/suit/vampire/coat/winter",
+      "status": "existing",
+      "old_name": "coat",
+      "current_name": "black fur coat",
+      "old_state": "winter1",
+      "current_state": "winter1"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/coat/winter/alt",
+      "current_type": "/obj/item/clothing/suit/vampire/coat/winter/alt",
+      "status": "existing",
+      "old_name": "coat",
+      "current_name": "brown fur coat",
+      "old_state": "winter2",
+      "current_state": "winter2"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/slickbackcoat",
+      "current_type": "/obj/item/clothing/suit/vampire/slickbackcoat",
+      "status": "existing",
+      "old_name": "opulent coat",
+      "current_name": "opulent coat",
+      "old_state": "slickbackcoat",
+      "current_state": "slickbackcoat"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/jacket",
+      "current_type": "/obj/item/clothing/suit/vampire/jacket",
+      "status": "existing",
+      "old_name": "leather jacket",
+      "current_name": "black leather jacket",
+      "old_state": "jacket1",
+      "current_state": "jacket1"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/jacket/fbi",
+      "current_type": "/obj/item/clothing/suit/vampire/jacket/fbi",
+      "status": "existing",
+      "old_name": "Federal Bureau of Investigation jacket",
+      "current_name": "Federal Bureau of Investigation jacket",
+      "old_state": "fbi",
+      "current_state": "fbi"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/jacket/punk",
+      "current_type": "/obj/item/clothing/suit/vampire/jacket/punk",
+      "status": "existing",
+      "old_name": "leather jacket",
+      "current_name": "black leather jacket",
+      "old_state": "punk",
+      "current_state": "punk"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/jacket/better",
+      "current_type": "/obj/item/clothing/suit/vampire/jacket/better",
+      "status": "existing",
+      "old_name": "leather jacket",
+      "current_name": "brown leather jacket",
+      "old_state": "jacket2",
+      "current_state": "jacket2"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/trench",
+      "current_type": "/obj/item/clothing/suit/vampire/trench",
+      "status": "existing",
+      "old_name": "trenchcoat",
+      "current_name": "trenchcoat",
+      "old_state": "trench1",
+      "current_state": "trench1"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/trench/alt",
+      "current_type": "/obj/item/clothing/suit/vampire/trench/alt",
+      "status": "existing",
+      "old_name": "trenchcoat",
+      "current_name": "brown trenchcoat",
+      "old_state": "trench2",
+      "current_state": "trench2"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/trench/archive",
+      "current_type": "/obj/item/clothing/suit/vampire/trench/archive",
+      "status": "existing",
+      "old_name": "rich trenchcoat",
+      "current_name": "rich trenchcoat",
+      "old_state": "trench3",
+      "current_state": "trench3"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/trench/tzi",
+      "current_type": "/obj/item/clothing/suit/vampire/trench/tzi",
+      "status": "existing",
+      "old_name": "fleshcoat",
+      "current_name": "fleshcoat",
+      "old_state": "trench_tzi",
+      "current_state": "trench_tzi"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/trench/voivode",
+      "current_type": "/obj/item/clothing/suit/vampire/trench/voivode",
+      "status": "existing",
+      "old_name": "regal coat",
+      "current_name": "regal coat",
+      "old_state": "voicoat",
+      "current_state": "voicoat"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/vest",
+      "current_type": "/obj/item/clothing/suit/vampire/vest",
+      "status": "existing",
+      "old_name": "bulletproof vest",
+      "current_name": "bulletproof vest",
+      "old_state": "vest",
+      "current_state": "vest"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/vest/medieval",
+      "current_type": "/obj/item/clothing/suit/vampire/vest/medieval",
+      "status": "existing",
+      "old_name": "medieval vest",
+      "current_name": "medieval vest",
+      "old_state": "medieval",
+      "current_state": "medieval"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/vest/police",
+      "current_type": "/obj/item/clothing/suit/vampire/vest/police",
+      "status": "existing",
+      "old_name": "police duty vest",
+      "current_name": "police duty vest",
+      "old_state": "pdvest",
+      "current_state": "pdvest"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/vest/police/sergeant",
+      "current_type": "/obj/item/clothing/suit/vampire/vest/police/sergeant",
+      "status": "existing",
+      "old_name": "police duty vest",
+      "current_name": "police sergeant vest",
+      "old_state": "sgtvest",
+      "current_state": "sgtvest"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/vest/police/chief",
+      "current_type": "/obj/item/clothing/suit/vampire/vest/police/chief",
+      "status": "restored",
+      "old_name": "police chief duty vest",
+      "current_name": "police chief duty vest",
+      "old_state": "chiefvest",
+      "current_state": "chiefvest"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/vest/army",
+      "current_type": "/obj/item/clothing/suit/vampire/vest/army",
+      "status": "existing",
+      "old_name": "bulletproof vest",
+      "current_name": "army vest",
+      "old_state": "army",
+      "current_state": "army"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/eod",
+      "current_type": "/obj/item/clothing/suit/vampire/eod",
+      "status": "existing",
+      "old_name": "EOD suit",
+      "current_name": "EOD suit",
+      "old_state": "eod",
+      "current_state": "eod"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/bogatyr",
+      "current_type": "/obj/item/clothing/suit/vampire/bogatyr/heavy",
+      "status": "renamed",
+      "old_name": "Bogatyr armor",
+      "current_name": "heavy bone harness",
+      "old_state": "bogatyr_armor",
+      "current_state": "bogatyr_armor"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/labcoat",
+      "current_type": "/obj/item/clothing/suit/vampire/labcoat",
+      "status": "existing",
+      "old_name": "labcoat",
+      "current_name": "labcoat",
+      "old_state": "labcoat",
+      "current_state": "labcoat"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/labcoat/director",
+      "current_type": "/obj/item/clothing/suit/vampire/labcoat/director",
+      "status": "existing",
+      "old_name": "clinic director's labcoat",
+      "current_name": "clinic director's labcoat",
+      "old_state": "director",
+      "current_state": "director"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/fancy_gray",
+      "current_type": "/obj/item/clothing/suit/vampire/fancy_gray",
+      "status": "existing",
+      "old_name": "fancy gray jacket",
+      "current_name": "fancy gray jacket",
+      "old_state": "fancy_gray_jacket",
+      "current_state": "fancy_gray_jacket"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/fancy_red",
+      "current_type": "/obj/item/clothing/suit/vampire/fancy_red",
+      "status": "existing",
+      "old_name": "fancy red jacket",
+      "current_name": "fancy red jacket",
+      "old_state": "fancy_red_jacket",
+      "current_state": "fancy_red_jacket"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/majima_jacket",
+      "current_type": "/obj/item/clothing/suit/vampire/majima_jacket",
+      "status": "existing",
+      "old_name": "too much fancy jacket",
+      "current_name": "too much fancy jacket",
+      "old_state": "majima_jacket",
+      "current_state": "majima_jacket"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/bahari",
+      "current_type": "/obj/item/clothing/suit/vampire/bahari",
+      "status": "existing",
+      "old_name": "Dark mother's suit",
+      "current_name": "dark mother's suit",
+      "old_state": "bahari",
+      "current_state": "bahari"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/kasaya",
+      "current_type": "/obj/item/clothing/suit/vampire/kasaya",
+      "status": "existing",
+      "old_name": "Kasaya",
+      "current_name": "kasaya",
+      "old_state": "kasaya",
+      "current_state": "kasaya"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/imam",
+      "current_type": "/obj/item/clothing/suit/vampire/imam",
+      "status": "existing",
+      "old_name": "Imam robe",
+      "current_name": "imam robe",
+      "old_state": "imam",
+      "current_state": "imam"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/noddist",
+      "current_type": "/obj/item/clothing/suit/vampire/noddist",
+      "status": "existing",
+      "old_name": "Noddist robe",
+      "current_name": "noddist robe",
+      "old_state": "noddist",
+      "current_state": "noddist"
+    },
+    {
+      "old_type": "/obj/item/clothing/suit/vampire/orthodox",
+      "current_type": "/obj/item/clothing/suit/vampire/orthodox",
+      "status": "existing",
+      "old_name": "Orthodox robe",
+      "current_name": "orthodox robe",
+      "old_state": "vestments",
+      "current_state": "vestments"
+    },
+    {
+      "old_type": "/obj/item/clothing/glasses/vampire",
+      "current_type": "/obj/item/clothing/glasses/vampire",
+      "status": "existing",
+      "old_name": null,
+      "current_name": "glasses",
+      "old_state": null,
+      "current_state": null
+    },
+    {
+      "old_type": "/obj/item/clothing/glasses/vampire/yellow",
+      "current_type": "/obj/item/clothing/glasses/vampire/yellow",
+      "status": "existing",
+      "old_name": "yellow aviators",
+      "current_name": "yellow aviators",
+      "old_state": "yellow",
+      "current_state": "yellow"
+    },
+    {
+      "old_type": "/obj/item/clothing/glasses/vampire/red",
+      "current_type": "/obj/item/clothing/glasses/vampire/red",
+      "status": "existing",
+      "old_name": "red aviators",
+      "current_name": "red aviators",
+      "old_state": "redg",
+      "current_state": "redg"
+    },
+    {
+      "old_type": "/obj/item/clothing/glasses/vampire/sun",
+      "current_type": "/obj/item/clothing/glasses/vampire/sun",
+      "status": "existing",
+      "old_name": "sunglasses",
+      "current_name": "sunglasses",
+      "old_state": "sun",
+      "current_state": "sun"
+    },
+    {
+      "old_type": "/obj/item/clothing/glasses/vampire/perception",
+      "current_type": "/obj/item/clothing/glasses/vampire/perception",
+      "status": "existing",
+      "old_name": "perception glasses",
+      "current_name": "reading glasses",
+      "old_state": "perception",
+      "current_state": "perception"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire",
+      "current_type": "/obj/item/clothing/head/vampire",
+      "status": "existing",
+      "old_name": null,
+      "current_name": "BODY_ZONE_HEAD",
+      "old_state": null,
+      "current_state": null
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/bandana",
+      "current_type": "/obj/item/clothing/head/vampire/bandana",
+      "status": "existing",
+      "old_name": "bandana",
+      "current_name": "brown bandana",
+      "old_state": "bandana",
+      "current_state": "bandana"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/bandana/red",
+      "current_type": "/obj/item/clothing/head/vampire/bandana/red",
+      "status": "existing",
+      "old_name": "bandana",
+      "current_name": "red bandana",
+      "old_state": "bandana_red",
+      "current_state": "bandana_red"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/bandana/black",
+      "current_type": "/obj/item/clothing/head/vampire/bandana/black",
+      "status": "existing",
+      "old_name": "bandana",
+      "current_name": "black bandana",
+      "old_state": "bandana_black",
+      "current_state": "bandana_black"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/baseballcap",
+      "current_type": "/obj/item/clothing/head/vampire/baseballcap",
+      "status": "existing",
+      "old_name": "baseball cap",
+      "current_name": "baseball cap",
+      "old_state": "baseballcap",
+      "current_state": "baseballcap"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/ushanka",
+      "current_type": "/obj/item/clothing/head/vampire/ushanka",
+      "status": "existing",
+      "old_name": "ushanka",
+      "current_name": "ushanka",
+      "old_state": "ushanka",
+      "current_state": "ushanka"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/beanie",
+      "current_type": "/obj/item/clothing/head/vampire/beanie",
+      "status": "existing",
+      "old_name": "beanie",
+      "current_name": "beanie",
+      "old_state": "hat",
+      "current_state": "hat"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/beanie/black",
+      "current_type": "/obj/item/clothing/head/vampire/beanie/black",
+      "status": "existing",
+      "old_name": "beanie",
+      "current_name": "black beanie",
+      "old_state": "hat_black",
+      "current_state": "hat_black"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/beanie/homeless",
+      "current_type": "/obj/item/clothing/head/vampire/beanie/homeless",
+      "status": "existing",
+      "old_name": "beanie",
+      "current_name": "raggedy beanie",
+      "old_state": "hat_homeless",
+      "current_state": "hat_homeless"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/police",
+      "current_type": "/obj/item/clothing/head/vampire/police",
+      "status": "existing",
+      "old_name": "police hat",
+      "current_name": "police hat",
+      "old_state": "law",
+      "current_state": "law"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/cowboy",
+      "current_type": "/obj/item/clothing/head/vampire/cowboy",
+      "status": "existing",
+      "old_name": "cowboy hat",
+      "current_name": "cowboy hat",
+      "old_state": "cowboy",
+      "current_state": "cowboy"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/british",
+      "current_type": "/obj/item/clothing/head/vampire/british",
+      "status": "existing",
+      "old_name": "british police hat",
+      "current_name": "british police hat",
+      "old_state": "briish",
+      "current_state": "briish"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/napoleon",
+      "current_type": "/obj/item/clothing/head/vampire/napoleon",
+      "status": "existing",
+      "old_name": "french admiral hat",
+      "current_name": "french admiral hat",
+      "old_state": "french",
+      "current_state": "french"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/nazi",
+      "current_type": "/obj/item/clothing/head/vampire/nazi",
+      "status": "restored",
+      "old_name": "german bad guy hat",
+      "current_name": "german bad guy hat",
+      "old_state": "ss",
+      "current_state": "ss"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/top",
+      "current_type": "/obj/item/clothing/head/vampire/top",
+      "status": "existing",
+      "old_name": "top hat",
+      "current_name": "top hat",
+      "old_state": "top",
+      "current_state": "top"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/skull",
+      "current_type": "/obj/item/clothing/head/vampire/skull",
+      "status": "existing",
+      "old_name": "skull helmet",
+      "current_name": "skull helmet",
+      "old_state": "skull",
+      "current_state": "skull"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/helmet",
+      "current_type": "/obj/item/clothing/head/vampire/helmet",
+      "status": "existing",
+      "old_name": "police helmet",
+      "current_name": "police helmet",
+      "old_state": "helmet",
+      "current_state": "helmet"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/helmet/egorium",
+      "current_type": "/obj/item/clothing/head/vampire/helmet/egorium",
+      "status": "existing",
+      "old_name": "strange mask",
+      "current_name": "strange mask",
+      "old_state": "masque",
+      "current_state": "masque"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/helmet/spain",
+      "current_type": "/obj/item/clothing/head/vampire/helmet/spain",
+      "status": "existing",
+      "old_name": "spain helmet",
+      "current_name": "spain helmet",
+      "old_state": "spain",
+      "current_state": "spain"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/army",
+      "current_type": "/obj/item/clothing/head/vampire/army",
+      "status": "existing",
+      "old_name": "army helmet",
+      "current_name": "army helmet",
+      "old_state": "viet",
+      "current_state": "viet"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/hardhat",
+      "current_type": "/obj/item/clothing/head/vampire/hardhat",
+      "status": "existing",
+      "old_name": "construction helmet",
+      "current_name": "construction helmet",
+      "old_state": "hardhat",
+      "current_state": "hardhat"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/eod",
+      "current_type": "/obj/item/clothing/head/vampire/eod",
+      "status": "existing",
+      "old_name": "EOD helmet",
+      "current_name": "EOD helmet",
+      "old_state": "bomb",
+      "current_state": "bomb"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/bogatyr",
+      "current_type": "/obj/item/clothing/head/vampire/bogatyr/heavy",
+      "status": "renamed",
+      "old_name": "Bogatyr helmet",
+      "current_name": "heavy bone greathelm",
+      "old_state": "bogatyr_helmet",
+      "current_state": "bogatyr_helmet"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/bahari_mask",
+      "current_type": "/obj/item/clothing/head/vampire/bahari_mask",
+      "status": "existing",
+      "old_name": "Dark mother's mask",
+      "current_name": "Dark mother's mask",
+      "old_state": "bahari_mask",
+      "current_state": "bahari_mask"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/straw_hat",
+      "current_type": "/obj/item/clothing/head/vampire/straw_hat",
+      "status": "existing",
+      "old_name": "straw hat",
+      "current_name": "straw hat",
+      "old_state": "strawhat",
+      "current_state": "strawhat"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/hijab",
+      "current_type": "/obj/item/clothing/head/vampire/hijab",
+      "status": "existing",
+      "old_name": "hijab",
+      "current_name": "hijab",
+      "old_state": "hijab",
+      "current_state": "hijab"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/taqiyah",
+      "current_type": "/obj/item/clothing/head/vampire/taqiyah",
+      "status": "existing",
+      "old_name": "taqiyah",
+      "current_name": "taqiyah",
+      "old_state": "taqiyah",
+      "current_state": "taqiyah"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/noddist_mask",
+      "current_type": "/obj/item/clothing/head/vampire/noddist_mask",
+      "status": "existing",
+      "old_name": "Noddist mask",
+      "current_name": "Noddist mask",
+      "old_state": "noddist_mask",
+      "current_state": "noddist_mask"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/kalimavkion",
+      "current_type": "/obj/item/clothing/head/vampire/kalimavkion",
+      "status": "existing",
+      "old_name": "Kalimavkion",
+      "current_name": "Kalimavkion",
+      "old_state": "kalimavkion",
+      "current_state": "kalimavkion"
+    },
+    {
+      "old_type": "/obj/item/clothing/head/vampire/prayer_veil",
+      "current_type": "/obj/item/clothing/head/vampire/prayer_veil",
+      "status": "existing",
+      "old_name": "Prayer veil",
+      "current_name": "Prayer veil",
+      "old_state": "prayer_veil",
+      "current_state": "prayer_veil"
+    },
+    {
+      "old_type": "/obj/item/clothing/gloves/vampire",
+      "current_type": "/obj/item/clothing/gloves/vampire",
+      "status": "existing",
+      "old_name": null,
+      "current_name": "gloves",
+      "old_state": null,
+      "current_state": null
+    },
+    {
+      "old_type": "/obj/item/clothing/gloves/vampire/leather",
+      "current_type": "/obj/item/clothing/gloves/vampire/leather",
+      "status": "existing",
+      "old_name": "leather gloves",
+      "current_name": "leather gloves",
+      "old_state": "leather",
+      "current_state": "leather"
+    },
+    {
+      "old_type": "/obj/item/clothing/gloves/vampire/work",
+      "current_type": "/obj/item/clothing/gloves/vampire/work",
+      "status": "existing",
+      "old_name": "work gloves",
+      "current_name": "work gloves",
+      "old_state": "work",
+      "current_state": "work"
+    },
+    {
+      "old_type": "/obj/item/clothing/gloves/vampire/investigator",
+      "current_type": "/obj/item/clothing/gloves/vampire/investigator",
+      "status": "existing",
+      "old_name": "investigator gloves",
+      "current_name": "investigator gloves",
+      "old_state": "work",
+      "current_state": "work"
+    },
+    {
+      "old_type": "/obj/item/clothing/gloves/vampire/cleaning",
+      "current_type": "/obj/item/clothing/gloves/vampire/cleaning",
+      "status": "existing",
+      "old_name": "cleaning gloves",
+      "current_name": "cleaning gloves",
+      "old_state": "cleaning",
+      "current_state": "cleaning"
+    },
+    {
+      "old_type": "/obj/item/clothing/gloves/vampire/latex",
+      "current_type": "/obj/item/clothing/gloves/vampire/latex",
+      "status": "existing",
+      "old_name": "latex gloves",
+      "current_name": "latex gloves",
+      "old_state": "latex",
+      "current_state": "latex"
+    },
+    {
+      "old_type": "/obj/item/clothing/neck/vampire",
+      "current_type": "/obj/item/clothing/neck/vampire",
+      "status": "existing",
+      "old_name": null,
+      "current_name": "necklace",
+      "old_state": null,
+      "current_state": null
+    },
+    {
+      "old_type": "/obj/item/clothing/neck/vampire/scarf",
+      "current_type": "/obj/item/clothing/neck/vampire/scarf",
+      "status": "existing",
+      "old_name": "black scarf",
+      "current_name": "black scarf",
+      "old_state": "scarf",
+      "current_state": "scarf"
+    },
+    {
+      "old_type": "/obj/item/clothing/neck/vampire/scarf/red",
+      "current_type": "/obj/item/clothing/neck/vampire/scarf/red",
+      "status": "existing",
+      "old_name": "red scarf",
+      "current_name": "red scarf",
+      "old_state": "scarf_red",
+      "current_state": "scarf_red"
+    },
+    {
+      "old_type": "/obj/item/clothing/neck/vampire/scarf/blue",
+      "current_type": "/obj/item/clothing/neck/vampire/scarf/blue",
+      "status": "existing",
+      "old_name": "blue scarf",
+      "current_name": "blue scarf",
+      "old_state": "scarf_blue",
+      "current_state": "scarf_blue"
+    },
+    {
+      "old_type": "/obj/item/clothing/neck/vampire/scarf/green",
+      "current_type": "/obj/item/clothing/neck/vampire/scarf/green",
+      "status": "existing",
+      "old_name": "green scarf",
+      "current_name": "green scarf",
+      "old_state": "scarf_green",
+      "current_state": "scarf_green"
+    },
+    {
+      "old_type": "/obj/item/clothing/neck/vampire/scarf/white",
+      "current_type": "/obj/item/clothing/neck/vampire/scarf/white",
+      "status": "existing",
+      "old_name": "white scarf",
+      "current_name": "white scarf",
+      "old_state": "scarf_white",
+      "current_state": "scarf_white"
+    },
+    {
+      "old_type": "/obj/item/clothing/neck/vampire/prayerbeads",
+      "current_type": "/obj/item/clothing/neck/vampire/prayerbeads",
+      "status": "existing",
+      "old_name": "prayer beads",
+      "current_name": "prayer beads",
+      "old_state": "beads",
+      "current_state": "beads"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/bacotell",
+      "current_type": "/obj/item/clothing/under/vampire/bacotell",
+      "status": "existing",
+      "old_name": "clothes",
+      "current_name": "bacotell uniform",
+      "old_state": "bacotell",
+      "current_state": "bacotell"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/bubway",
+      "current_type": "/obj/item/clothing/under/vampire/bubway",
+      "status": "existing",
+      "old_name": "clothes",
+      "current_name": "bubway uniform",
+      "old_state": "bubway",
+      "current_state": "bubway"
+    },
+    {
+      "old_type": "/obj/item/clothing/under/vampire/gummaguts",
+      "current_type": "/obj/item/clothing/under/vampire/gummaguts",
+      "status": "existing",
+      "old_name": "clothes",
+      "current_name": "gummaguts uniform",
+      "old_state": "gummaguts",
+      "current_state": "gummaguts"
+    },
+    {
+      "old_type": "/obj/item/clothing/mask/vampire",
+      "current_type": "/obj/item/clothing/mask/vampire",
+      "status": "existing",
+      "old_name": "respirator",
+      "current_name": "mask",
+      "old_state": "respirator",
+      "current_state": null
+    },
+    {
+      "old_type": "/obj/item/clothing/mask/vampire/balaclava",
+      "current_type": "/obj/item/clothing/mask/vampire/balaclava",
+      "status": "existing",
+      "old_name": "balaclava",
+      "current_name": "balaclava",
+      "old_state": "balaclava",
+      "current_state": "balaclava"
+    },
+    {
+      "old_type": "/obj/item/clothing/mask/vampire/tragedy",
+      "current_type": "/obj/item/clothing/mask/vampire/tragedy",
+      "status": "existing",
+      "old_name": "tragedy",
+      "current_name": "tragedy",
+      "old_state": "tragedy",
+      "current_state": "tragedy"
+    },
+    {
+      "old_type": "/obj/item/clothing/mask/vampire/comedy",
+      "current_type": "/obj/item/clothing/mask/vampire/comedy",
+      "status": "existing",
+      "old_name": "comedy",
+      "current_name": "comedy",
+      "old_state": "comedy",
+      "current_state": "comedy"
+    },
+    {
+      "old_type": "/obj/item/clothing/mask/vampire/shemagh",
+      "current_type": "/obj/item/clothing/mask/vampire/shemagh",
+      "status": "existing",
+      "old_name": "shemagh",
+      "current_name": "shemagh",
+      "old_state": "shemagh",
+      "current_state": "shemagh"
+    },
+    {
+      "old_type": "/obj/item/clothing/mask/vampire/venetian_mask",
+      "current_type": "/obj/item/clothing/mask/vampire/venetian_mask",
+      "status": "existing",
+      "old_name": "Venetian mask",
+      "current_name": "Venetian mask",
+      "old_state": "venetian_mask",
+      "current_state": "venetian_mask"
+    },
+    {
+      "old_type": "/obj/item/clothing/mask/vampire/venetian_mask/fancy",
+      "current_type": "/obj/item/clothing/mask/vampire/venetian_mask/fancy",
+      "status": "existing",
+      "old_name": "fancy Venetian mask",
+      "current_name": "fancy Venetian mask",
+      "old_state": "venetian_mask_fancy",
+      "current_state": "venetian_mask_fancy"
+    },
+    {
+      "old_type": "/obj/item/clothing/mask/vampire/venetian_mask/jester",
+      "current_type": "/obj/item/clothing/mask/vampire/venetian_mask/jester",
+      "status": "existing",
+      "old_name": "jester mask",
+      "current_name": "jester mask",
+      "old_state": "venetian_mask_jester",
+      "current_state": "venetian_mask_jester"
+    },
+    {
+      "old_type": "/obj/item/clothing/mask/vampire/venetian_mask/scary",
+      "current_type": "/obj/item/clothing/mask/vampire/venetian_mask/scary",
+      "status": "existing",
+      "old_name": "bloody mask",
+      "current_name": "bloody mask",
+      "old_state": "venetian_mask_scary",
+      "current_state": "venetian_mask_scary"
+    },
+    {
+      "old_type": "/obj/item/storage/belt/holster/detective/vampire",
+      "current_type": "/obj/item/storage/belt/holster/detective/darkpack",
+      "status": "renamed",
+      "old_name": "holster",
+      "current_name": "holster",
+      "old_state": null,
+      "current_state": "holster"
+    },
+    {
+      "old_type": "/obj/item/storage/belt/holster/detective/vampire/police",
+      "current_type": "/obj/item/storage/belt/holster/detective/darkpack/police",
+      "status": "renamed",
+      "old_name": "holster",
+      "current_name": "holster",
+      "old_state": null,
+      "current_state": "holster"
+    },
+    {
+      "old_type": "/obj/item/storage/belt/holster/detective/vampire/officer",
+      "current_type": "/obj/item/storage/belt/holster/detective/darkpack/officer",
+      "status": "renamed",
+      "old_name": "holster",
+      "current_name": "holster",
+      "old_state": null,
+      "current_state": "holster"
+    },
+    {
+      "old_type": "/obj/item/storage/belt/holster/detective/vampire/fbi",
+      "current_type": "/obj/item/storage/belt/holster/detective/darkpack/fbi",
+      "status": "renamed",
+      "old_name": "holster",
+      "current_name": "holster",
+      "old_state": null,
+      "current_state": "holster"
+    }
+  ],
+  "footwear": [
+    {
+      "type": "/obj/item/clothing/shoes/vampire",
+      "state": "shoes",
+      "dirs": 4,
+      "frames": 1,
+      "slim_art": "native"
+    },
+    {
+      "type": "/obj/item/clothing/shoes/vampire/brown",
+      "state": "shoes_brown",
+      "dirs": 4,
+      "frames": 1,
+      "slim_art": "native"
+    },
+    {
+      "type": "/obj/item/clothing/shoes/vampire/white",
+      "state": "shoes_white",
+      "dirs": 4,
+      "frames": 1,
+      "slim_art": "native"
+    },
+    {
+      "type": "/obj/item/clothing/shoes/vampire/jackboots",
+      "state": "jackboots",
+      "dirs": 4,
+      "frames": 1,
+      "slim_art": "native"
+    },
+    {
+      "type": "/obj/item/clothing/shoes/vampire/jackboots/high",
+      "state": "tall_boots",
+      "dirs": 4,
+      "frames": 1,
+      "slim_art": "native"
+    },
+    {
+      "type": "/obj/item/clothing/shoes/vampire/jackboots/punk",
+      "state": "daboots",
+      "dirs": 4,
+      "frames": 1,
+      "slim_art": "fitted fallback"
+    },
+    {
+      "type": "/obj/item/clothing/shoes/vampire/jackboots/work",
+      "state": "jackboots_work",
+      "dirs": 4,
+      "frames": 1,
+      "slim_art": "native"
+    },
+    {
+      "type": "/obj/item/clothing/shoes/vampire/sneakers",
+      "state": "sneakers",
+      "dirs": 4,
+      "frames": 1,
+      "slim_art": "native"
+    },
+    {
+      "type": "/obj/item/clothing/shoes/vampire/sneakers/red",
+      "state": "sneakers_red",
+      "dirs": 4,
+      "frames": 1,
+      "slim_art": "native"
+    },
+    {
+      "type": "/obj/item/clothing/shoes/vampire/heels",
+      "state": "heels",
+      "dirs": 4,
+      "frames": 1,
+      "slim_art": "native"
+    },
+    {
+      "type": "/obj/item/clothing/shoes/vampire/heels/red",
+      "state": "heels_red",
+      "dirs": 4,
+      "frames": 1,
+      "slim_art": "native"
+    },
+    {
+      "type": "/obj/item/clothing/shoes/vampire/businessscaly",
+      "state": "scales_shoes",
+      "dirs": 4,
+      "frames": 1,
+      "slim_art": "native"
+    },
+    {
+      "type": "/obj/item/clothing/shoes/vampire/businessblack",
+      "state": "business_shoes",
+      "dirs": 4,
+      "frames": 1,
+      "slim_art": "native"
+    },
+    {
+      "type": "/obj/item/clothing/shoes/vampire/businesstip",
+      "state": "metal_shoes",
+      "dirs": 4,
+      "frames": 1,
+      "slim_art": "native"
+    }
+  ]
+}
