@@ -14,8 +14,9 @@ from PIL import Image, PngImagePlugin
 
 
 def read_dmi(path):
-    image = Image.open(path).convert('RGBA')
-    description = Image.open(path).info['Description']
+    with Image.open(path) as opened:
+        description = opened.info['Description']
+        image = opened.convert('RGBA')
     width = int(re.search(r'\bwidth = (\d+)', description)[1])
     height = int(re.search(r'\bheight = (\d+)', description)[1])
     if (width, height) != (32, 32):
@@ -32,7 +33,14 @@ def read_dmi(path):
         for i in range(offset, offset + dirs*frames):
             x, y = i % columns * width, i // columns * height
             cells.append(image.crop((x, y, x+width, y+height)))
-        states[name] = (block, cells)
+        # DMI can have a standing and moving state with the same name. Keep
+        # every block, including repeated legacy blocks, in source order.
+        key = name
+        occurrence = 1
+        while key in states:
+            key = (name, occurrence)
+            occurrence += 1
+        states[key] = (block, cells)
         offset += dirs*frames
     return states
 
@@ -73,7 +81,7 @@ def main():
     source = read_dmi(args.source)
     if args.extract_body:
         output = {name[1:]: (block.replace('state = "shuman_', 'state = "human_', 1), frames)
-                  for name, (block, frames) in source.items() if name.startswith('shuman_')}
+                  for name, (block, frames) in source.items() if isinstance(name, str) and name.startswith('shuman_')}
         if len(output) != 10:
             raise ValueError('Expected ten native slim human bodypart states')
     else:
@@ -85,7 +93,8 @@ def main():
             replacement = next((sheet[name] for sheet in native_sheets if name in sheet
                 and len(sheet[name][1]) == len(frames)
                 and re.findall(r'(?:dirs|frames) = .*', sheet[name][0])
-                == re.findall(r'(?:dirs|frames) = .*', block)), None)
+                == re.findall(r'(?:dirs|frames) = .*', block)
+                and re.findall(r'movement = .*', sheet[name][0]) == re.findall(r'movement = .*', block)), None)
             # Source timing/layout are authoritative. Never silently truncate frames.
             if replacement:
                 output[name] = (block, replacement[1])

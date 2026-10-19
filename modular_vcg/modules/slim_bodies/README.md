@@ -51,7 +51,9 @@ python tools/slim_sprites/convert.py old_bodyparts.dmi bodyparts.dmi --extract-b
 Pillow is required. The tool keeps source state metadata, including animation timing,
 loops and rewind. A native state is substituted only when its direction/frame
 layout matches the source. Native timing does not overwrite source timing.
-Outputs use separate paths.
+Outputs use separate paths. Standing/moving state pairs with the same name are
+retained independently. Run `python tools/slim_sprites/test_convert.py` for the
+file/CLI integration tests.
 
 ## Provenance
 
