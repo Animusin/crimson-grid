@@ -93,6 +93,67 @@
 	if(other.attack_self(mouse) || QDELETED(other))
 		Fail("A nonhuman click must leave the purchased undergarment intact.")
 
+/// The same worn object must transfer between people, rather than being bound
+/// to its original preference owner or retaining the donor's body build.
+/datum/unit_test/slim_wardrobe/transfer_between_wearers/Run()
+	var/mob/living/carbon/human/donor = allocate(/mob/living/carbon/human/consistent, run_loc_floor_bottom_left)
+	var/mob/living/carbon/human/recipient = allocate(/mob/living/carbon/human/consistent, run_loc_floor_bottom_left)
+	for(var/mob/living/carbon/human/human in list(donor, recipient))
+		human.physique = FEMALE
+		human.underwear = "Nude"
+		human.undershirt = "Nude"
+		human.socks = "Nude"
+	recipient.dna.features["slim_body_build"] = TRUE
+	recipient.update_body_parts(TRUE)
+	if(donor.uses_slim_body() || !recipient.uses_slim_body())
+		return Fail("The transfer fixture must cover Standard donor and Slim recipient bodies.", __FILE__, __LINE__)
+	var/list/styles = list(
+		"underwear" = /datum/sprite_accessory/clothing/underwear/female_bikini::name,
+		"undershirt" = /datum/sprite_accessory/clothing/undershirt/sports_bra::name,
+		"socks" = /datum/sprite_accessory/clothing/socks/black_knee::name,
+	)
+	for(var/category in styles)
+		var/style = styles[category]
+		donor.set_undergarment_style(category, style, "#28a8c8")
+		recipient.set_undergarment_style(category, style, "#e87030")
+		var/obj/item/undergarment/original = donor.ensure_undergarment(category)
+		var/obj/item/undergarment/previous = recipient.ensure_undergarment(category)
+		if(!original || !previous || original == previous)
+			return Fail("Each actual wearer must begin with a distinct physical [category].", __FILE__, __LINE__)
+		if(donor.remove_undergarment(category, donor) != original || !donor.dropItemToGround(original) || !recipient.put_in_hands(original))
+			return Fail("A removed [category] must pass through actual hands/floor pickup to another human.", __FILE__, __LINE__)
+		if(original.attack_self(recipient) || !recipient.is_holding(original) || recipient.ensure_undergarment(category) != previous)
+			return Fail("Another person's [category] must not overwrite an occupied category or lose either item.", __FILE__, __LINE__)
+		if(recipient.remove_undergarment(category, recipient) != previous)
+			return Fail("The recipient must remove their own [category] before wearing the received item.", __FILE__, __LINE__)
+		ADD_TRAIT(recipient, TRAIT_NO_UNDERWEAR, TRAIT_SOURCE_UNIT_TESTS)
+		if(original.attack_self(recipient) || !recipient.is_holding(original))
+			return Fail("An incompatible recipient must retain the transferred [category] without equipping it.", __FILE__, __LINE__)
+		REMOVE_TRAIT(recipient, TRAIT_NO_UNDERWEAR, TRAIT_SOURCE_UNIT_TESTS)
+		var/obj/item/clothing/under/color/grey/uniform = allocate(/obj/item/clothing/under/color/grey)
+		if(!recipient.equip_to_slot_if_possible(uniform, ITEM_SLOT_ICLOTHING))
+			return Fail("The recipient must wear real covering clothes for the transfer guard.", __FILE__, __LINE__)
+		if(original.attack_self(recipient) || !recipient.is_holding(original) || recipient.has_undergarment(category))
+			return Fail("Covering clothes must block transferred [category] without consuming it.", __FILE__, __LINE__)
+		if(!recipient.temporarilyRemoveItemFromInventory(uniform))
+			return Fail("The recipient must be able to uncover the transferred garment's body region.", __FILE__, __LINE__)
+		uniform.forceMove(get_turf(recipient))
+		if(!original.attack_self(recipient) || original.worn_by != recipient || original.loc != recipient || recipient.ensure_undergarment(category) != original)
+			return Fail("Another human must wear the original physical [category] through its real held-item action.", __FILE__, __LINE__)
+		if(donor.has_undergarment(category) || donor.worn_undergarments?[category] || recipient.get_undergarment_style(category) != style)
+			return Fail("Ownership transfer must clear the donor cache and retain the exact received style.", __FILE__, __LINE__)
+		if(category == "underwear" && (recipient.underwear_color != "#28a8c8" || original.style_color != "#28a8c8"))
+			return Fail("Received underwear must retain the donor garment's tint, not the recipient's previous color.", __FILE__, __LINE__)
+		var/list/overlays = recipient.get_underwear_overlays()
+		if(length(overlays) != 1)
+			return Fail("The received [category] must use the recipient's real body appearance pipeline.", __FILE__, __LINE__)
+		if(recipient.remove_undergarment(category, recipient) != original || !recipient.dropItemToGround(original) || !donor.put_in_hands(original) || !original.attack_self(donor))
+			return Fail("The same [category] must also transfer back from Slim to Standard without becoming owner-bound.", __FILE__, __LINE__)
+		if(original.worn_by != donor || donor.ensure_undergarment(category) != original || recipient.has_undergarment(category) || QDELETED(previous))
+			return Fail("A round-trip transfer must preserve both physical item identities and both wearer caches.", __FILE__, __LINE__)
+		qdel(previous)
+		qdel(original)
+
 /datum/unit_test/slim_wardrobe/middle_click
 	var/cancel_dispatches = 0
 
