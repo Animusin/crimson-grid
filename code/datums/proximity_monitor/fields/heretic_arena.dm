@@ -300,11 +300,11 @@ GLOBAL_LIST_EMPTY(heretic_arenas)
 	return ..()
 
 /datum/antagonist/heretic_arena_participant/forge_objectives()
-	var/datum/objective/survive = new /datum/objective
+	var/datum/objective/survive = new /datum/objective/heretic_arena_escape
 	survive.owner = owner
 	survive.explanation_text = "You have been trapped in an arena. The only way out is to slaughter someone else. Kill your captor, or betray your friends - the choice is yours."
 	objectives += survive
-	var/datum/objective/fight_to_escape = new /datum/objective
+	var/datum/objective/fight_to_escape = new /datum/objective/heretic_arena_escape
 	fight_to_escape.owner = owner
 	fight_to_escape.explanation_text = "Escape is impossible. The only way out is to defeat another participant in this battle to the death. \
 		A weapon has been bestowed unto you, granting you a fighting chance, it would be quite a shame were you to attempt to break it."

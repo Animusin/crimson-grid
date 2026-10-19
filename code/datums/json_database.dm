@@ -100,6 +100,7 @@
 	if (save_queued)
 		return
 
+	save_queued = TRUE
 	addtimer(CALLBACK(src, PROC_REF(save)), 0)
 
 /datum/json_database/proc/save()

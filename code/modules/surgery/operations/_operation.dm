@@ -1161,7 +1161,10 @@ GLOBAL_DATUM_INIT(operations, /datum/operation_holder, new)
 
 	SEND_SIGNAL(surgeon, COMSIG_ATOM_SURGERY_SUCCESS, src, operating_on, tool)
 	play_operation_sound(operating_on, surgeon, tool, success_sound)
+	var/mob/living/patient = get_patient(operating_on)
+	var/list/quality_before = quality_surgery_snapshot(src, patient, operating_on)
 	on_success(operating_on, surgeon, tool, operation_args)
+	SSplayer_quality?.record_surgery(surgeon, patient, src, quality_before, operating_on)
 
 /**
  * Used to customize behavior when the operation is successful

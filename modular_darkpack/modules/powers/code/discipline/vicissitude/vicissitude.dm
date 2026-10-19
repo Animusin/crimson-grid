@@ -164,9 +164,9 @@
 		var/target_zone = owner.zone_selected
 		var/obj/item/bodypart/limb = target.get_bodypart(target_zone)
 		if(!limb)
-			target.apply_damage(roll LETHAL_TTRPG_DAMAGE, BRUTE, BODY_ZONE_CHEST, wound_bonus = 10)
+			target.apply_damage(roll LETHAL_TTRPG_DAMAGE, BRUTE, BODY_ZONE_CHEST, wound_bonus = 10, damage_attacker = owner)
 			return
-		target.apply_damage(roll LETHAL_TTRPG_DAMAGE, BRUTE, target_zone, wound_bonus = 10)
+		target.apply_damage(roll LETHAL_TTRPG_DAMAGE, BRUTE, target_zone, wound_bonus = 10, damage_attacker = owner)
 		if(roll >= 5)
 			// A vampire who scores five or more successes on the roll (...) cause the affected vampire to lose half his blood points.
 			if((target_zone == BODY_ZONE_CHEST))

@@ -215,7 +215,7 @@
 			to_chat(owner, span_warning("You fail to control the shadows!"))
 			deactivate()
 		if(ROLL_BOTCH)
-			owner.apply_damage(60, BRUTE) // 2 levels of lethal damage on a botch
+			owner.apply_damage(60, BRUTE, damage_attacker = owner) // 2 levels of lethal damage on a botch
 			to_chat(owner, span_danger("The shadows lash out at you as you fail to fuse with them!"))
 			deactivate()
 

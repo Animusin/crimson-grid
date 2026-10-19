@@ -57,6 +57,7 @@
 	//if we didnt have beastmaster minions before, then register beastmaster signals.
 	var/had_minions = length(beastmaster_minions)
 	beastmaster_minions += minion
+	minion.quality_set_summon_owner(src)
 	RegisterSignals(minion, list(COMSIG_LIVING_DEATH, COMSIG_QDELETING, COMSIG_MOB_WIPE_BEASTMASTER), PROC_REF(on_wipe_beastmaster))
 
 	if(!had_minions)
@@ -83,6 +84,7 @@
 		other_minion.unfriend(minion)
 
 	minion.unfriend(src)
+	minion.quality_set_summon_owner(null)
 
 	//delete the obeys commands component
 	var/datum/component/obeys_commands/component = minion_command_components[minion]

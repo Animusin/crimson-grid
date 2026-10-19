@@ -4,6 +4,8 @@
 	if(!(tree_key in savefile.get_entry()))
 		savefile.set_entry(tree_key, list())
 	for (var/datum/preference/preference as anything in get_preferences_in_priority_order())
+		if(!quality_can_edit_preference(preference))
+			continue
 		if (!preference.included_in_randomization_flags(randomize_flags))
 			continue
 

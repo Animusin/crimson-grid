@@ -38,6 +38,7 @@
 			make_diablerist()
 			adjust_brute_loss(-50, TRUE)
 			adjust_fire_loss(-50, TRUE)
+			SSplayer_quality?.record_execution(victim, src)
 			victim.death()
 		if("No")	//Defaults to this if no if option not chosen to avoid issue.
 			return FALSE

@@ -1,4 +1,4 @@
-// PQ measures peer appreciation. RCP records participation; they do not convert.
+// Account progression: the component scores remain independently auditable.
 /datum/config_entry/flag/player_quality_enabled
 	default = TRUE
 
@@ -18,7 +18,16 @@
 	default = 45
 	min_val = 1
 
-/// Account-level data only. No character age, morality or job gates live here.
+/// Ratwood-2.0's post-rework commendation bands and automatic PQ ceiling.
+/datum/config_entry/number/pq_commend_softcap
+	default = 100
+	min_val = 0
+
+/datum/config_entry/number/pq_commend_cap
+	default = 500
+	min_val = 0
+
+/// Account-level data only; never keyed by a character's mutable name or slot.
 /datum/player_quality_store
 	var/datum/json_database/database
 
@@ -34,10 +43,44 @@
 	if(!account)
 		return null
 	var/list/record = database.get_key(account)
-	return record ? deep_copy_list(record) : list("version" = 1, "pq" = 0, "rcp" = 0, "commends" = list())
+	record = islist(record) ? deep_copy_list(record) : list()
+	// Preserve previous scores and giver counts; new praise uses the donor policy.
+	record["version"] = 3
+	for(var/metric in list("pq", "rcp", "karma"))
+		if(!isnum(record[metric]))
+			record[metric] = 0
+	if(!islist(record["commends"]))
+		record["commends"] = list()
+	return record
 
-/// At most one point from a given account over the recipient's lifetime.
-/// Further compliments remain visible in the count without inflating PQ.
+/// Linear account score. All three components retain their positive/negative sign.
+/proc/calculate_respect(pq, rcp, karma)
+	return pq + rcp / 4 + karma
+
+/datum/player_quality_store/proc/respect(account)
+	var/list/record = read(account)
+	return record ? calculate_respect(record["pq"], record["rcp"], record["karma"]) : 0
+
+/// The current-round ledger survives reloads but cannot grow across every round.
+/datum/player_quality_store/proc/award_karma(account, amount, event_token, round_token)
+	account = ckey(account)
+	if(!account || !isnum(amount) || !amount || !event_token || !round_token)
+		return FALSE
+	var/list/record = read(account)
+	if(record["karma_round"] != round_token)
+		record["karma_round"] = round_token
+		record["karma_events"] = list()
+	var/list/events = record["karma_events"]
+	if(events[event_token])
+		return FALSE
+	events[event_token] = TRUE
+	record["karma"] = round(record["karma"] + amount, 0.01)
+	database.set_key(account, record)
+	log_game("Karma: [account] [amount > 0 ? "+" : ""][amount] for [event_token] (round [round_token]).")
+	return TRUE
+
+/// Ratwood-2.0 add_commend(): below 100 PQ only a new giver awards +1.
+/// At/above 100 a new giver awards +0.5, a repeat giver +0.05. Counts persist.
 /datum/player_quality_store/proc/commend(recipient, giver)
 	recipient = ckey(recipient)
 	giver = ckey(giver)
@@ -47,9 +90,40 @@
 	var/list/commends = record["commends"]
 	var/previous = commends[giver] || 0
 	commends[giver] = previous + 1
-	if(!previous)
-		record["pq"] += 1
+	var/reward = record["pq"] >= CONFIG_GET(number/pq_commend_softcap) ? (previous ? 0.05 : 0.5) : (previous ? 0 : 1)
+	// The ceiling applies to automatic praise. Administrative reductions/overrides
+	// remain independent and never reset the ledger or clamp existing saved PQ.
+	if(reward && record["pq"] < CONFIG_GET(number/pq_commend_cap))
+		record["pq"] = round(min(record["pq"] + reward, CONFIG_GET(number/pq_commend_cap)), 0.01)
 	database.set_key(recipient, record)
+	return TRUE
+
+/// A synchronous checked debit, with an optional persistent retry token.
+/// Exact retries succeed without charging again; mismatched/failed requests do
+/// not change the record. Unlock state and payment must use one separate write.
+/datum/player_quality_store/proc/spend_karma(account, amount, reason, actor, transaction_token = null)
+	account = ckey(account)
+	actor = ckey(actor)
+	if(!account || !actor || !isnum(amount) || amount < 0.01 || amount != round(amount, 0.01) || !istext(reason) || !length(trim(reason)))
+		return FALSE
+	if(!isnull(transaction_token) && (!istext(transaction_token) || !length(transaction_token)))
+		return FALSE
+	var/list/record = read(account)
+	var/list/transactions = record["karma_transactions"]
+	if(transaction_token && islist(transactions))
+		var/list/previous = transactions[transaction_token]
+		if(islist(previous))
+			return previous["amount"] == amount && previous["reason"] == reason && previous["actor"] == actor
+	if(record["karma"] < amount)
+		return FALSE
+	record["karma"] = round(record["karma"] - amount, 0.01)
+	if(transaction_token)
+		if(!islist(transactions))
+			transactions = list()
+			record["karma_transactions"] = transactions
+		transactions[transaction_token] = list("amount" = amount, "reason" = reason, "actor" = actor)
+	database.set_key(account, record)
+	log_game("Karma debit: [account] -[amount], actor [actor], reason [reason], transaction [transaction_token || "none"].")
 	return TRUE
 
 /datum/player_quality_store/proc/award_rcp(account, amount, round_token)
@@ -63,14 +137,14 @@
 	database.set_key(ckey(account), record)
 	return TRUE
 
-/datum/player_quality_store/proc/admin_adjust(account, amount, administrator, reason)
-	if(!ckey(account) || !isnum(amount) || !administrator || !length(reason))
+/datum/player_quality_store/proc/admin_adjust(account, amount, administrator, reason, metric = "pq")
+	if(!ckey(account) || !isnum(amount) || !administrator || !length(reason) || !(metric in list("pq", "rcp", "karma")))
 		return FALSE
 	var/list/record = read(account)
-	record["pq"] += amount
+	record[metric] += amount
 	database.set_key(ckey(account), record)
-	log_admin("[administrator] adjusted [ckey(account)] PQ by [amount]: [reason]")
-	message_admins("[administrator] adjusted [ckey(account)] PQ by [amount]: [html_encode(reason)]")
+	log_admin("[administrator] adjusted [ckey(account)] [metric] by [amount]: [reason]")
+	message_admins("[administrator] adjusted [ckey(account)] [metric] by [amount]: [html_encode(reason)]")
 	return TRUE
 
 /datum/quality_participant
@@ -88,6 +162,8 @@ SUBSYSTEM_DEF(player_quality)
 	var/round_ended = FALSE
 	var/round_token
 	var/last_sample = 0
+	/// Contribution and pair limits are account-scoped, surviving bodies and reconnects.
+	var/list/karma_sessions = list()
 
 /datum/controller/subsystem/player_quality/Initialize()
 	if(!CONFIG_GET(flag/player_quality_enabled))
@@ -96,6 +172,7 @@ SUBSYSTEM_DEF(player_quality)
 	round_token = "[world.realtime]-[rand(1, 1000000)]"
 	RegisterSignal(SSticker, COMSIG_TICKER_ROUND_STARTING, PROC_REF(round_starting))
 	RegisterSignal(SSticker, COMSIG_TICKER_ROUND_ENDED, PROC_REF(round_finished))
+	register_karma_signals()
 	return SS_INIT_SUCCESS
 
 /datum/controller/subsystem/player_quality/Recover()
@@ -108,9 +185,11 @@ SUBSYSTEM_DEF(player_quality)
 	round_ended = SSplayer_quality.round_ended
 	round_token = SSplayer_quality.round_token
 	last_sample = SSplayer_quality.last_sample
+	karma_sessions = SSplayer_quality.karma_sessions
 	if(store)
 		RegisterSignal(SSticker, COMSIG_TICKER_ROUND_STARTING, PROC_REF(round_starting))
 		RegisterSignal(SSticker, COMSIG_TICKER_ROUND_ENDED, PROC_REF(round_finished))
+		register_karma_signals()
 
 /datum/controller/subsystem/player_quality/Destroy()
 	QDEL_NULL(store)
@@ -179,12 +258,14 @@ SUBSYSTEM_DEF(player_quality)
 			store.award_rcp(account, reward, round_token)
 	for(var/client/player as anything in GLOB.clients)
 		if(participants[player.ckey])
-			to_chat(player, span_notice("You can now commend one player through OOC → Commend player. Use Player quality to see your PQ and RCP."))
+			to_chat(player, span_notice("You can now commend one player through OOC → Commend player. Use Player quality to see your PQ, RCP, Karma and Respect."))
 
 /datum/controller/subsystem/player_quality/proc/can_vote(account, recipient)
 	account = ckey(account)
 	recipient = ckey(recipient)
-	return store && round_ended && participants[account] && participants[recipient] && account != recipient && !voters[account]
+	var/datum/quality_participant/voter = participants[account]
+	var/datum/quality_participant/recipient_participant = participants[recipient]
+	return store && round_ended && voter?.active_time >= 5 MINUTES && recipient_participant?.active_time >= 5 MINUTES && account != recipient && !voters[account]
 
 /datum/controller/subsystem/player_quality/proc/submit_vote(account, recipient)
 	if(!can_vote(account, recipient))
@@ -196,8 +277,9 @@ SUBSYSTEM_DEF(player_quality)
 	return TRUE
 
 GAME_VERB(/client, commend_player, "Commend player", "OOC")
-	if(!SSplayer_quality.store || !SSplayer_quality.round_ended || !SSplayer_quality.participants[ckey] || SSplayer_quality.voters[ckey])
-		to_chat(src, span_warning("You may commend one other participant after the round ends."))
+	var/datum/quality_participant/voter = SSplayer_quality.participants[ckey]
+	if(!SSplayer_quality.store || !SSplayer_quality.round_ended || !voter || voter.active_time < 5 MINUTES || SSplayer_quality.voters[ckey])
+		to_chat(src, span_warning("After five active minutes of play, you may commend one other eligible participant after the round ends."))
 		return
 	var/list/choices = list()
 	var/index = 0
@@ -205,7 +287,12 @@ GAME_VERB(/client, commend_player, "Commend player", "OOC")
 		if(account == ckey)
 			continue
 		var/datum/quality_participant/participant = SSplayer_quality.participants[account]
+		if(participant.active_time < 5 MINUTES)
+			continue
 		choices["[participant.character_name] ([++index])"] = account
+	if(!length(choices))
+		to_chat(src, span_warning("There are no other eligible participants to commend."))
+		return
 	var/selection = tgui_input_list(mob, "Who contributed to your experience this round?", "Commend a player", choices)
 	if(!selection)
 		return
@@ -216,18 +303,25 @@ GAME_VERB(/client, player_quality, "Player quality", "OOC")
 	if(!SSplayer_quality.store)
 		return
 	var/list/record = SSplayer_quality.store.read(ckey)
-	to_chat(src, span_notice("Player Quality: [record["pq"]]. Round Contribution Points: [record["rcp"]]. These are separate account scores."))
+	var/cap = respect_age_cap(ckey)
+	var/kindred_access = cap < 0 ? "Kindred require [CONFIG_GET(number/respect_fledgling_threshold)] Respect; mortals and ghouls remain available." : "Kindred age available: up to [cap] years since Embrace."
+	to_chat(src, span_notice("Player Quality: [record["pq"]]. Round Contribution Points: [record["rcp"]] (Respect contribution [record["rcp"] / 4]). Karma: [record["karma"]]. Respect: [round(SSplayer_quality.store.respect(ckey), 0.01)]. [kindred_access]"))
 
-ADMIN_VERB(adjust_player_quality, R_ADMIN, "Adjust player quality", "Adjust an account's PQ with an audited reason.", ADMIN_CATEGORY_GAME)
+ADMIN_VERB(adjust_player_quality, R_ADMIN, "Adjust player quality", "View or adjust an account's PQ, RCP or Karma with an audited reason.", ADMIN_CATEGORY_GAME)
 	if(!SSplayer_quality.store)
 		return
-	var/account = ckey(tgui_input_text(user.mob, "Account ckey", "Adjust PQ"))
+	var/account = ckey(tgui_input_text(user.mob, "Account ckey", "Adjust progression"))
 	if(!account)
 		return
-	var/amount = tgui_input_number(user.mob, "PQ change (negative values remove points)", "Adjust PQ")
+	var/list/record = SSplayer_quality.store.read(account)
+	to_chat(user, span_notice("[account]: PQ [record["pq"]], RCP [record["rcp"]], Karma [record["karma"]], Respect [round(SSplayer_quality.store.respect(account), 0.01)]. Cancel to finish viewing."))
+	var/metric = tgui_input_list(user.mob, "Score to adjust", "Adjust progression", list("pq", "rcp", "karma"))
+	if(!metric)
+		return
+	var/amount = tgui_input_number(user.mob, "[metric] change (negative values remove points)", "Adjust progression")
 	if(isnull(amount))
 		return
-	var/reason = tgui_input_text(user.mob, "Reason for adjustment", "Adjust PQ", max_length = 500)
+	var/reason = tgui_input_text(user.mob, "Reason for adjustment", "Adjust progression", max_length = 500)
 	if(!reason || !check_rights_for(user, R_ADMIN))
 		return
-	SSplayer_quality.store.admin_adjust(account, amount, user.ckey, reason)
+	SSplayer_quality.store.admin_adjust(account, amount, user.ckey, reason, metric)

@@ -11,6 +11,7 @@
 	attack_direction = null,
 	attacking_item,
 	wound_clothing = TRUE,
+	mob/living/damage_attacker,
 )
 	// Spread damage should always have def zone be null
 	if(spread_damage)

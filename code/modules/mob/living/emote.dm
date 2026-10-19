@@ -875,6 +875,8 @@
 		type_override = user_emote_type
 
 	. = ..(user = user, params = our_message, type_override = type_override, intentional = intentional)
+	if(. && intentional && isliving(user))
+		SSplayer_quality?.record_roleplay(user, our_message)
 
 /datum/emote/living/custom/replace_pronoun(mob/user, message)
 	return message

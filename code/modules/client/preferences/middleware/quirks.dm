@@ -126,6 +126,8 @@
 	previous_species_value = null
 
 /datum/preference_middleware/quirks/proc/give_quirk(list/params, mob/user)
+	if(!preferences.quality_require_edit("stats"))
+		return FALSE
 	var/quirk_name = params["quirk"]
 	// DARKPACK EDIT ADD - MERITS_FLAWS
 	var/datum/st_stat/freebie/freebie_points = preferences.preference_storyteller_stats[STAT_FREEBIE_POINTS]
@@ -149,6 +151,8 @@
 	return TRUE
 
 /datum/preference_middleware/quirks/proc/remove_quirk(list/params, mob/user)
+	if(!preferences.quality_require_edit("stats"))
+		return FALSE
 	var/quirk_name = params["quirk"]
 	// DARKPACK EDIT ADD - MERITS_FLAWS
 	var/datum/st_stat/freebie/freebie_points = preferences.preference_storyteller_stats[STAT_FREEBIE_POINTS]

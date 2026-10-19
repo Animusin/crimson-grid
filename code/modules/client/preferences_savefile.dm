@@ -377,6 +377,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	var/tree_key = "character[slot]"
 	var/list/save_data = savefile.get_entry(tree_key)
 	if(isnull(save_data)) // This is the case where we have a new character slot being switched to
+		quality_character_id = null
 		for (var/datum/preference/preference as anything in get_preferences_in_priority_order()) // clear the cache in this case
 			if (preference.savefile_identifier != PREFERENCE_CHARACTER)
 				continue
@@ -390,6 +391,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		savefile.set_entry("default_slot", original_default_slot)
 		return FALSE
 
+	quality_load_identity(save_data)
 	// Read everything into cache
 	// Uses priority order as some values may rely on others for creating default values
 	for (var/datum/preference/preference as anything in get_preferences_in_priority_order())
@@ -468,6 +470,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if(!(tree_key in savefile.get_entry()))
 		savefile.set_entry(tree_key, list())
 	var/save_data = savefile.get_entry(tree_key)
+	if(!quality_character_id)
+		quality_character_id = GUID()
+	save_data["quality_character_id"] = quality_character_id
 
 	for (var/datum/preference/preference as anything in get_preferences_in_priority_order())
 		if (preference.savefile_identifier != PREFERENCE_CHARACTER)
@@ -552,6 +557,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		stack_trace("remove_current_slot() being called when there are no slots to go to, the client should prevent this")
 		return
 
+	SSplayer_quality?.store?.delete_character_record(parent?.ckey, quality_character_id)
+	quality_character_id = null
 	discipline_levels = list() // DARKPACK EDIT ADD - remove disciplines when removing a character slot
 	savefile.remove_entry("character[default_slot]")
 	tainted_character_profiles = TRUE

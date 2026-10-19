@@ -457,13 +457,13 @@
 		listener.Stun(1 TURNS)
 		switch(listener.get_ear_protection(TRUE))
 			if(0)
-				listener.apply_damage(50, AGGRAVATED, BODY_ZONE_HEAD)
+				listener.apply_damage(50, AGGRAVATED, BODY_ZONE_HEAD, damage_attacker = owner)
 				listener.sound_damage(50, 3 TURNS)
 			if(1)
-				listener.apply_damage(25, AGGRAVATED, BODY_ZONE_HEAD)
+				listener.apply_damage(25, AGGRAVATED, BODY_ZONE_HEAD, damage_attacker = owner)
 				listener.sound_damage(25, 10 TURNS)
 			if(2)
-				listener.apply_damage(15, AGGRAVATED, BODY_ZONE_HEAD)
+				listener.apply_damage(15, AGGRAVATED, BODY_ZONE_HEAD, damage_attacker = owner)
 
 
 		listener.remove_overlay(POWERS_LAYER)

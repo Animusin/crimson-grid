@@ -138,6 +138,7 @@
 				to_chat(owner, span_warning("[student] is unable to learn [chosen]."))
 				message_admins("[ADMIN_LOOKUPFLW(owner)] tried to teach [chosen] to [ADMIN_LOOKUPFLW(student)], but doing so would've made [key_name(student)]'s sheet invalid due to the following: [violations]")
 				return FALSE
+			student.quality_learn_discipline_identity(discipline_type)
 			if(student.client?.prefs && !fail_to_save_reason)
 				student.client.prefs.discipline_levels["[discipline_type]"] = 0
 				student.client.prefs.save_character()

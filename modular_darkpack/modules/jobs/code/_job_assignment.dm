@@ -53,6 +53,12 @@
 /datum/config_entry/flag/max_gen_limits //If you can be limited from a job for having too high a generation
 
 /datum/controller/subsystem/job/proc/check_kindred_prefs(client/player_client, mob/dead/new_player/player, datum/job/possible_job, debug_prefix = "", add_job_to_log = FALSE)
+	if(!respect_kindred_available(player_client.ckey))
+		job_debug("[debug_prefix] Kindred require more Respect, Player: [player][add_job_to_log ? ", Job: [possible_job]" : ""]")
+		return JOB_UNAVAILABLE_KINDRED_AGE_MAX
+	if(player_client.prefs.read_preference(/datum/preference/numeric/immortal_age) > respect_age_cap(player_client.ckey))
+		job_debug("[debug_prefix] Respect age cap exceeded, Player: [player][add_job_to_log ? ", Job: [possible_job]" : ""]")
+		return JOB_UNAVAILABLE_KINDRED_AGE_MAX
 	if((player_client.prefs.read_preference(/datum/preference/numeric/immortal_age) < possible_job.minimum_immortal_age))
 		job_debug("[debug_prefix] Error: [get_job_unavailable_error_message(JOB_UNAVAILABLE_KINDRED_AGE_MIN, possible_job.title)], Player: [player][add_job_to_log ? ", Job: [possible_job]" : ""]")
 		return JOB_UNAVAILABLE_KINDRED_AGE_MIN

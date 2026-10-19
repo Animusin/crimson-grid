@@ -230,13 +230,13 @@
 
 			corpsebuff.apply_status_effect(/datum/status_effect/confusion, 10 SECONDS)
 
-			corpsebuff.apply_damage(50, TOX)
+			corpsebuff.apply_damage(50, TOX, damage_attacker = owner)
 			corpsebuff.Stun(3 SECONDS) // ignored by tough flesh and shapeshifted werewolves
 			corpsebuff.add_movespeed_modifier(/datum/movespeed_modifier/corpsenerf)
 			corpsebuff.do_jitter_animation(2 SECONDS)
 
 	else
-		target.apply_damage(100, BRUTE)
+		target.apply_damage(100, BRUTE, damage_attacker = owner)
 		target.visible_message(span_danger("[target] shrivels up and withers!"))
 
 /datum/discipline_power/necromancy/cold_of_the_grave/deactivate(mob/living/target)
@@ -318,6 +318,6 @@
 	else
 		owner.visible_message(span_warning("[owner] aggressively gestures at [target]!"))
 		target.visible_message(span_warning("[target] is assaulted by necromantic energies!"), span_danger("You feel yourself rot from within!"))
-		target.apply_damage(55, AGGRAVATED, owner.zone_selected) // 1/5 of a 5-dot "healthbar" in aggravated damage, on level with thaumaturgy's average output
+		target.apply_damage(55, AGGRAVATED, owner.zone_selected, damage_attacker = owner) // 1/5 of a 5-dot "healthbar" in aggravated damage, on level with thaumaturgy's average output
 		target.emote("scream")
 

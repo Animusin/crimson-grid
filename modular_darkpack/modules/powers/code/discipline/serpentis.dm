@@ -122,7 +122,7 @@
 	. = ..()
 	var/blood_to_take = min(2, target.bloodpool) // CRIMSON EDIT ADDITION - Blood Drain Check
 	target.adjust_blood_pool(-blood_to_take) // CRIMSON EDIT CHANGE - ORIGINAL: target.adjust_blood_pool(-2)
-	target.apply_damage(6 * successes, AGGRAVATED)//CRIMSON GRID CHANGE LOWERED DAMAGE
+	target.apply_damage(6 * successes, AGGRAVATED, damage_attacker = owner)//CRIMSON GRID CHANGE LOWERED DAMAGE
 	owner.adjust_blood_pool(blood_to_take) // CRIMSON EDIT CHANGE - ORIGINAL: owner.adjust_blood_pool(2)
 	var/obj/item/ammo_casing/magic/tentacle/casing = new (get_turf(owner))
 	casing.fire_casing(target, owner, null, null, null, ran_zone(), 0,  owner)
@@ -307,10 +307,12 @@
 	var/mob/living/own
 
 /obj/item/urn/attackby(obj/item/I, mob/living/user, params)
+	SSplayer_quality?.record_execution(own, user)
 	. = ..()
 	qdel(src)
 
 /obj/item/urn/attack_self(mob/user)
+	SSplayer_quality?.record_execution(own, user)
 	. = ..()
 	qdel(src)
 

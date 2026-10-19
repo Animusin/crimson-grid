@@ -83,7 +83,7 @@
 				if(spawn_point)
 					if(HAS_TRAIT_FROM(sacrificed_human, TRAIT_AURA_OF_INFERNO, DAIMONION_TRAIT))
 						to_chat(sacrificed_human, span_userdanger("YOUR SOUL IS DRAGGED INTO THE INFERNAL PLANE!"))
-						sacrificed_human.dust(drop_items = TRUE)
+						dust_sacrifice(sacrificed_human, human_user)
 						continue
 					to_chat(sacrificed_human, span_userdanger("SOMETHING TEARS AT YOUR SOUL! THE PAIN!"))
 					sacrificed_human.forceMove(spawn_point)
@@ -94,7 +94,7 @@
 					sacrificed_human.log_message("has been sacrificed the first time on baali rune by [key_name(user)].", LOG_GAME)
 					log_admin("[key_name(sacrificed_human)] has been sacrificed the first time on baali rune by [key_name(user)].")
 				else
-					sacrificed_human.dust(drop_items = TRUE)
+					dust_sacrifice(sacrificed_human, human_user)
 				sacrifice = TRUE
 			if(upset)
 				to_chat(human_user, span_warning("THE INFERNAL DESIRE ONLY MINDFUL BEINGS!"))
@@ -105,6 +105,10 @@
 				addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, update_atom_colour)), 0.5 SECONDS)
 			else
 				interface_interact(human_user)
+
+/obj/structure/retail/occult/baali/proc/dust_sacrifice(mob/living/carbon/human/sacrificed_human, mob/living/executioner)
+	SSplayer_quality?.record_execution(sacrificed_human, executioner)
+	sacrificed_human.dust(drop_items = TRUE)
 
 /obj/structure/retail/occult/baali/proc/on_wake_up(mob/living/carbon/human/sacrificed_human)
 	sacrificed_human.SetSleeping(0)

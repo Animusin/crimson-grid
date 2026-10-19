@@ -536,6 +536,8 @@
 	if(stoner)
 		newstruct.add_ally(stoner)
 		newstruct.construct_master = stoner
+		if(isliving(stoner))
+			newstruct.quality_set_summon_owner(stoner)
 		var/datum/action/innate/seek_master/seek_master = new
 		seek_master.Grant(newstruct)
 

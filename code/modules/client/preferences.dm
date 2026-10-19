@@ -238,6 +238,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			switch_to_slot(params["slot"])
 			return TRUE
 		if ("remove_current_slot")
+			if(!isnewplayer(usr) && ("[usr.client.prefs.default_slot]" in usr.persistent_client.joined_as_slots))
+				to_chat(usr, span_warning("Return to the lobby before deleting a character that has joined this round."))
+				return FALSE
 			remove_current_slot()
 			return TRUE
 		if ("rotate")
@@ -602,6 +605,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 /// Returns whether the parent mob should have the random hardcore settings enabled. Assumes it has a mind.
 /datum/preferences/proc/should_be_random_hardcore(datum/job/job, datum/mind/mind)
+	if(!quality_can_edit("stats"))
+		return FALSE
 	if(!read_preference(/datum/preference/toggle/random_hardcore))
 		return FALSE
 	if(job.job_flags & JOB_HEAD_OF_STAFF) //No heads of staff
