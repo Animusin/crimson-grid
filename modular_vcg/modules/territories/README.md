@@ -62,6 +62,14 @@ display the nearest marker's timer.
 
 ## Mapping
 
+Placement atlases: [Westfield](review/westfield.png),
+[San Fangcisco](review/sanfangsisco.png), [Oakland](review/oakland.png).
+These are schematic crops, not in-game sprite renders. White outlines identify
+the current mark, faction-colored boxes show neighboring marks, cyan C denotes
+a clerk on the same floor, and amber tiles denote doors. Black indicates a
+closed turf or live physical blocker; blue indicates water. The JSON manifest
+remains the coordinate authority.
+
 `businesses.json` lists every marker, clerk home, outlet coordinate, and initial
 owner. The DMMs are TGM formatted for individual tile edits. A checkout and its
 clerk are linked using offsets relative to the marker, so runtime map translation
