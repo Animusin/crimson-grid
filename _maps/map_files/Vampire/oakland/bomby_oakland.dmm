@@ -103026,6 +103026,11 @@
 	},
 /turf/open/floor/carpet/royalblue,
 /area/vtm/interior/jazzclub)
+"yhb" = (
+/obj/machinery/smartfridge/drying/rack,
+/obj/effect/decal/pallet,
+/turf/open/floor/plating/concrete,
+/area/vtm/interior/anarch/basement)
 "yhf" = (
 /obj/structure/railing/corner,
 /obj/structure/railing/corner{
@@ -104725,7 +104730,7 @@ akl
 niE
 niE
 lmI
-wTu
+yhb
 auF
 wEK
 miI

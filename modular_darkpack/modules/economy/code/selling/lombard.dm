@@ -39,6 +39,9 @@
 	owner = null
 
 /obj/lombard/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
+	if(territory && istype(tool, /obj/item/card/city_badge))
+		territory.show_contract(user, tool, src)
+		return ITEM_INTERACT_SUCCESS
 	var/datum/component/selling/selling_comp = tool.GetComponent(/datum/component/selling)
 	if(!selling_comp)
 		return NONE
@@ -134,7 +137,7 @@
 /obj/lombard/proc/calculate_sale_price(obj/item/sold, mob/living/user, datum/component/selling/selling_comp, negotiation_success_count = null)
 	// Cannabis has a fixed $50 price per dried leaf, independent of fencing successes.
 	if(istype(selling_comp, /datum/component/selling/cannabis))
-		return 50
+		return sold.city_resale_price(50)
 	var/base_price = selling_comp.cost
 
 	// handle for stacks - gold bars from bank vaults for example
@@ -146,8 +149,8 @@
 	// if negotiation result was passed for a bulk sale, use it
 	if(!isnull(negotiation_success_count))
 		if(negotiation_success_count > 0)
-			return round(base_price * stack_multiplier * negotiation_success_count)
-		return round(base_price * stack_multiplier * BOTCH_FAILURE_PENALTY)
+			return sold.city_resale_price(round(base_price * stack_multiplier * negotiation_success_count))
+		return sold.city_resale_price(round(base_price * stack_multiplier * BOTCH_FAILURE_PENALTY))
 
 
 	// otherwise, roll for negotiation in a single item sale
@@ -157,8 +160,8 @@
 	var/success_count = sell_roll.st_roll(user, src)
 
 	if(success_count > 0)
-		return round(base_price * stack_multiplier * success_count)
-	return round(base_price * stack_multiplier * BOTCH_FAILURE_PENALTY)
+		return sold.city_resale_price(round(base_price * stack_multiplier * success_count))
+	return sold.city_resale_price(round(base_price * stack_multiplier * BOTCH_FAILURE_PENALTY))
 
 /obj/lombard/proc/spawn_money(amount, atom/spawn_location)
 	if(amount <= 0)

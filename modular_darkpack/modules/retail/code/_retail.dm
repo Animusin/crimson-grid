@@ -182,7 +182,7 @@
 					if(!used_account.check_pin(user, purchase_price, creditcard))
 						return
 					// PIN entry yields: stock, reach and the card can change meanwhile.
-					if(QDELETED(creditcard) || creditcard.loc != user || product.amount == 0 || !can_interact(user))
+					if(QDELETED(creditcard) || creditcard.loc != user || creditcard.registered_account != used_account || product.amount == 0 || !can_interact(user))
 						return
 					if(purchase_price != business_price(user, product.price) || (territory && (!territory.clerk_available() || territory.active_conflict)))
 						return
@@ -214,7 +214,7 @@
 					return // We have nothing we can pay with.
 
 			playsound(get_turf(src), 'sound/effects/cashregister.ogg', 50, TRUE)
-			new product.product_path(loc)
+			dispense_product(product.product_path, purchase_price)
 			if(product.amount > 0)
 				--product.amount
 				update_static_data(usr)

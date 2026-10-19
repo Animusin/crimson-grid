@@ -76878,6 +76878,10 @@
 	},
 /turf/open/floor/carpet/darkpack/bluegold,
 /area/vtm/interior/clinic)
+"sxb" = (
+/obj/machinery/smartfridge/drying/rack,
+/turf/open/floor/plating/concrete,
+/area/vtm/interior/anarch/basement)
 "sxi" = (
 /obj/structure/table/wood/fancy/red,
 /turf/open/floor/carpet/darkpack/redsilver,
@@ -122600,7 +122604,7 @@ tIB
 klB
 bDQ
 hoW
-vzD
+sxb
 oKl
 klB
 rpQ

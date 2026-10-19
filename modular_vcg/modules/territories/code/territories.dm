@@ -6,9 +6,17 @@
 #define BUSINESS_HOLD_TIME (30 SECONDS)
 #define BUSINESS_CAPTURE_WINDOW (2 MINUTES)
 #define BUSINESS_SERVICE_NUMBER "5550199"
+#define BUSINESS_DEFENSE_TIME (10 SECONDS)
 
 GLOBAL_LIST_EMPTY(city_businesses)
 GLOBAL_LIST_EMPTY(city_business_attacks)
+
+/proc/city_business_population(list/joined_accounts = GLOB.joined_player_list)
+	var/list/accounts = list()
+	for(var/account in joined_accounts)
+		if(account)
+			accounts[ckey(account)] = TRUE
+	return length(accounts)
 
 /datum/job/proc/city_faction()
 	if(faction in list(FACTION_CAMARILLA, FACTION_ANARCHS, FACTION_SABBAT))
@@ -110,7 +118,7 @@ GLOBAL_LIST_EMPTY(city_business_attacks)
 
 /obj/structure/city_business
 	name = "territory mark"
-	desc = "A painted mark identifying the faction protecting a nearby business. Show its clerk a faction credential to negotiate."
+	desc = "A painted mark identifying the faction protecting a nearby business. Show this mark your faction credential to challenge protection, or show the clerk or counter a credential to collect income."
 	icon = 'modular_vcg/modules/territories/icons/territories.dmi'
 	icon_state = "camarilla"
 	anchored = TRUE
@@ -132,6 +140,7 @@ GLOBAL_LIST_EMPTY(city_business_attacks)
 	var/turf/clerk_home
 	var/list/outlets = list()
 	var/income_per_cycle
+	var/collection_started = FALSE
 	var/next_collection = 0
 	var/recover_at = 0
 	var/attack_faction
@@ -140,6 +149,10 @@ GLOBAL_LIST_EMPTY(city_business_attacks)
 	var/hold_started = 0
 	var/retry_at = 0
 	var/active_conflict = FALSE
+	/// Each active contest can report meaningful defense once per account.
+	var/attack_token
+	var/list/defense_started = list()
+	var/list/defense_reported = list()
 	var/list/hud_viewers = list()
 	var/mapped_business = FALSE
 
@@ -207,8 +220,19 @@ GLOBAL_LIST_EMPTY(city_business_attacks)
 /obj/structure/city_business/proc/clerk_available()
 	return !recover_at && !QDELETED(clerk) && clerk.stat < HARD_CRIT
 
-/obj/structure/city_business/proc/show_contract(mob/living/user, obj/item/card/city_badge/badge)
-	if(!clerk_available() || !user.can_perform_action(clerk, NEED_DEXTERITY))
+/obj/structure/city_business/proc/can_negotiate(mob/living/user, atom/interaction_target)
+	if(QDELETED(src) || QDELETED(user) || QDELETED(interaction_target) || !clerk_available() || !user.can_perform_action(interaction_target, NEED_DEXTERITY))
+		return FALSE
+	if(interaction_target == clerk)
+		return TRUE
+	// Cashiers stand behind counters on several maps. Their own checkout is a
+	// reachable place to show a credential; a distant or unrelated outlet is not.
+	return (interaction_target in outlets) && interaction_target.z == clerk.z && get_dist(interaction_target, clerk) <= 4
+
+/obj/structure/city_business/proc/show_contract(mob/living/user, obj/item/card/city_badge/badge, atom/interaction_target)
+	if(!interaction_target)
+		interaction_target = clerk
+	if(!can_negotiate(user, interaction_target))
 		return
 	var/faction = badge.city_faction
 	var/list/choices = list("Cancel")
@@ -217,7 +241,7 @@ GLOBAL_LIST_EMPTY(city_business_attacks)
 	else
 		choices.Insert(1, "Change protection")
 	var/action = tgui_alert(user, "[business_name] is protected by [city_faction_name(owner_faction)].", "Protection", choices)
-	if(!clerk_available() || !user.can_perform_action(clerk, NEED_DEXTERITY) || !user.has_city_badge(faction))
+	if(!can_negotiate(user, interaction_target) || !user.has_city_badge(faction))
 		return
 	if(action == "Collect" || action == "Demand more")
 		collect_income(user, faction, action == "Demand more")
@@ -231,11 +255,12 @@ GLOBAL_LIST_EMPTY(city_business_attacks)
 	return ..()
 
 /obj/structure/city_business/proc/collect_income(mob/living/user, faction, demand_more = FALSE)
-	if(faction != owner_faction || !clerk_available() || active_conflict || world.time < next_collection)
+	if(!collection_started || faction != owner_faction || !clerk_available() || active_conflict || world.time < next_collection)
 		to_chat(user, span_warning("This business cannot pay you now."))
 		return
 	// Consume the shop-wide cycle before rolling; changing couriers cannot reroll it.
 	next_collection = world.time + BUSINESS_CYCLE
+	income_per_cycle = max(1, round_population())
 	var/amount = income_per_cycle
 	if(demand_more)
 		var/datum/storyteller_roll/business/roll = new
@@ -246,14 +271,17 @@ GLOBAL_LIST_EMPTY(city_business_attacks)
 			return
 		amount = round(amount * (1 + min(successes, 5) / 5))
 	while(amount > 0)
-		var/obj/item/stack/dollar/cash = new(get_turf(user))
+		// Initializing a $1 stack on top of existing cash auto-merges before its
+		// payout amount is assigned. Construct the complete stack before placing it.
+		var/obj/item/stack/dollar/cash = new(null, 1, FALSE)
 		cash.amount = min(amount, cash.max_amount)
 		amount -= cash.amount
 		cash.update_appearance()
+		cash.forceMove(get_turf(user))
 	log_game("[key_name(user)] collected protection money from [territory_id] using a [faction] credential.")
 
 /obj/structure/city_business/proc/declare_attack(mob/living/user, faction)
-	if(!faction || faction == owner_faction || attack_faction || GLOB.city_business_attacks[faction] || world.time < retry_at || !clerk_available())
+	if(!faction || user.city_faction() != faction || faction == owner_faction || attack_faction || GLOB.city_business_attacks[faction] || world.time < retry_at || !clerk_available())
 		to_chat(user, span_warning("A protection challenge is not available now."))
 		return
 	var/datum/storyteller_roll/business/roll = new
@@ -264,10 +292,25 @@ GLOBAL_LIST_EMPTY(city_business_attacks)
 		to_chat(user, span_warning("The clerk refuses your proposal."))
 		return
 	attack_faction = faction
+	attack_token = "[REF(src)]-[world.time]"
+	defense_started.Cut()
+	defense_reported.Cut()
 	GLOB.city_business_attacks[faction] = src
 	preparation_ends = world.time + max(2, 7 - successes) MINUTES
 	notify_factions("[business_name]: [city_faction_name(faction)] challenged [city_faction_name(owner_faction)]. Contest begins in [round((preparation_ends - world.time) / (1 MINUTES))] minutes. Meet at the territory mark.")
 	update_appearance()
+
+/obj/structure/city_business/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
+	if(!istype(tool, /obj/item/card/city_badge))
+		return ..()
+	var/obj/item/card/city_badge/badge = tool
+	var/faction = badge.city_faction
+	if(user.city_faction() != faction || !user.can_perform_action(src, NEED_DEXTERITY) || !user.Adjacent(src) || !clerk_available())
+		return ITEM_INTERACT_BLOCKING
+	var/choice = tgui_alert(user, "Challenge [city_faction_name(owner_faction)] protection of [business_name]?", "Protection", list("Change protection", "Cancel"))
+	if(choice == "Change protection" && user.city_faction() == faction && user.has_city_badge(faction) && user.can_perform_action(src, NEED_DEXTERITY) && user.Adjacent(src))
+		declare_attack(user, faction)
+	return ITEM_INTERACT_SUCCESS
 
 /obj/structure/city_business/proc/notify_factions(message)
 	message += " Mark: [get_area_name(src)] ([x], [y], level [z])."
@@ -286,8 +329,9 @@ GLOBAL_LIST_EMPTY(city_business_attacks)
 /obj/structure/city_business/process(seconds_per_tick)
 	if(!SSticker.HasRoundStarted())
 		return
-	if(isnull(income_per_cycle))
-		income_per_cycle = max(1, length(GLOB.joined_player_list))
+	income_per_cycle = max(1, round_population())
+	if(!collection_started)
+		collection_started = TRUE
 		next_collection = world.time + BUSINESS_CYCLE
 	if(recover_at && world.time >= recover_at)
 		if(!QDELETED(clerk))
@@ -308,18 +352,62 @@ GLOBAL_LIST_EMPTY(city_business_attacks)
 				clerk.Knockdown(3 SECONDS)
 			var/attackers = FALSE
 			var/defenders = FALSE
-			// An adjoining room behind an opaque wall cannot hold or block the mark.
+			var/list/current_defenders = list()
+			var/list/capture_tiles = connected_capture_tiles()
+			// Visibility alone also counts people through glass. Require a walkable
+			// connection inside the capture radius, respecting directional barriers.
 			for(var/mob/living/participant in view(BUSINESS_CAPTURE_RADIUS, src))
-				if(!participant.client || participant.stat >= SOFT_CRIT || IS_UNCONSCIOUS(participant) || participant.IsIncapacitated())
+				if(!GET_CLIENT(participant) || participant.stat >= SOFT_CRIT || IS_UNCONSCIOUS(participant) || participant.IsIncapacitated() || !(get_turf(participant) in capture_tiles))
 					continue
 				if(participant.city_faction() == attack_faction)
 					attackers = TRUE
 				if(participant.city_faction() == owner_faction)
 					defenders = TRUE
+					current_defenders += participant
+			track_defense(current_defenders, attackers && hold_started)
 			advance_capture(attackers, defenders)
 			if(attack_faction && world.time >= capture_ends)
 				finish_attack(FALSE)
 	update_hud()
+
+/obj/structure/city_business/proc/round_population()
+	// Unique accounts who joined this round include late arrivals. Reconnecting
+	// cannot multiply the population, and a disconnect cannot devalue a ready cycle.
+	return city_business_population()
+
+/obj/structure/city_business/proc/connected_capture_tiles()
+	var/list/reached = list(get_turf(src))
+	var/datum/can_pass_info/pass_info = new(no_id = TRUE)
+	for(var/index = 1, index <= length(reached), index++)
+		var/turf/current = reached[index]
+		for(var/direction in GLOB.alldirs)
+			var/turf/next = get_step(current, direction)
+			if(!next || next.z != z || get_dist(src, next) > BUSINESS_CAPTURE_RADIUS || (next in reached) || isgroundlessturf(next) || next.density || current.LinkBlockedWithAccess(next, pass_info))
+				continue
+			reached += next
+	qdel(pass_info)
+	return reached
+
+/obj/structure/city_business/proc/track_defense(list/defenders, interrupted_hold = FALSE)
+	var/list/present = list()
+	for(var/mob/living/defender as anything in defenders)
+		var/client/player_client = GET_CLIENT(defender)
+		var/account = player_client?.ckey
+		if(!account)
+			continue
+		present += account
+		if(defense_reported[account])
+			continue
+		if(isnull(defense_started[account]))
+			defense_started[account] = world.time
+		if(!interrupted_hold && world.time < defense_started[account] + BUSINESS_DEFENSE_TIME)
+			continue
+		defense_reported[account] = TRUE
+		// Optional progression modules consume this event; territories stand alone.
+		SEND_GLOBAL_SIGNAL("city_business_defended", defender, territory_id, attack_token, attack_faction)
+	for(var/account in defense_started.Copy())
+		if(!(account in present))
+			defense_started -= account
 
 /obj/structure/city_business/proc/advance_capture(attackers, defenders)
 	if(!active_conflict || !attack_faction)
@@ -341,6 +429,9 @@ GLOBAL_LIST_EMPTY(city_business_attacks)
 	GLOB.city_business_attacks -= attack_faction
 	attack_faction = null
 	active_conflict = FALSE
+	defense_started.Cut()
+	defense_reported.Cut()
+	attack_token = null
 	hold_started = 0
 	preparation_ends = 0
 	capture_ends = 0
@@ -364,6 +455,8 @@ GLOBAL_LIST_EMPTY(city_business_attacks)
 /obj/structure/city_business/examine(mob/user)
 	. = ..()
 	. += span_notice("Protecting faction: [city_faction_name(owner_faction)]. Clerk: [clerk_available() ? "available" : "recovering"].")
+	if(collection_started)
+		. += span_notice("Base collection: $[income_per_cycle] per ten minutes. [world.time >= next_collection ? "Collection is ready." : "Next collection in [CEILING((next_collection - world.time) / (1 MINUTES), 1)] minutes."]")
 	if(attack_faction)
 		. += span_warning("Challenged by [city_faction_name(attack_faction)].")
 
@@ -467,3 +560,4 @@ GLOBAL_LIST_EMPTY(city_business_attacks)
 #undef BUSINESS_HOLD_TIME
 #undef BUSINESS_CAPTURE_WINDOW
 #undef BUSINESS_SERVICE_NUMBER
+#undef BUSINESS_DEFENSE_TIME

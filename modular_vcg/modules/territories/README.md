@@ -1,8 +1,9 @@
 # City businesses MVP
 
 This fork starts on Westfield Mall. San Fangcisco and Oakland remain votable.
-Ownership is seeded by the map and lasts for the round only. There is no karma,
-Humanity rebalance, population gate, victory reward, or persistence in this patch.
+Ownership is seeded by the map and lasts for the round only. There is no Humanity
+rebalance, population gate or ownership persistence in this patch. An optional
+progression module can listen to the defense event described below.
 
 ## Playing
 
@@ -11,14 +12,23 @@ Voivode/Bogatyr/Zadruga jobs), and the four human Triad jobs. City jobs in gener
 are not Triads. Each eligible job receives an additional faction credential in
 its backpack, or its hands if the backpack is full.
 
-Show a credential directly to a business's clerk to open the protection dialog.
-The credential authorizes collection and declarations, so stolen credentials can
-be abused. Actual job membership determines capture presence, buyer access,
-phone recipients, and the retail discount; a stolen card alone gives no discount.
+Show a credential to a business's clerk or its retail/buyer counter to open the
+protection dialog. The counter route requires a living clerk within four tiles
+on the same level, so a cashier behind a fixed counter remains usable. Reach and
+clerk availability are rechecked after the dialog; a different shop's register
+cannot proxy it. Alley marks never collect money.
+The credential authorizes collection, including a courier carrying a stolen card.
+Declarations also require actual matching job membership, so a stolen enemy card
+cannot consume that faction's attack slot. Members can show their credential to
+the outdoor mark to declare, avoiding locked private offices and inaccessible
+cashier counters. This route never collects money. Actual job membership also
+determines capture presence, buyer access, phone recipients and the retail discount.
 
-- Base collection: one dollar per player who joined at round start, per business
-  every ten minutes. The population is frozen on the first processing tick after
-  round start. Uncollected cycles do not build an unlimited backlog.
+- Base collection: one dollar per unique account who joined this round, per
+  business every ten minutes. Later collections include late arrivals. Repeated
+  joins cannot inflate the count; departures do not devalue a ready collection.
+  The first payout requires ten minutes. Only one payout is stored; uncollected
+  cycles do not accumulate, and collecting starts the next ten-minute cycle.
 - Collect normally for the base amount, or demand more with Charisma +
   Intimidation, difficulty 6. Each success adds 20%, up to double; zero successes
   or a botch loses the collection cycle. The cycle belongs to the business.
@@ -27,6 +37,13 @@ phone recipients, and the retail discount; a stolen card alone gives no discount
 - Both buyer sale paths require membership in the owning faction. Fresh cannabis
   cannot be sold; a dried leaf is worth exactly $50, without a fencing multiplier.
   Existing morality effects of selling contraband are unchanged.
+- NPC resale of purchased retail goods is capped at their actual purchase price,
+  including normal purchases. This closes the unlimited-stock clothing-to-pawn
+  money loop, which the faction discount otherwise amplifies. Bundled contents
+  have no separate resale allowance. Stack receipts survive splitting; stacks
+  with different receipts cannot merge to wash the ceiling. Found/looted goods
+  retain their normal fencing roll. Crafting and material transformations are
+  outside this receipt check.
 - Clerk death/deletion suspends business and collection for fifteen minutes. The
   clerk returns to its mapped home and is rebound to retail/buyer objects. Death
   does not remove the announced attack, change ownership, or reset attack slots.
@@ -44,6 +61,62 @@ two-minute window to start and complete a continuous thirty-second hold within
 four tiles, with no conscious, capable defending player in that radius. Once a
 hold starts, losing all capable attackers or admitting a capable defender ends
 the attempt immediately. NPCs and unconscious/dead players do not contest.
+Presence also requires a walkable connection within four tiles, respecting glass
+and directional barriers. A person in a visible sealed room cannot hold/block it.
+
+Meaningful defense emits the optional global signal `city_business_defended`
+with `(defender, territory_id, attack_token, attack_faction)`. Interrupting an
+existing attacker hold qualifies immediately; otherwise ten continuous seconds
+of capable presence during the active window are required. Each account emits
+at most once per contest, and leaving the radius resets its pending ten seconds.
+The progression module handles account rewards and its own per-round caps.
+
+## Drying and income scale
+
+One unpowered wooden drying rack is added to the main Anarch growing room on
+each map: Westfield, San Fangcisco and Oakland. Oakland's park and caern retain
+their existing racks. These five reference sites and their planter/rack
+coordinates are in `growing_sites.json`; other small growing rooms share supplies
+or build another rack. See the [placement crops](review/drying.png).
+No tubs or terrain move. Racks hold 25 items and require loading and toggling
+Dry; drying occurs on the machine processing tick, with no electricity needed.
+Additional racks can be made from ten planks. Hardware stores already sell
+planks for $10 each ($5 with the owner discount); existing remote wood stacks
+are no longer the only way to start drying near a farm.
+
+For a stable population and punctual collection, one business pays:
+
+| Unique players | Per 10 minutes | Per 3 hours | Maximum with successful social rolls |
+| --- | ---: | ---: | ---: |
+| 10 | $10 | $180 | $360 |
+| 20 | $20 | $360 | $720 |
+| 40 | $40 | $720 | $1,440 |
+| 60 | $60 | $1,080 | $2,160 |
+
+These are collection ceilings, not guaranteed rewards: courier travel, missed
+cycles, failed negotiations and clerk death reduce them. Five successes doubles
+a payout; choosing a risky roll can also lose it. Latejoin growth changes future
+payouts rather than retroactively paying skipped cycles.
+
+At 40 players, one business's $80 per twenty minutes equals 1.6 dried leaves.
+Unmodified cannabis yields three leaves ($150) per harvest. Its base production
+is six growth cycles and trays use a 20-second cycle with a strict elapsed-time
+check, so repeat harvests require at least seven cycles (over 140 seconds), plus
+initial maturation, care and transport. This is a theoretical comparison, not an
+observed hourly farm yield: plants age, run out of water/nutrients and can die.
+Even with $50 leaves, a tended multi-tub farm earns substantially more than a
+single passive business; the $50 price is kept as requested. Territorial income
+is deliberately supplementary and scales by the number of stores a faction
+actually visits. At 40 players all 26 Westfield businesses together have a base
+three-hour ceiling of $18,720; San Fangcisco's 52 have $37,440 and Oakland's 47
+have $33,840, before any successful social bonus.
+
+For comparison, Finance 0/1/2/3/4/5 bank incomes are $15/$40/$80/$120/$160/$250
+every five minutes ($540/$1,440/$2,880/$4,320/$5,760/$9,000 over three hours), for
+characters with a paying bank account. Existing starting balances are separate.
+Thus one 40-player shop gives half the Finance 1 recurring salary, or an equal
+amount at the maximum social bonus. This review keeps the requested $1/player
+shop formula rather than multiplying every shop to match a whole cannabis farm.
 
 At the actual contest, the clerk shouts and stays down. Non-aggressive civilian
 NPCs flee the fifteen-tile radius. NPC witnesses inside that radius, and the
@@ -128,7 +201,7 @@ python tools/territories/check_maps.py
 ```
 
 The check compares with `origin/master`, verifies every eligible outlet is linked,
-and rejects terrain, size, or unrelated tile changes. DM integration tests are in
+checks every listed rack and rejects terrain, size, or unrelated tile changes. DM integration tests are in
 `code/tests.dm`: economy/drying, capture interruption/completion, witness scope,
 and map/clerk/outlet bindings. For a focused local run compile with `CBT`,
 `UNIT_TESTS`, and `BUSINESS_TESTS`; ordinary CI does not define `BUSINESS_TESTS`.

@@ -9,6 +9,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from tools.mapmerge2.dmm import DMM
 
 manifest = json.loads(Path('modular_vcg/modules/territories/businesses.json').read_text())
+growing = {entry['map']: entry for entry in json.loads(Path('modular_vcg/modules/territories/growing_sites.json').read_text())}
 all_ids = set()
 for entry in manifest:
     model = DMM.from_file(entry['file'])
@@ -17,6 +18,20 @@ for entry in manifest:
     expected_changes = set()
     point_ids = set()
     marker_coords = []
+    added_racks = set()
+    for site in growing[entry['map']]['sites']:
+        rack = tuple(site['rack'])
+        tile = model.get_tile(rack)
+        assert any(a.startswith('/obj/machinery/smartfridge/drying/rack') for a in tile), ('Missing drying rack', rack)
+        assert any(a.startswith(('/turf/open/floor/', '/turf/open/misc/')) for a in tile), ('Rack on wet/closed turf', rack)
+        if site['added']:
+            added_racks.add(rack)
+            expected_changes.add(rack)
+            assert tuple(a for a in tile if not a.startswith('/obj/machinery/smartfridge/drying/rack')) == base.get_tile(rack), ('Rack overlaps unrelated map edit', rack)
+        for tray in site['trays']:
+            tray = tuple(tray)
+            assert any(a.startswith('/obj/machinery/hydroponics/simple/') for a in model.get_tile(tray)), ('Missing planter', tray)
+            assert tray[2] == rack[2] and max(abs(tray[0]-rack[0]), abs(tray[1]-rack[1])) <= 12, ('Rack too far from planters', tray)
     for business in entry['businesses']:
         identifier = business['id']
         assert identifier not in all_ids, identifier
@@ -64,4 +79,4 @@ for entry in manifest:
             assert match and match[1] in point_ids, ('Unlinked outlet', coord, outlet)
             linked_ids.add(match[1])
     assert Path(entry['file']).read_text(encoding='utf-8').startswith('//MAP CONVERTED BY dmm2tgm.py'), 'TGM header is required for single-tile diffs'
-    print(f'{entry["map"]}: {len(point_ids)} markers, {len(linked_ids)} retail/buyer businesses; coverage and tile-only changes OK')
+    print(f'{entry["map"]}: {len(point_ids)} markers, {len(linked_ids)} retail/buyer businesses, {len(added_racks)} added racks; coverage and tile-only changes OK')

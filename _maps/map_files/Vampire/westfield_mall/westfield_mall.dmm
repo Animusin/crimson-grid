@@ -17456,6 +17456,10 @@
 	},
 /turf/open/floor/iron/dark,
 /area/vtm/westfield_mall/interior/art_store)
+"jKO" = (
+/obj/machinery/smartfridge/drying/rack,
+/turf/open/floor/city/plating_mono,
+/area/vtm/westfield_mall/interior/anarch)
 "jNL" = (
 /obj/structure/table/wood,
 /turf/open/floor/plating/rough,
@@ -35253,7 +35257,7 @@ aUG
 aUG
 aUG
 azR
-aft
+jKO
 aft
 adD
 aUG

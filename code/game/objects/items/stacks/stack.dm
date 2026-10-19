@@ -658,6 +658,10 @@
 	// We don't only use istype here, since that will match subtypes, and stack things that shouldn't stack
 	if(!istype(check, merge_type) || check.merge_type != merge_type)
 		return FALSE
+	// Keep per-unit NPC resale receipts; mixing purchases with untracked loot
+	// would otherwise erase the purchase-price ceiling.
+	if(isnull(city_retail_unit_price) != isnull(check.city_retail_unit_price) || city_retail_unit_price != check.city_retail_unit_price)
+		return FALSE
 	if(mats_per_unit ~! check.mats_per_unit) // ~! in case of lists this operator checks only keys, but not values
 		return FALSE
 	if(is_cyborg) // No merging cyborg stacks into other stacks
@@ -815,6 +819,7 @@
 	return ITEM_INTERACT_SUCCESS
 
 /obj/item/stack/proc/copy_evidences(obj/item/stack/from)
+	city_retail_unit_price = from.city_retail_unit_price
 	add_blood_DNA(GET_ATOM_BLOOD_DNA(from))
 	add_fingerprint_list(GET_ATOM_FINGERPRINTS(from))
 	add_hiddenprint_list(GET_ATOM_HIDDENPRINTS(from))
