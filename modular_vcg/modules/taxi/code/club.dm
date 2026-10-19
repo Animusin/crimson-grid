@@ -3,7 +3,7 @@
 	if(!club_active_player(speaker))
 		return
 	for(var/mob/living/worker in view(3, speaker))
-		if(worker.mind?.assigned_role?.title != JOB_CLUB_WORKER || !club_active_player(worker))
+		if(!club_kiss_provider(worker) || !club_active_player(worker))
 			continue
 		var/datum/component/club_conversation/conversation = worker.GetComponent(/datum/component/club_conversation)
 		if(!conversation)
@@ -19,6 +19,10 @@
 		return FALSE
 	var/client/player_client = GET_CLIENT(person)
 	return player_client && taxi_player_account(person) == player_client.ckey && person.stat < SOFT_CRIT && !IS_UNCONSCIOUS(person) && !player_client.is_afk()
+
+/// Check the title actually assigned at spawn, not mutable preferences or a worn ID.
+/proc/club_kiss_provider(mob/living/person)
+	return person?.mind?.assigned_role?.title == JOB_CLUB_WORKER && person.mind.assigned_alt_title != "Club Bouncer"
 
 /datum/club_conversation_pair
 	var/started_at
@@ -40,6 +44,7 @@
 	RegisterSignal(parent, "club_kiss_landed", PROC_REF(on_kiss))
 
 /datum/component/club_conversation/UnregisterFromParent()
+	STOP_PROCESSING(SSprocessing, src)
 	UnregisterSignal(parent, list(COMSIG_MOVABLE_MOVED, "club_kiss_landed"))
 	for(var/mob/living/guest as anything in guests.Copy())
 		forget_guest(guest)
@@ -47,7 +52,7 @@
 /datum/component/club_conversation/proc/valid_pair(mob/living/guest)
 	var/mob/living/worker = parent
 	return club_active_player(worker) && club_active_player(guest) && worker != guest \
-		&& worker.mind?.assigned_role?.title == JOB_CLUB_WORKER \
+		&& club_kiss_provider(worker) \
 		&& taxi_player_account(worker) != taxi_player_account(guest) \
 		&& isturf(worker.loc) && isturf(guest.loc) && (guest in view(3, worker))
 
@@ -55,6 +60,12 @@
 	UnregisterSignal(guest, list(COMSIG_MOVABLE_MOVED, COMSIG_QDELETING))
 	qdel(guests[guest])
 	guests -= guest
+	if(!length(guests))
+		STOP_PROCESSING(SSprocessing, src)
+
+/// Also invalidate idle pairs when a door closes, someone disconnects or faints.
+/datum/component/club_conversation/process(seconds_per_tick)
+	check_distance()
 
 /datum/component/club_conversation/proc/check_distance()
 	SIGNAL_HANDLER
@@ -81,6 +92,7 @@
 		pair.worker_account = taxi_player_account(parent)
 		pair.guest_account = taxi_player_account(guest)
 		guests[guest] = pair
+		START_PROCESSING(SSprocessing, src)
 		RegisterSignal(guest, COMSIG_MOVABLE_MOVED, PROC_REF(check_distance))
 		RegisterSignal(guest, COMSIG_QDELETING, PROC_REF(guest_deleted))
 	var/list/lines = speaker == parent ? pair.worker_lines : pair.guest_lines

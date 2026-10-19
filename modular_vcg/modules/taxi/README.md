@@ -27,10 +27,13 @@ automatic money payment, maps or new Karma rewards. It builds on the account
 progression branch so RCP has the same persistent storage and Respect meaning.
 
 
-Club Workers (including the Stripper alternate title) can also grant a **Memorable
-kiss** bonus. Both active players must remain within three visible tiles for at
+Club Workers (including Stripper, Club Bartender and Club Attendant, but excluding
+Club Bouncer) can also grant a **Memorable kiss** bonus. Eligibility uses the
+alternate title assigned at spawn, not later preferences or ID cards. Both active players must remain within three visible tiles for at
 least two minutes starting with their first accepted line, and each say two
 distinct local lines. Leaving this radius or line of sight resets progress.
+Pending pairs are also checked periodically, so disconnecting, fainting or a
+closed door can invalidate idle progress.
 Use the normal `*kiss` emote and aim its kiss at the guest: the ordinary harmless
 kiss must actually hit the intended guest. Damaging and special kiss variants
 cannot grant the bonus. No RCP is granted for kisses.

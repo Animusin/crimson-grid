@@ -239,6 +239,52 @@
 	guest.forceMove(locate(worker.x + 5, worker.y, worker.z))
 	if(length(conversation.guests))
 		Fail("Leaving the conversation radius must discard time and dialogue.")
+	// Expiration/removal of one service effect must not unsubscribe the other.
+	taxi.remaining_checks = 1
+	roll.st_roll(guest)
+	if(roll.last_dice != 5 || guest.has_status_effect(/datum/status_effect/taxi_conversation) || bonus.remaining_checks != 1)
+		Fail("Exhausting the taxi effect must leave the kiss effect and its listener intact.")
+	roll.st_roll(guest)
+	if(roll.last_dice != 4 || guest.has_status_effect(/datum/status_effect/club_kiss))
+		Fail("The independent last kiss charge must still work after taxi removal.")
+
+/datum/unit_test/taxi/club_roles/Run()
+	var/mob/living/worker = player("clubroles")
+	var/mob/living/guest = player("clubrolesguest")
+	var/datum/job/vampire/club_worker/job = allocate(/datum/job/vampire/club_worker)
+	for(var/title in job.alt_titles)
+		worker.mind.set_assigned_role_with_greeting(job, null, title)
+		if(worker.mind.assigned_alt_title != title || club_kiss_provider(worker) != (title != "Club Bouncer"))
+			Fail("Spawned club title [title] has incorrect kiss eligibility.")
+	worker.mind.set_assigned_role_with_greeting(job, null, "Club Bouncer")
+	worker.forceMove(run_loc_floor_bottom_left)
+	guest.forceMove(get_step(worker, NORTH))
+	worker.say("Good evening, please keep the entrance clear.")
+	if(worker.GetComponent(/datum/component/club_conversation))
+		Fail("A spawned Club Bouncer cannot begin a buff conversation.")
+	worker.mind.set_assigned_role_with_greeting(job, null, "Stripper")
+	worker.say("Welcome to the club.")
+	var/datum/component/club_conversation/conversation = worker.GetComponent(/datum/component/club_conversation)
+	if(!conversation?.guests[guest])
+		Fail("A spawned Stripper must be able to begin a conversation.")
+		return
+	// Loss of eligibility must invalidate an existing conversation at delivery too.
+	var/datum/club_conversation_pair/pair = conversation.guests[guest]
+	pair.started_at = world.time - 2 MINUTES
+	conversation.record_line(guest, worker, "Enjoy your visit")
+	conversation.record_line(guest, guest, "Thank you")
+	conversation.record_line(guest, guest, "It is a lovely evening")
+	worker.mind.set_assigned_role_with_greeting(job, null, "Club Bouncer")
+	SEND_SIGNAL(worker, "club_kiss_landed", guest)
+	if(guest.has_status_effect(/datum/status_effect/club_kiss) || length(conversation.guests))
+		Fail("A Club Bouncer cannot deliver a previously prepared kiss bonus.")
+	worker.mind.set_assigned_role_with_greeting(job, null, "Stripper")
+	conversation.record_line(guest, worker, "Let us talk again")
+	guest.Unconscious(10 SECONDS)
+	conversation.process(2)
+	guest.SetUnconscious(0)
+	if(length(conversation.guests))
+		Fail("Idle conversations must reset when a participant loses consciousness.")
 
 /datum/unit_test/taxi/rcp/Run()
 	var/path = "data/taxi-unit-[world.realtime]-[rand(1, 1000000)].json"
