@@ -1225,6 +1225,7 @@
 	var/mob/living/carbon/human/human_owner = owner
 
 	limb_gender = (human_owner.physique == MALE) ? "m" : "f"
+	slim_body_build = human_owner.uses_slim_body() && limb_id == SPECIES_HUMAN && icon_greyscale == DEFAULT_BODYPART_ICON_ORGANIC
 	if(HAS_TRAIT(human_owner, TRAIT_USES_SKINTONES))
 		skin_tone = human_owner.skin_tone
 	else if(HAS_TRAIT(human_owner, TRAIT_MUTANT_COLORS))
@@ -1354,6 +1355,8 @@
 	var/used_icon = icon_greyscale
 	if(!should_draw_greyscale || !icon_greyscale)
 		used_icon = icon_static
+	else if(slim_body_build)
+		used_icon = 'modular_vcg/modules/slim_bodies/icons/bodyparts.dmi'
 
 	var/used_state = "[limb_id]_[body_zone]"
 	if(is_dimorphic) // Does this type of limb have sexual dimorphism?

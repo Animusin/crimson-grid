@@ -449,6 +449,7 @@
 /obj/item/bodypart/proc/generate_icon_key()
 	RETURN_TYPE(/list)
 	. = list()
+	. += slim_body_build ? "slim" : "standard"
 	if(is_dimorphic)
 		. += limb_gender
 	. += limb_id

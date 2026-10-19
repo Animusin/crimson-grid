@@ -615,10 +615,23 @@ generate/load female uniform sprites matching all previously decided variables
 		draw_target = mutable_appearance(building_icon, layer = -layer2use)
 	else
 		draw_target = mutable_appearance(file2use, t_state, layer = -layer2use)
+	var/mob/living/carbon/human/wearer = loc
+	var/slim = !isinhands && istype(wearer) && wearer.uses_slim_body()
+	if(slim)
+		draw_target.icon = slim_worn_icon(file2use, t_state, building_icon, "[female_uniform]-[greyscale_colors]-[bodyshape]")
+		draw_target.icon_state = ""
 
 	//Get the overlays for this item when it's being worn
 	//eg: ammo counters, primed grenade flashes, etc.
 	var/list/worn_overlays = worn_overlays(draw_target, isinhands, file2use, bodyshape)
+	if(slim)
+		worn_overlays = worn_overlays.Copy()
+		for(var/i in 1 to length(worn_overlays))
+			var/mutable_appearance/overlay = new /mutable_appearance(worn_overlays[i])
+			if(overlay.icon && overlay.icon != draw_target.icon)
+				overlay.icon = slim_convert_icon(icon(overlay.icon, overlay.icon_state))
+				overlay.icon_state = ""
+			worn_overlays[i] = overlay
 	if(length(worn_overlays))
 		draw_target.overlays += worn_overlays
 	draw_target = color_atom_overlay(draw_target)
@@ -704,6 +717,10 @@ generate/load female uniform sprites matching all previously decided variables
 		var/mutable_appearance/socks_overlay = sock_accessory?.make_appearance(null, physique, bodyshape)
 		if(socks_overlay)
 			. += socks_overlay
+	if(uses_slim_body())
+		for(var/mutable_appearance/overlay as anything in .)
+			overlay.icon = slim_worn_icon(overlay.icon, overlay.icon_state)
+			overlay.icon_state = ""
 
 	return .
 

@@ -8530,3 +8530,5 @@
 #include "modular_vcg\modules\weapons\code\projectiles.dm"
 #include "modular_vcg\modules\wyrm\taint.dm"
 // END_INCLUDE
+#include "modular_vcg\modules\slim_bodies\code\slim_bodies.dm"
+#include "modular_vcg\modules\slim_bodies\code\tests.dm"
