@@ -39,9 +39,6 @@
 	owner = null
 
 /obj/lombard/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
-	if(territory && istype(tool, /obj/item/card/city_badge))
-		territory.show_contract(user, tool, src)
-		return ITEM_INTERACT_SUCCESS
 	var/datum/component/selling/selling_comp = tool.GetComponent(/datum/component/selling)
 	if(!selling_comp)
 		return NONE

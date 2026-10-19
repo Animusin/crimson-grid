@@ -47,12 +47,6 @@
 		return CEILING(base_price / 2, 1)
 	return base_price
 
-/obj/structure/retail/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
-	if(territory && istype(tool, /obj/item/card/city_badge))
-		territory.show_contract(user, tool, src)
-		return ITEM_INTERACT_SUCCESS
-	return ..()
-
 /obj/lombard/proc/business_can_sell(mob/living/user)
 	if(!territory)
 		return TRUE

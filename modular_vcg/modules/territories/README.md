@@ -12,26 +12,34 @@ Voivode/Bogatyr/Zadruga jobs), and the four human Triad jobs. City jobs in gener
 are not Triads. Each eligible job receives an additional faction credential in
 its backpack, or its hands if the backpack is full.
 
-Show a credential to a business's clerk or its retail/buyer counter to open the
-protection dialog. The counter route requires a living clerk within four tiles
-on the same level, so a cashier behind a fixed counter remains usable. Reach and
-clerk availability are rechecked after the dialog; a different shop's register
-cannot proxy it. Alley marks never collect money.
-The credential authorizes collection, including a courier carrying a stolen card.
-Declarations also require actual matching job membership, so a stolen enemy card
-cannot consume that faction's attack slot. Members can show their credential to
-the outdoor mark to declare, avoiding locked private offices and inaccessible
-cashier counters. This route never collects money. Actual job membership also
-determines capture presence, buyer access, phone recipients and the retail discount.
+Talk to the business's cashier with a non-combat empty-hand click, or show the
+cashier a faction credential. Every business action targets the cashier; marks,
+retail counters and buyer counters do not open business dialogs. A cashier behind
+a fixed counter remains usable when visible and its own checkout within four
+tiles on the same level is reachable. Reach, action capability and cashier health
+are rechecked after the dialog and timed actions. Ordinary purchases still use
+the retail counter. Combat clicks and right clicks retain their usual behavior.
+
+A carried credential authorizes collection, including a courier carrying a
+stolen card. Actual job membership determines real capture presence, buyer access,
+phone recipients and the retail discount. Presenting another faction's stolen
+credential can produce a false challenge notice to that faction and the owner,
+but creates no real contest and never reserves that faction's real attack slot.
+The cashier remembers the suspect's appearance and visible ID at that moment.
+Only current members of the owning faction can ask the cashier about these
+threats; the report does not reveal a concealed identity or an account name.
 
 - Base collection: one dollar per unique account who joined this round, per
-  business every ten minutes. Later collections include late arrivals. Repeated
+  business every ten minutes. Later income cycles include late arrivals. Repeated
   joins cannot inflate the count; departures do not devalue a ready collection.
-  The first payout requires ten minutes. Only one payout is stored; uncollected
-  cycles do not accumulate, and collecting starts the next ten-minute cycle.
+  The first income requires ten minutes. Completed cycles accumulate in the
+  cashier's till until collected or stolen. Collecting does not restart the
+  income clock, and later population changes do not reprice stored cash.
 - Collect normally for the base amount, or demand more with Charisma +
   Intimidation, difficulty 6. Each success adds 20%, up to double; zero successes
-  or a botch loses the collection cycle. The cycle belongs to the business.
+  or a botch loses the reserved till contents. The dialog explicitly warns that
+  demanding more risks the whole accumulated amount. Reserving/debiting happens
+  before the roll, so two pending courier dialogs cannot collect the same cash.
 - The matching faction plus a matching carried credential receives a 50% retail
   discount. This is checked for cash and bank payments, not only the displayed UI.
 - Both buyer sale paths require membership in the owning faction. Fresh cannabis
@@ -47,6 +55,41 @@ determines capture presence, buyer access, phone recipients and the retail disco
 - Clerk death/deletion suspends business and collection for fifteen minutes. The
   clerk returns to its mapped home and is rebound to retail/buyer objects. Death
   does not remove the announced attack, change ownership, or reset attack slots.
+  Existing till contents survive. Income pauses until recovery without paying
+  a backlog for the dead-cashier period.
+
+## Robbery
+
+Any connected, capable human player can rob a cashier, including unaffiliated
+characters and members of the owning faction. No credential is needed. The same
+Charisma + Intimidation roll at difficulty 6 determines the time and the share
+of actual till contents:
+
+| Successes | Threaten the cashier for | Cash stolen |
+| --- | ---: | ---: |
+| 1 | 60 seconds | 25% |
+| 2 | 50 seconds | 40% |
+| 3 | 40 seconds | 60% |
+| 4 | 30 seconds | 80% |
+| 5 or more | 20 seconds | 100% |
+
+The robber must remain on the starting tile and keep access to the same living
+cashier. Movement, incapacity, loss of reach, cashier death or an announced contest
+interrupts the attempt without withdrawing money. Only one robber can occupy a
+store's attempt; courier collections wait while it is active. The current cash
+is debited atomically at completion, rounded down to whole dollars; new income
+accrued during the threat is included. A shared store cooldown lasts ten minutes
+after any rolled attempt ends, including failure or interruption. Changing
+robbers cannot reroll it. An empty till or an unavailable cashier cannot start
+an attempt.
+
+Every positive-roll threat arms an alarm for ninety seconds after its start.
+The alarm survives interruption and cashier death, and reports success or the
+interrupted threat to members of the faction that owned the store at the start.
+It uses real phone calls, normal ringing/history and accept/decline behavior;
+answering displays the recorded report and hangs up. A saved SMS transcript also
+covers missed calls and busy phones. Automatic calls never interrupt an existing
+call, and release their temporary caller and radio connection after a short bound.
 
 ## Contest
 
@@ -55,8 +98,10 @@ A successful Charisma + Intimidation declaration starts preparation lasting
 faction and one per business. A failed declaration or a finished contest puts
 that business on a ten-minute declaration cooldown.
 
-During preparation the marker has a red ring/light. Participating characters
-within fifteen tiles see a top-of-screen countdown. At the deadline, there is a
+During preparation and the contest, members of the attacking and owning factions
+within thirty tiles receive a personal red mark indicator, a direction arrow and
+a top-of-screen countdown. Other characters do not see those contest overlays.
+At the deadline, there is a
 two-minute window to start and complete a continuous thirty-second hold within
 four tiles, with no conscious, capable defending player in that radius. Once a
 hold starts, losing all capable attackers or admitting a capable defender ends
@@ -93,10 +138,10 @@ For a stable population and punctual collection, one business pays:
 | 40 | $40 | $720 | $1,440 |
 | 60 | $60 | $1,080 | $2,160 |
 
-These are collection ceilings, not guaranteed rewards: courier travel, missed
-cycles, failed negotiations and clerk death reduce them. Five successes doubles
-a payout; choosing a risky roll can also lose it. Latejoin growth changes future
-payouts rather than retroactively paying skipped cycles.
+These are income ceilings, not guaranteed rewards: robbery, failed negotiations
+and clerk death reduce them. Five successes doubles a payout; choosing a risky
+roll can also lose it. Unvisited cycles remain in the till. Latejoin growth
+changes future accrual rather than retroactively increasing stored cash.
 
 At 40 players, one business's $80 per twenty minutes equals 1.6 dried leaves.
 Unmodified cannabis yields three leaves ($150) per harvest. Its base production

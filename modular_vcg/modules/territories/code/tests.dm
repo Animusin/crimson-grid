@@ -76,15 +76,19 @@
 	store.my_owner = clerk
 	var/turf/clerk_start = get_turf(clerk)
 	clerk.forceMove(get_step(get_step(get_step(clerk_start, EAST), EAST), EAST))
+	business.outlets.Cut()
 	if(business.can_negotiate(customer, clerk))
-		Fail("A cashier three tiles away must not be directly reachable for a credential.")
-	if(!business.can_negotiate(customer, store))
-		Fail("The reachable checkout must let a courier negotiate across the cashier's counter.")
+		Fail("A distant cashier without its reachable counter must not be usable.")
+	business.outlets += store
+	if(!business.can_negotiate(customer, clerk))
+		Fail("Clicking the visible cashier must work across its own reachable checkout.")
+	if(business.can_negotiate(customer, store))
+		Fail("A checkout must never be an interaction target for business actions.")
 	var/obj/structure/retail/coffee_shop/unrelated = allocate(/obj/structure/retail/coffee_shop)
 	if(business.can_negotiate(customer, unrelated))
 		Fail("A nearby checkout from another business must not proxy this clerk.")
 	customer.forceMove(get_step(get_step(get_step(clerk_start, NORTH), NORTH), NORTH))
-	if(business.can_negotiate(customer, store))
+	if(business.can_negotiate(customer, clerk))
 		Fail("Walking away from the checkout must revoke the pending negotiation.")
 	customer.forceMove(clerk_start)
 	clerk.forceMove(clerk_start)
@@ -153,7 +157,8 @@
 	business.income_per_cycle = 40
 	business.test_population = 40
 	business.collection_started = TRUE
-	business.next_collection = 0
+	business.next_collection = world.time
+	badge.forceMove(customer)
 	business.collect_income(customer, FACTION_CAMARILLA)
 	var/cash_total = 0
 	for(var/obj/item/stack/dollar/cash in get_turf(customer))
@@ -167,7 +172,7 @@
 	if(cash_total != 40)
 		Fail("A second collection in the same business cycle must not print more money.")
 	business.test_population = 60
-	business.next_collection = 0
+	business.next_collection = world.time
 	business.collect_income(customer, FACTION_CAMARILLA)
 	cash_total = 0
 	for(var/obj/item/stack/dollar/cash in get_turf(customer))
