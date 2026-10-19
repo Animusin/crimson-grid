@@ -1,8 +1,11 @@
 """Seed explicit business links in the three city maps; preserve TGM single-tile diffs.
 
-Run from the repository root with Python 3 and bidict installed. The JSON manifest
-records the chosen positions, so future placement edits can be reviewed by ID.
+Run from the repository root with Python 3 and bidict installed. The default is
+one-time discovery and refuses maps that already contain markers. Use --sync to
+apply the reviewed JSON manifest without rediscovering existing sites. Discovery
+placements still need the runtime geometry review.
 """
+import argparse
 from collections import deque
 import json
 from pathlib import Path
@@ -18,6 +21,17 @@ MAPS = [
     ('sanfangsisco', '_maps/map_files/Vampire/san_fangsisco/sanfangsisco.dmm'),
     ('oakland', '_maps/map_files/Vampire/oakland/bomby_oakland.dmm'),
 ]
+MANIFEST = Path('modular_vcg/modules/territories/businesses.json')
+TRIAD_START = '/obj/effect/landmark/start/darkpack/triad/'
+TRIAD_JOBS = ('Mountain Master', 'Deputy Mountain Master', 'Red Pole', 'Blue Lanterns')
+# Existing family banks; homes are free lobby tiles, not bank interactables.
+# Marker positions were reviewed with exported live door/stair geometry and all
+# 125 existing markers reserved. Never rediscover the reviewed existing sites.
+BANK_SITES = {
+    'westfield': ((101, 119, 2), (104, 121, 2)),
+    'sanfangsisco': ((72, 154, 2), (74, 143, 2)),
+    'oakland': ((176, 120, 2), (170, 120, 2)),
+}
 
 
 def add_var(atom, key, value):
@@ -33,6 +47,94 @@ def neighbors(c):
 
 def distance(a, b):
     return max(abs(a[0] - b[0]), abs(a[1] - b[1])) if a[2] == b[2] else 10000
+
+
+def seed_policy(entry):
+    """Add the small family-bank seed while preserving reviewed positions/IDs."""
+    if entry['map'] == 'westfield':
+        for business in entry['businesses']:
+            if '/dojo' in business['area'] and business['owner'] == 'triads':
+                business['owner'] = 'camarilla'
+    identifier = entry['map'] + '_giovanni_bank'
+    if not any(b['id'] == identifier for b in entry['businesses']):
+        home, marker = BANK_SITES[entry['map']]
+        entry['businesses'].append(dict(
+            id=identifier, name='Giovanni Bank', owner='giovanni-faction',
+            clerk=list(home), outlets=[], area='/area/vtm/interior/bianchiBank',
+            marker=list(marker)))
+
+
+def marker_atom(business, original='/obj/structure/city_business'):
+    home, site = business['clerk'], business['marker']
+    values = {
+        'territory_id': json.dumps(business['id']),
+        'business_name': json.dumps(business['name']),
+        'owner_faction': json.dumps(business['owner']),
+        **{f'clerk_offset_{axis}': str(home[i] - site[i]) for i, axis in enumerate('xyz')},
+    }
+    for key, value in values.items():
+        original = add_var(original, key, value)
+    return original
+
+
+def sync_map(entry, model=None):
+    """Patch only linked atoms; preserve unrelated tiles and manual map fixes."""
+    random.seed(20261019)
+    model = model or DMM.from_file(entry['file'])
+    changed = False
+
+    def set_tile(coord, tile):
+        nonlocal changed
+        if tuple(tile) != model.get_tile(coord):
+            model.set_tile(coord, tile)
+            changed = True
+
+    known_ids = {b['id'] for b in entry['businesses']}
+    existing = {}
+    for coord in model.grid:
+        tile = model.get_tile(coord)
+        for atom in tile:
+            if not atom.startswith('/obj/structure/city_business'):
+                continue
+            identifier = json.loads(parse_map_atom(atom)[1]['territory_id'])
+            if identifier not in known_ids or identifier in existing:
+                raise RuntimeError(f'{entry["map"]}: unlisted/duplicate marker {identifier}')
+            existing[identifier] = (coord, atom)
+        if entry['map'] == 'westfield':
+            # These starts were added by the first territory prototype. This map
+            # has no Triad premises; JSON zeroes both roundstart and latejoin.
+            set_tile(coord, tuple(a for a in tile if not a.startswith(TRIAD_START)))
+    for business in entry['businesses']:
+        site = tuple(business['marker'])
+        previous = existing.get(business['id'])
+        original = previous[1] if previous else '/obj/structure/city_business'
+        marker = marker_atom(business, original)
+        if previous and previous[0] != site:
+            set_tile(previous[0], tuple(a for a in model.get_tile(previous[0]) if a != original))
+        tile = model.get_tile(site)
+        if previous and previous[0] == site:
+            set_tile(site, tuple(marker if a == original else a for a in tile))
+        else:
+            set_tile(site, (marker, *tile))
+        for outlet in business['outlets']:
+            coord = tuple(outlet)
+            set_tile(coord, tuple(add_var(a, 'territory_id', json.dumps(business['id']))
+                                  if a.startswith(('/obj/structure/retail', '/obj/lombard')) else a
+                                  for a in model.get_tile(coord)))
+    if changed:
+        model.to_file(entry['file'], tgm=True)
+    return changed
+
+
+def sync_westfield_jobs():
+    path = Path('_maps/westfieldmall.json')
+    config = json.loads(path.read_text(encoding='utf-8'))
+    before = json.dumps(config)
+    for job in TRIAD_JOBS:
+        config.setdefault('job_changes', {}).setdefault(job, {}).update(
+            spawn_positions=0, total_positions=0)
+    if json.dumps(config) != before:
+        path.write_text(json.dumps(config, indent='\t') + '\n', encoding='utf-8')
 
 
 def plan_map(map_id, filename):
@@ -124,7 +226,7 @@ def plan_map(map_id, filename):
         existing = [c for c in npcs if tiles[c][-1] == area and c[2] == coord[2] and c not in claimed_clerks]
         home = min(existing) if existing else coord
         claimed_clerks.add(home)
-        businesses.append(dict(id=f'{map_id}_venue_{len(businesses)}', name=area.rsplit('/', 1)[-1].replace('_', ' ').title(), owner='triads' if '/dojo' in area else 'camarilla', clerk=list(home), outlets=[], area=area))
+        businesses.append(dict(id=f'{map_id}_venue_{len(businesses)}', name=area.rsplit('/', 1)[-1].replace('_', ' ').title(), owner='triads' if '/dojo' in area and map_id != 'westfield' else 'camarilla', clerk=list(home), outlets=[], area=area))
 
     # Primogen offices are not consistently given their own area types. Their
     # existing job landmarks provide stable, map-specific anchors instead.
@@ -143,15 +245,6 @@ def plan_map(map_id, filename):
         claimed_clerks.add(home)
         clan = starts[0].rsplit('/', 1)[-1]
         businesses.append(dict(id=f'{map_id}_primogen_{clan}', name=f'{clan.title()} Office', owner='sabbat' if clan == 'voivode' else 'camarilla', clerk=list(home), outlets=[], area=tile[-1]))
-
-    # The small test map predates Triad jobs. Give the four existing roles start
-    # landmarks in the dojo, without adding a new faction system or new rooms.
-    if map_id == 'westfield':
-        dojo = sorted(c for c, t in tiles.items() if t[-1].endswith('/dojo') and walkable(c))
-        for role, coord in zip(['mountain_master', 'deputy_mountain_master', 'red_pole', 'blue_lanterns'], dojo[::max(1, len(dojo) // 4)]):
-            tile = list(model.get_tile(coord))
-            tile.insert(0, '/obj/effect/landmark/start/darkpack/triad/' + role)
-            model.set_tile(coord, tile)
 
     used = set()
     for business in businesses:
@@ -179,10 +272,23 @@ def plan_map(map_id, filename):
 
 
 if __name__ == '__main__':
-    planned = [plan_map(*entry) for entry in MAPS]
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--sync', action='store_true', help='Explicitly sync reviewed manifest links and current seed policy; preserve unrelated map atoms')
+    args = parser.parse_args()
+    if args.sync:
+        planned = [(entry, None) for entry in json.loads(MANIFEST.read_text(encoding='utf-8'))]
+    else:
+        planned = [plan_map(*entry) for entry in MAPS]
+    manifest = []
     for entry, model in planned:
-        model.to_file(entry['file'], tgm=True)
-    manifest = [entry for entry, model in planned]
-    Path('modular_vcg/modules/territories/businesses.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
+        seed_policy(entry)
+        # Discovery creates an in-memory model; ensure it is saved even if the
+        # subsequent canonical sync happens not to change any linked atoms.
+        if model is not None:
+            model.to_file(entry['file'], tgm=True)
+        sync_map(entry, model)
+        manifest.append(entry)
+    MANIFEST.write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
+    sync_westfield_jobs()
     for entry in manifest:
         print(entry['map'], len(entry['businesses']), 'businesses')

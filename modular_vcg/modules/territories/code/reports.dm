@@ -32,7 +32,7 @@
 	qdel(roll)
 
 /obj/structure/city_business/proc/can_false_challenge(mob/living/user, faction)
-	return ishuman(user) && (faction in list(FACTION_CAMARILLA, FACTION_ANARCHS, FACTION_SABBAT, "triads")) \
+	return ishuman(user) && (faction in list(FACTION_CAMARILLA, FACTION_ANARCHS, FACTION_SABBAT, FACTION_GIOVANNI, "triads")) \
 		&& faction != owner_faction && user.city_faction() != faction \
 		&& user.has_city_badge(faction) && can_negotiate(user, clerk)
 

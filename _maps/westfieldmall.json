@@ -88,6 +88,22 @@
 		"Emergency Dispatcher": {
 			"spawn_positions": 1,
 			"total_positions": 1
+		},
+		"Mountain Master": {
+			"spawn_positions": 0,
+			"total_positions": 0
+		},
+		"Deputy Mountain Master": {
+			"spawn_positions": 0,
+			"total_positions": 0
+		},
+		"Red Pole": {
+			"spawn_positions": 0,
+			"total_positions": 0
+		},
+		"Blue Lanterns": {
+			"spawn_positions": 0,
+			"total_positions": 0
 		}
 	},
 	"max_npcs": 60,

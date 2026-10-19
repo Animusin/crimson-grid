@@ -95268,6 +95268,17 @@
 /obj/structure/roadsign/warningpedestrian,
 /turf/open/floor/plating/sidewalk,
 /area/vtm/outside/pacificheights)
+"wYp" = (
+/obj/structure/city_business{
+	territory_id = "sanfangsisco_giovanni_bank";
+	business_name = "Giovanni Bank";
+	owner_faction = "giovanni-faction";
+	clerk_offset_x = -2;
+	clerk_offset_y = 11;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalk,
+/area/vtm/outside/financialdistrict)
 "wYw" = (
 /obj/effect/turf_decal/siding/white{
 	dir = 1
@@ -185092,7 +185103,7 @@ set
 set
 set
 set
-nYX
+wYp
 fzK
 nYX
 nYX

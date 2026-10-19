@@ -19,7 +19,7 @@ GLOBAL_LIST_EMPTY(city_business_attacks)
 	return length(accounts)
 
 /datum/job/proc/city_faction()
-	if(faction in list(FACTION_CAMARILLA, FACTION_ANARCHS, FACTION_SABBAT))
+	if(faction in list(FACTION_CAMARILLA, FACTION_ANARCHS, FACTION_SABBAT, FACTION_GIOVANNI))
 		return faction
 	if(istype(src, /datum/job/vampire/blue_lantern) || istype(src, /datum/job/vampire/red_pole) || istype(src, /datum/job/vampire/mountain_master) || istype(src, /datum/job/vampire/deputy_mountain_master))
 		return "triads"
@@ -36,6 +36,8 @@ GLOBAL_LIST_EMPTY(city_business_attacks)
 			return "Anarchs"
 		if(FACTION_SABBAT)
 			return "Sabbat"
+		if(FACTION_GIOVANNI)
+			return "Giovanni"
 		if("triads")
 			return "Triads"
 	return "Unclaimed"
@@ -75,6 +77,11 @@ GLOBAL_LIST_EMPTY(city_business_attacks)
 	city_faction = "triads"
 	icon_state = "triads"
 
+/obj/item/card/city_badge/giovanni
+	name = "Giovanni credential"
+	city_faction = FACTION_GIOVANNI
+	icon_state = FACTION_GIOVANNI
+
 /obj/item/card/city_badge/Initialize(mapload)
 	. = ..()
 	name = "[city_faction_name(city_faction)] credential"
@@ -91,6 +98,8 @@ GLOBAL_LIST_EMPTY(city_business_attacks)
 			badge_type = /obj/item/card/city_badge/sabbat
 		if("triads")
 			badge_type = /obj/item/card/city_badge/triads
+		if(FACTION_GIOVANNI)
+			badge_type = /obj/item/card/city_badge/giovanni
 	var/obj/item/card/city_badge/badge = new badge_type(get_turf(src))
 	if(ishuman(src))
 		var/mob/living/carbon/human/human = src

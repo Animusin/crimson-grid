@@ -6,7 +6,8 @@ import subprocess
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
-from tools.mapmerge2.dmm import DMM
+from tools.mapmerge2.dmm import DMM, parse_map_atom
+from tools.territories.plan_maps import TRIAD_JOBS, TRIAD_START
 
 manifest = json.loads(Path('modular_vcg/modules/territories/businesses.json').read_text())
 growing = {entry['map']: entry for entry in json.loads(Path('modular_vcg/modules/territories/growing_sites.json').read_text())}
@@ -54,19 +55,38 @@ for entry in manifest:
             assert f'clerk_offset_{axis} = {offset}' in markers[0], (identifier, 'relative clerk position')
         point_ids.add(identifier)
         expected_changes.add(marker_coord)
-        assert business['owner'] in ['camarilla', 'anarchs', 'sabbat', 'triads']
+        assert business['owner'] in ['camarilla', 'anarchs', 'sabbat', 'triads', 'giovanni-faction']
+        assert parse_map_atom(markers[0])[1].get('owner_faction') == json.dumps(business['owner']), (identifier, 'marker owner differs from manifest')
         for coord in business['outlets']:
             coord = tuple(coord)
             expected_changes.add(coord)
             assert any(f'territory_id = "{identifier}"' in a for a in model.get_tile(coord)), (identifier, coord)
         home = tuple(business['clerk'])
         assert any(a.startswith('/turf/open/') for a in model.get_tile(home)), (identifier, 'clerk on closed turf')
+        if identifier == entry['map'] + '_giovanni_bank':
+            assert business['owner'] == 'giovanni-faction' and business['area'] == '/area/vtm/interior/bianchiBank', (identifier, 'family bank seed')
+            home_tile = model.get_tile(home)
+            assert home_tile[-1].split('{')[0] == business['area'], (identifier, 'clerk outside existing bank')
+            assert not any(a.startswith(('/obj/structure/', '/obj/machinery/', '/mob/', '/obj/effect/spawner/', '/obj/effect/landmark/start/')) for a in home_tile), (identifier, 'bank clerk blocks furniture or a player spawn')
+            # The marker creates its clerk at LateInitialize; no bank furniture,
+            # interactables or terrain need to be replaced by mapped NPCs.
+            assert home_tile == base.get_tile(home), (identifier, 'bank clerk home should preserve the baseline tile')
+    assert sum(b['owner'] == 'giovanni-faction' for b in entry['businesses']) == 1, (entry['map'], 'one initial family bank')
+    starts = {c: tuple(a for a in model.get_tile(c) if a.startswith(TRIAD_START)) for c in model.grid}
+    starts = {c: atoms for c, atoms in starts.items() if atoms}
+    if entry['map'] == 'westfield':
+        assert not starts and not any(b['owner'] == 'triads' for b in entry['businesses']), 'Westfield has no initial Triad presence'
+        job_changes = json.loads(Path('_maps/westfieldmall.json').read_text())['job_changes']
+        for job in TRIAD_JOBS:
+            assert job_changes[job]['spawn_positions'] == job_changes[job]['total_positions'] == 0, (job, 'roundstart and latejoin must both be disabled')
+    else:
+        baseline_starts = {c: tuple(a for a in base.get_tile(c) if a.startswith(TRIAD_START)) for c in base.grid}
+        assert starts == {c: atoms for c, atoms in baseline_starts.items() if atoms}, (entry['map'], 'Triad spawns changed')
     for coord in model.grid:
         current, old = model.get_tile(coord), base.get_tile(coord)
         if current == old:
             continue
-        if coord not in expected_changes:
-            assert entry['map'] == 'westfield' and any(a.startswith('/obj/effect/landmark/start/darkpack/triad/') for a in current), ('Unexpected changed tile', coord)
+        assert coord in expected_changes, ('Unexpected changed tile', coord)
         assert [a for a in current if a.startswith(('/turf/', '/area/'))] == [a for a in old if a.startswith(('/turf/', '/area/'))], ('Terrain changed', coord)
     linked_ids = set()
     for coord, key in model.grid.items():

@@ -297,11 +297,115 @@
 	if(city_conflict_hides_breach(witness, breacher))
 		Fail("Witnesses must resume immediately when the contest ends.")
 
+/obj/structure/city_business/unit_test/fifth_faction/roll_business(mob/living/user)
+	return 2
+
+/obj/structure/city_business/unit_test/fifth_faction/false_challenge_roll(mob/living/user)
+	return 2
+
+/// Real jobs and minds deliberately bypass the business_test faction override.
+/datum/unit_test/city_business/proc/giovanni_member_fixture(job_type = /datum/job/vampire/capo)
+	var/mob/living/carbon/human/member = allocate(/mob/living/carbon/human/consistent)
+	member.mind_initialize()
+	member.mind.assigned_role = allocate(job_type)
+	return member
+
+/datum/unit_test/city_business/giovanni_membership/Run()
+	for(var/job_type in list(/datum/job/vampire/capo, /datum/job/vampire/nonni, /datum/job/vampire/squadra, /datum/job/vampire/famiglia))
+		var/mob/living/carbon/human/member = giovanni_member_fixture(job_type)
+		if(member.mind.assigned_role.city_faction() != FACTION_GIOVANNI || member.city_faction() != FACTION_GIOVANNI)
+			Fail("Each real Giovanni role must participate as Giovanni rather than an unclaimed city job: [job_type].")
+		member.issue_city_badge()
+		member.issue_city_badge()
+		var/badge_count = 0
+		for(var/obj/item/card/city_badge/badge in member.get_all_contents())
+			badge_count++
+			if(!istype(badge, /obj/item/card/city_badge/giovanni) || badge.city_faction != FACTION_GIOVANNI || badge.icon_state != FACTION_GIOVANNI || badge.name != "Giovanni credential")
+				Fail("Issuing a real Giovanni job's ID must use its own credential, faction, label and symbol.")
+			if(!(badge.icon_state in icon_states(badge.icon)))
+				Fail("The issued Giovanni ID must reference a compiled, existing icon state.")
+		if(badge_count != 1 || !member.has_city_badge(FACTION_GIOVANNI))
+			Fail("Issuing a Giovanni ID twice must produce exactly one usable carried credential.")
+	var/obj/structure/city_business/unit_test/business = allocate(/obj/structure/city_business/unit_test)
+	business.owner_faction = FACTION_GIOVANNI
+	business.update_icon_state()
+	if(city_faction_name(FACTION_GIOVANNI) != "Giovanni" || business.icon_state != FACTION_GIOVANNI || !(business.icon_state in icon_states(business.icon)))
+		Fail("Giovanni ownership must have a faction name and an actual matching territory symbol.")
+
+/datum/unit_test/city_business/giovanni_business/Run()
+	var/obj/structure/city_business/unit_test/fifth_faction/business = allocate(/obj/structure/city_business/unit_test/fifth_faction)
+	var/mob/living/carbon/human/npc/shop/clerk = allocate(/mob/living/carbon/human/npc/shop)
+	business.bind_clerk(clerk)
+	var/mob/living/carbon/human/member = giovanni_member_fixture()
+	member.issue_city_badge()
+	var/mob/living/carbon/human/business_test/owner = allocate(/mob/living/carbon/human/business_test)
+	var/mob/living/carbon/human/business_test/bystander = allocate(/mob/living/carbon/human/business_test)
+	bystander.test_faction = FACTION_SABBAT
+	var/obj/item/smartphone/member_phone = allocate(/obj/item/smartphone, member)
+	member_phone.owner_weakref = WEAKREF(member)
+	var/obj/item/smartphone/owner_phone = allocate(/obj/item/smartphone, owner)
+	owner_phone.owner_weakref = WEAKREF(owner)
+	var/obj/item/smartphone/bystander_phone = allocate(/obj/item/smartphone, bystander)
+	bystander_phone.owner_weakref = WEAKREF(bystander)
+	var/previous_attack = GLOB.city_business_attacks[FACTION_GIOVANNI]
+	if(previous_attack)
+		Fail("The isolated Giovanni capture fixture requires a free faction attack slot.")
+		return
+	business.declare_attack(member, FACTION_GIOVANNI)
+	if(business.attack_faction != FACTION_GIOVANNI || GLOB.city_business_attacks[FACTION_GIOVANNI] != business || business.preparation_ends <= world.time)
+		Fail("A real Giovanni member with its issued ID must declare and reserve its faction's actual capture slot.")
+	if(!member_phone.get_conversation("5550199") || !owner_phone.get_conversation("5550199") || bystander_phone.get_conversation("5550199"))
+		Fail("An actual Giovanni declaration must send normal SMS to Giovanni and the owner, excluding unrelated factions.")
+	business.active_conflict = TRUE
+	business.hold_started = world.time - 30 SECONDS
+	business.advance_capture(TRUE, FALSE)
+	if(business.owner_faction != FACTION_GIOVANNI || business.attack_faction || GLOB.city_business_attacks[FACTION_GIOVANNI])
+		Fail("Completing a Giovanni hold must transfer the business and release the same faction attack slot.")
+	var/obj/structure/retail/coffee_shop/store = allocate(/obj/structure/retail/coffee_shop)
+	store.territory = business
+	var/obj/lombard/buyer = allocate(/obj/lombard)
+	buyer.territory = business
+	if(store.business_price(member, 100) != 50 || !buyer.business_can_sell(member) || store.business_price(owner, 100) != 100 || buyer.business_can_sell(owner))
+		Fail("Captured Giovanni stores must use the common owner discount and sale gates with actual Giovanni job membership.")
+	// Reuse the real issued ID for an outsider's false declaration, rather than
+	// manufacturing membership or copying the generic false-challenge fixture.
+	var/obj/structure/city_business/unit_test/fifth_faction/false_business = allocate(/obj/structure/city_business/unit_test/fifth_faction)
+	var/mob/living/carbon/human/npc/shop/other_clerk = allocate(/mob/living/carbon/human/npc/shop)
+	false_business.bind_clerk(other_clerk)
+	var/mob/living/carbon/human/business_test/suspect = allocate(/mob/living/carbon/human/business_test)
+	suspect.test_faction = FACTION_ANARCHS
+	for(var/obj/item/card/city_badge/badge in member.get_all_contents())
+		badge.forceMove(suspect)
+	var/datum/phone_conversation/conversation = member_phone.get_conversation("5550199")
+	var/messages_before = length(conversation?.messages)
+	false_business.declare_attack(suspect, FACTION_GIOVANNI)
+	if(length(false_business.suspect_reports) != 1 || false_business.attack_faction || false_business.preparation_ends || false_business.retry_at || GLOB.city_business_attacks[FACTION_GIOVANNI])
+		Fail("A stolen Giovanni ID must use the normal false-declaration/report path without starting a capture or claiming its faction slot.")
+	if(length(conversation?.messages) != messages_before + 1 || bystander_phone.get_conversation("5550199"))
+		Fail("The common false-alarm notification must include Giovanni members while excluding unrelated phones.")
+
+/datum/unit_test/city_business/westfield_no_triads/Run()
+	if(SSmapping.current_map.map_name != "Westfield Mall")
+		return
+	for(var/job_type in list(/datum/job/vampire/mountain_master, /datum/job/vampire/deputy_mountain_master, /datum/job/vampire/red_pole, /datum/job/vampire/blue_lantern))
+		var/datum/job/triad_job = allocate(job_type)
+		if(triad_job.spawn_positions != 0 || triad_job.total_positions != 0 || triad_job.map_check() || SSjob.get_job_type(job_type))
+			Fail("Westfield must disable both roundstart and latejoin Triad slots through the actual map job configuration: [job_type].")
+	for(var/obj/effect/landmark/start/start in GLOB.start_landmarks_list)
+		if(istype(start, /obj/effect/landmark/start/darkpack/triad) && is_station_level(start.z))
+			Fail("Westfield must not retain a mapped Triad station spawn: [start.type].")
+	for(var/obj/structure/city_business/business as anything in GLOB.city_businesses)
+		if(business.mapped_business && business.owner_faction == "triads")
+			Fail("Westfield must not start with a business seeded to an unavailable Triad faction: [business.territory_id].")
+
 /datum/unit_test/city_business/map_links/Run()
 	var/list/ids = list()
+	var/giovanni_banks = 0
 	for(var/obj/structure/city_business/business as anything in GLOB.city_businesses)
 		if(!business.mapped_business)
 			continue
+		if(business.business_name == "Giovanni Bank" && business.owner_faction == FACTION_GIOVANNI)
+			giovanni_banks++
 		if(!business.territory_id || business.territory_id in ids)
 			Fail("Every mapped business must have a unique ID: [business.territory_id]")
 		ids += business.territory_id
@@ -326,5 +430,7 @@
 				var/obj/lombard/buyer = outlet
 				if(buyer.territory != business || buyer.owner != business.clerk)
 					Fail("[business.territory_id] has a broken buyer link.")
+	if((SSmapping.current_map.map_name in list("Westfield Mall", "San Fangcisco", "Oakland")) && giovanni_banks != 1)
+		Fail("Each supported city map must contain exactly one mapped Giovanni Bank initially protected by Giovanni.")
 
 #endif

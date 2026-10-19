@@ -425,7 +425,7 @@
       {
         "id": "westfield_venue_18",
         "name": "Dojo",
-        "owner": "triads",
+        "owner": "camarilla",
         "clerk": [
           81,
           103,
@@ -556,6 +556,23 @@
           119,
           88,
           3
+        ]
+      },
+      {
+        "id": "westfield_giovanni_bank",
+        "name": "Giovanni Bank",
+        "owner": "giovanni-faction",
+        "clerk": [
+          101,
+          119,
+          2
+        ],
+        "outlets": [],
+        "area": "/area/vtm/interior/bianchiBank",
+        "marker": [
+          104,
+          121,
+          2
         ]
       }
     ]
@@ -1733,6 +1750,23 @@
           58,
           2
         ]
+      },
+      {
+        "id": "sanfangsisco_giovanni_bank",
+        "name": "Giovanni Bank",
+        "owner": "giovanni-faction",
+        "clerk": [
+          72,
+          154,
+          2
+        ],
+        "outlets": [],
+        "area": "/area/vtm/interior/bianchiBank",
+        "marker": [
+          74,
+          143,
+          2
+        ]
       }
     ]
   },
@@ -2825,6 +2859,23 @@
         "public_approach": [
           172,
           90,
+          2
+        ]
+      },
+      {
+        "id": "oakland_giovanni_bank",
+        "name": "Giovanni Bank",
+        "owner": "giovanni-faction",
+        "clerk": [
+          176,
+          120,
+          2
+        ],
+        "outlets": [],
+        "area": "/area/vtm/interior/bianchiBank",
+        "marker": [
+          170,
+          120,
           2
         ]
       }

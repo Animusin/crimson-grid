@@ -84171,6 +84171,17 @@
 	},
 /turf/open/floor/plating/asphalt,
 /area/vtm/outside/pacificheights)
+"tLc" = (
+/obj/structure/city_business{
+	territory_id = "oakland_giovanni_bank";
+	business_name = "Giovanni Bank";
+	owner_faction = "giovanni-faction";
+	clerk_offset_x = 6;
+	clerk_offset_y = 0;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalkalt,
+/area/vtm/outside/financialdistrict)
 "tLf" = (
 /obj/structure/vampdoor/glass,
 /obj/effect/turf_decal/siding/beige,
@@ -179333,7 +179344,7 @@ fXQ
 fXQ
 aFu
 fXQ
-fXQ
+tLc
 aFu
 grD
 tvt

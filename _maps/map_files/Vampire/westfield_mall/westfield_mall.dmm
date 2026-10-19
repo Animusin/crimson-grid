@@ -17294,6 +17294,17 @@
 /obj/structure/table/reinforced,
 /turf/open/floor/city/plating_mono,
 /area/vtm/westfield_mall/interior)
+"iVz" = (
+/obj/structure/city_business{
+	territory_id = "westfield_venue_18";
+	business_name = "Dojo";
+	owner_faction = "camarilla";
+	clerk_offset_x = 1;
+	clerk_offset_y = 3;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/city/plating,
+/area/vtm/westfield_mall/interior)
 "iWj" = (
 /obj/effect/decal/pallet,
 /turf/open/water/vamp_sewer,
@@ -18207,6 +18218,17 @@
 	},
 /turf/open/floor/plating/concrete,
 /area/vtm/westfield_mall/interior/groundskeeper_garage)
+"pco" = (
+/obj/structure/city_business{
+	territory_id = "westfield_giovanni_bank";
+	business_name = "Giovanni Bank";
+	owner_faction = "giovanni-faction";
+	clerk_offset_x = -3;
+	clerk_offset_y = -2;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/city/plating_mono,
+/area/vtm/westfield_mall/interior)
 "pcJ" = (
 /obj/effect/turf_decal/bordur/inverse{
 	dir = 8
@@ -58185,7 +58207,7 @@ aXr
 aMC
 aXr
 aXr
-akW
+pco
 hjz
 aYM
 afE
@@ -77359,7 +77381,7 @@ aXr
 aXr
 fcV
 aXr
-gdg
+iVz
 aXr
 aXr
 aXr
@@ -77514,7 +77536,7 @@ aMX
 aMX
 aMX
 aMX
-ooj
+aMX
 alJ
 avF
 tUy
@@ -77815,7 +77837,7 @@ ajD
 abV
 aAn
 aER
-hQM
+ayK
 aER
 ayK
 aER
@@ -78118,7 +78140,7 @@ aLi
 abV
 abV
 aAn
-xsW
+aER
 ayK
 aER
 ayK
@@ -78422,7 +78444,7 @@ aLi
 aOk
 alJ
 aLi
-rBJ
+ayK
 aEF
 ayK
 aiZ

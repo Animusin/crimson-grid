@@ -9,6 +9,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from tools.mapmerge2.dmm import DMM
 
 COLORS = dict(camarilla='#78a5ff', anarchs='#ff735b', sabbat='#d77be4', triads='#8dda87')
+COLORS['giovanni-faction'] = '#d8bd72'
 manifest = json.loads(Path('modular_vcg/modules/territories/businesses.json').read_text())
 for entry in manifest:
     model = DMM.from_file(entry['file'])

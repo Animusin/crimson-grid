@@ -5,12 +5,23 @@ Ownership is seeded by the map and lasts for the round only. There is no Humanit
 rebalance, population gate or ownership persistence in this patch. An optional
 progression module can listen to the defense event described below.
 
+Each map starts with a Giovanni Bank at the existing family's bank premises.
+Initial business ownership is:
+
+| Map | Camarilla | Anarchs | Sabbat | Triads | Giovanni |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Westfield Mall | 21 | 4 | 1 | 0 | 1 |
+| San Fangcisco | 42 | 5 | 2 | 3 | 1 |
+| Oakland | 36 | 7 | 2 | 2 | 1 |
+
 ## Playing
 
-Four organizations participate: Camarilla, Anarchs, Sabbat (including the existing
-Voivode/Bogatyr/Zadruga jobs), and the four human Triad jobs. City jobs in general
-are not Triads. Each eligible job receives an additional faction credential in
-its backpack, or its hands if the backpack is full.
+Five organizations participate: Camarilla, Anarchs, Sabbat (including the existing
+Voivode/Bogatyr/Zadruga jobs), Giovanni (Capo, I Nonni, La Squadra and La Famiglia),
+and the four human Triad jobs. City jobs in general are not Triads. Each eligible
+job receives an additional faction credential in its backpack, or its hands if
+the backpack is full. Giovanni uses the same capture, income, discount, buyer,
+robbery alarm and protection notification rules as the other organizations.
 
 Talk to the business's cashier with a non-combat empty-hand click, or show the
 cashier a faction credential. Every business action targets the cashier; marks,
@@ -152,9 +163,9 @@ observed hourly farm yield: plants age, run out of water/nutrients and can die.
 Even with $50 leaves, a tended multi-tub farm earns substantially more than a
 single passive business; the $50 price is kept as requested. Territorial income
 is deliberately supplementary and scales by the number of stores a faction
-actually visits. At 40 players all 26 Westfield businesses together have a base
-three-hour ceiling of $18,720; San Fangcisco's 52 have $37,440 and Oakland's 47
-have $33,840, before any successful social bonus.
+actually visits. At 40 players all 27 Westfield businesses together have a base
+three-hour ceiling of $19,440; San Fangcisco's 53 have $38,160 and Oakland's 48
+have $34,560, before any successful social bonus.
 
 For comparison, Finance 0/1/2/3/4/5 bank incomes are $15/$40/$80/$120/$160/$250
 every five minutes ($540/$1,440/$2,880/$4,320/$5,760/$9,000 over three hours), for
@@ -195,12 +206,14 @@ does not put the replacement clerk on another floor or in space. A checkout and 
 buyer/retail objects share a business only when they already share a clerk;
 separate stores remain separate. Public police/clinic equipment, Endron's internal
 service and the Church pantry are excluded. Primogen offices, the Voivode's office,
-the Westfield dojo, and strip clubs are included; offices without a suitable NPC
-receive a shop NPC at an adjacent open tile.
+the Westfield dojo, Giovanni banks, and strip clubs are included; offices without
+a suitable NPC receive a shop NPC at an adjacent open tile.
 
-On Westfield, common mall/service passages stand in for street alleys. The Triad
-jobs have start landmarks in the existing dojo. Upper-floor venues can use a
-public passage below, with clerk offsets retaining the connection to the office.
+On Westfield, common mall/service passages stand in for street alleys. Triad jobs
+are disabled on this map and have no start landmarks or initial businesses;
+San Fangcisco and Oakland retain their existing Triad roles and starts.
+Upper-floor venues can use a public passage below, with clerk offsets retaining
+the connection to the office.
 Six private locations have documented `public_approach` reference points:
 the San Fangcisco Toreador office, Oakland's warren shop and Nosferatu office,
 and its upper Banu Haqim, Lasombra and Ventrue offices. Their contests stay on
@@ -220,11 +233,14 @@ and start beside counters. Physical access and setbacks are checked here;
 multiplayer testing still needs to assess combat balance in nearby corridors.
 
 To move a point, edit its TGM tile and keep its manifest coordinate in sync. Do
-not change the outlet's `territory_id` when moving the marker. `plan_maps.py` is a
-one-time seed tool against the base maps, and deliberately refuses to overwrite
-maps which already have markers. It never changes terrain. Review the manifest
-and minimap before adopting new seed positions. The seed tool now refuses a
-missing flat route instead of guessing an unconnected tile or floor.
+not change the outlet's `territory_id` when moving the marker. By default,
+`plan_maps.py` is a one-time discovery tool against the base maps and refuses to
+overwrite maps which already have markers. Its explicit `--sync` mode applies
+the reviewed manifest to linked atoms, including the three family banks and
+Westfield's faction policy, while preserving unrelated tiles and existing
+placement choices. It never changes terrain. Review the manifest and minimap
+before adopting new seed positions. Discovery refuses a missing flat route
+instead of guessing an unconnected tile or floor.
 
 To repeat the geometry review, compile with `UNIT_TESTS`, `BUSINESS_TESTS` and
 `BUSINESS_GEOMETRY`, run each map and archive its `data/business_geometry.json`
@@ -259,9 +275,25 @@ The Camarilla, Anarch and Sabbat frames are preserved from
 `code/modules/wod13/48x48.dmi`, states `Camarilla`, `Anarch`, `Sabbat`.
 The Triad frame was generated using the built-in ImageGen tool, then cropped and
 pixelized using nearest-neighbor downsampling to the same 48px footprint. The
-other generated sheet variants are not used. `icons/territories.dmi` holds the
-four owner states plus a contested ring; `icons/credentials.dmi` holds 32px cards
-using those emblems. `icons/preview.png` previews the four final floor symbols.
+other generated sheet variants are not used.
+
+Giovanni reuses this repository's existing clan emblem from
+`modular_darkpack/modules/vampire_the_masquerade/icons/vampire_clans.dmi`, state
+`giovanni`, present at revision `47c2b09425618888df2c1e56963c6bd9b23d38f2`.
+The clan definition in
+`modular_darkpack/modules/vampire_the_masquerade/code/vampire_clan/clans/giovanni.dm`
+already selects that emblem. Its original 32px frame and five-color RGBA palette
+are reused with nearest-neighbor scaling to 48px for the floor mark and 14px
+inside the existing 32px credential frame. The asset follows the repository's
+CC BY-SA 3.0 asset license. No new Giovanni artwork is generated.
+
+Both business sheets use `giovanni-faction`, matching `FACTION_GIOVANNI`.
+`icons/territories.dmi` holds five owner states plus a contested ring;
+`icons/credentials.dmi` holds five 32px cards using those emblems. Every state
+has one direction and one frame. `icons/preview.png` previews all five floor
+marks and cards. Reproduce the Giovanni addition from the repository root with
+`python tools/territories/add_giovanni_symbol.py` (requires Pillow). The tool
+also verifies that all pre-existing frames retain their exact RGBA pixels.
 
 Generation prompt (only the bottom-right result is used):
 
