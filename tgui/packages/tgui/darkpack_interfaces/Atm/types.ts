@@ -3,12 +3,11 @@ import type { BooleanLike } from 'tgui-core/react';
 export type ATMData = {
   logged_in: BooleanLike;
   card: BooleanLike;
-  entered_code: string | number | null;
-  atm_balance: number;
+  inserted_cash: number;
+  atm_balance: number | null;
 
-  // These exist only when a card is inserted:
-  account_balance: number;
-  account_holder: string;
-  account_id: number;
-  bank_pin: string;
+  // Account details are sent only to the authenticated session's user.
+  account_balance: number | null;
+  account_holder: string | null;
+  account_id: number | null;
 };
