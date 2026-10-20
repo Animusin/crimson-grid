@@ -8,6 +8,8 @@ GLOBAL_DATUM_INIT(latejoin_menu, /datum/latejoin_menu, new)
 /datum/latejoin_menu/proc/fallback_ui(mob/dead/new_player/user)
 	var/list/jobs = list()
 	for(var/datum/job/job as anything in SSjob.joinable_occupations)
+		if(city_villain_job(job))
+			continue
 		jobs += job.title
 
 	var/input_contents = input(user, "Pick a job to join as:", "Latejoin Job Selection") as null|anything in jobs
@@ -67,6 +69,8 @@ GLOBAL_DATUM_INIT(latejoin_menu, /datum/latejoin_menu, new)
 		var/shared_budget_department = TRUE
 
 		for(var/datum/job/job_datum as anything in department.department_jobs)
+			if(city_villain_job(job_datum))
+				continue
 			//Jobs under multiple departments should only be displayed if this is their first department or the command department
 			if(LAZYLEN(job_datum.departments_list) > 1 && job_datum.departments_list[1] != department.type && !(job_datum.departments_bitflags & DEPARTMENT_BITFLAG_COMMAND))
 				continue
@@ -114,6 +118,8 @@ GLOBAL_DATUM_INIT(latejoin_menu, /datum/latejoin_menu, new)
 		departments[department.department_name] = department_data
 
 		for(var/datum/job/job_datum as anything in department.department_jobs)
+			if(city_villain_job(job_datum))
+				continue
 			//Jobs under multiple departments should only be displayed if this is their first department or the command department
 			if(LAZYLEN(job_datum.departments_list) > 1 && job_datum.departments_list[1] != department.type && !(job_datum.departments_bitflags & DEPARTMENT_BITFLAG_COMMAND))
 				continue
@@ -204,6 +210,8 @@ GLOBAL_DATUM_INIT(latejoin_menu, /datum/latejoin_menu, new)
 
 	for(var/datum/job_department/department as anything in SSjob.joinable_departments)
 		for(var/datum/job/job_datum as anything in department.department_jobs)
+			if(city_villain_job(job_datum))
+				continue
 			if(owner.IsJobUnavailable(job_datum.title, latejoin = TRUE) != JOB_AVAILABLE)
 				continue
 			dept_data += job_datum.title

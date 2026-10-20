@@ -18,9 +18,10 @@
 		qdel(A)
 		return
 	if(!GLOB.city_antag_budget.can_gain_antagonist(src, A))
-		to_chat(current, span_warning("This round's antagonist capacity does not allow a new antagonist right now."))
+		var/message = GLOB.city_antag_budget.entry_denial(src) || "This round's antagonist capacity does not allow a new antagonist right now."
+		to_chat(current, span_warning(message))
 		if(usr && usr != current)
-			to_chat(usr, span_warning("This round's antagonist capacity does not allow a new antagonist right now."))
+			to_chat(usr, span_warning(message))
 		qdel(A)
 		return
 	A.owner = src

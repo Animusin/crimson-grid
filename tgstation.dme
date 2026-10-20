@@ -8524,6 +8524,8 @@
 #include "modular_vcg\modules\round_styles\code\round_style.dm"
 #include "modular_vcg\modules\round_styles\code\tests_budget.dm"
 #include "modular_vcg\modules\round_styles\code\tests_style.dm"
+#include "modular_vcg\modules\round_styles\code\tests_villains.dm"
+#include "modular_vcg\modules\round_styles\code\villains.dm"
 #include "modular_vcg\modules\round_styles\code\vote.dm"
 #include "modular_vcg\modules\territories\code\guidance.dm"
 #include "modular_vcg\modules\territories\code\reports.dm"

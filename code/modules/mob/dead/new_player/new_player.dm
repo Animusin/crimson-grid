@@ -18,6 +18,8 @@
 	var/ineligible_for_roles = FALSE
 	/// Used to track if the player's jobs menu sent a message saying it successfully mounted.
 	var/jobs_menu_mounted = FALSE
+	/// Eligibility and arrival checks can yield; only one latejoin may run.
+	var/city_latejoin_pending = FALSE
 	///Cooldown for the Reset Lobby Menu HUD verb
 	COOLDOWN_DECLARE(reset_hud_cooldown)
 
@@ -55,6 +57,22 @@
 		return
 
 	if (client.interviewee)
+		return
+	if(href_list["city_villains"])
+		city_villain_choices()
+		return
+	if(href_list["city_villain_pref"])
+		city_villain_preference(href_list["city_villain_pref"], href_list["level"])
+		city_villain_choices()
+		return
+	if(href_list["city_villain_profile"])
+		city_villain_profile(href_list["city_villain_profile"])
+		city_villain_choices()
+		return
+	if(href_list["city_villain_join"])
+		var/datum/job/villain_job = SSjob.get_job(href_list["city_villain_join"])
+		if(city_villain_job(villain_job))
+			AttemptLateSpawn(villain_job.title, villain_entry = TRUE)
 		return
 
 	if (href_list["viewpoll"])
@@ -164,7 +182,7 @@
 
 /mob/dead/new_player/proc/IsJobUnavailable(rank, latejoin = FALSE)
 	var/datum/job/job = SSjob.get_job(rank)
-	if(!(job.job_flags & JOB_NEW_PLAYER_JOINABLE))
+	if(!job || !(job.job_flags & JOB_NEW_PLAYER_JOINABLE))
 		return JOB_UNAVAILABLE_GENERIC
 	var/position_limit = GLOB.city_antag_budget.job_limit(job, TRUE)
 	if((job.current_positions >= position_limit) && position_limit != -1)
@@ -186,16 +204,32 @@
 		return JOB_UNAVAILABLE_GENERIC
 	return JOB_AVAILABLE
 
-/mob/dead/new_player/proc/AttemptLateSpawn(rank)
+/mob/dead/new_player/proc/AttemptLateSpawn(rank, villain_entry = FALSE)
+	if(city_latejoin_pending || !city_can_latejoin())
+		return FALSE
+	city_latejoin_pending = TRUE
+	. = city_attempt_late_spawn(rank, villain_entry)
+	if(!QDELETED(src))
+		city_latejoin_pending = FALSE
+
+/mob/dead/new_player/proc/city_attempt_late_spawn(rank, villain_entry)
+	var/datum/job/requested_job = SSjob.get_job(rank)
+	if(!requested_job || (city_villain_job(requested_job) && !villain_entry))
+		to_chat(src, span_warning("Choose antagonist roles through the Villains panel."))
+		return FALSE
+	auto_deadmin_on_ready_or_latejoin()
 	// Check that they're picking someone new for new character respawning
 	if(CONFIG_GET(flag/allow_respawn) == RESPAWN_FLAG_NEW_CHARACTER)
 		if("[client.prefs.default_slot]" in persistent_client.joined_as_slots)
 			tgui_alert(usr, "You already have played this character in this round!")
 			return FALSE
 
-	var/error = IsJobUnavailable(rank)
+	var/error = IsJobUnavailable(rank, latejoin = TRUE)
+	if(QDELETED(src) || !city_can_latejoin())
+		return FALSE
 	if(error != JOB_AVAILABLE)
-		tgui_alert(usr, get_job_unavailable_error_message(error, rank))
+		var/entry_denial = GLOB.city_antag_budget.managed_job(requested_job) ? GLOB.city_antag_budget.entry_denial(mind) : null
+		tgui_alert(usr, entry_denial || get_job_unavailable_error_message(error, rank))
 		return FALSE
 
 	if(SSshuttle.arrivals)
@@ -205,6 +239,8 @@
 
 		if(CONFIG_GET(flag/arrivals_shuttle_require_undocked))
 			SSshuttle.arrivals.RequireUndocked(src)
+	if(QDELETED(src) || !city_can_latejoin())
+		return FALSE
 
 	//Remove the player from the join queue if he was in one and reset the timer
 	SSticker.queued_players -= src
@@ -213,7 +249,8 @@
 	var/datum/job/job = SSjob.get_job(rank)
 
 	if(!SSjob.assign_role(src, job, TRUE))
-		tgui_alert(usr, "There was an unexpected error putting you into your requested job. If you cannot join with any job, you should contact an admin.")
+		var/entry_denial = GLOB.city_antag_budget.managed_job(job) ? GLOB.city_antag_budget.entry_denial(mind) : null
+		tgui_alert(usr, entry_denial || "There was an unexpected error putting you into your requested job. If you cannot join with any job, you should contact an admin.")
 		return FALSE
 
 	var/latejoin_period = CEILING(STATION_TIME_PASSED() / (5 MINUTES), 5)

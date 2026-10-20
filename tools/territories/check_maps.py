@@ -7,7 +7,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from tools.mapmerge2.dmm import DMM, parse_map_atom
-from tools.territories.plan_maps import TRIAD_JOBS, TRIAD_START
+from tools.territories.plan_maps import TRIAD_JOBS, TRIAD_START, add_var
 
 manifest = json.loads(Path('modular_vcg/modules/territories/businesses.json').read_text())
 growing = {entry['map']: entry for entry in json.loads(Path('modular_vcg/modules/territories/growing_sites.json').read_text())}
@@ -17,6 +17,28 @@ for entry in manifest:
     base = DMM.from_bytes(subprocess.check_output(['git', 'show', 'origin/master:' + entry['file']]))
     assert model.size == base.size, entry['file']
     expected_changes = set()
+    removed_atoms, added_atoms = {}, {}
+    for business in entry['businesses']:
+        relocations = []
+        if business.get('clerk_source'):
+            relocations.append((business['clerk_source'], business['clerk'],
+                                lambda a: a.startswith('/mob/living/carbon/human/npc')))
+        for source, target in zip(business.get('original_outlets', []), business['outlets']):
+            relocations.append((source, target, lambda a: a.startswith(
+                ('/obj/structure/retail', '/obj/lombard', '/obj/structure/table/wood'))))
+        for source, target, predicate in relocations:
+            source, target = tuple(source), tuple(target)
+            moving = [a for a in base.get_tile(source) if predicate(a)]
+            assert moving, (business['id'], 'missing original relocated fixture', source)
+            removed_atoms.setdefault(source, []).extend(moving)
+            added_atoms.setdefault(target, []).extend(
+                add_var(a, 'territory_id', json.dumps(business['id']))
+                if a.startswith(('/obj/structure/retail', '/obj/lombard')) else a for a in moving)
+            expected_changes.update((source, target))
+    for coord in set(removed_atoms) | set(added_atoms):
+        expected = tuple(a for a in base.get_tile(coord) if a not in removed_atoms.get(coord, []))
+        expected = (*added_atoms.get(coord, []), *expected)
+        assert sorted(model.get_tile(coord)) == sorted(expected), (entry['map'], 'unrelated change at relocated service fixture', coord)
     point_ids = set()
     marker_coords = []
     added_racks = set()
@@ -63,10 +85,23 @@ for entry in manifest:
             assert any(f'territory_id = "{identifier}"' in a for a in model.get_tile(coord)), (identifier, coord)
         home = tuple(business['clerk'])
         assert any(a.startswith('/turf/open/') for a in model.get_tile(home)), (identifier, 'clerk on closed turf')
+        if business.get('private_service'):
+            assert business.get('private_service_note'), (identifier, 'private access requires an explicit explanation')
+            assert business['outlets'] and not business.get('premises_anchor'), (identifier, 'private shops retain their original premises')
+            assert not business.get('clerk_source') and not business.get('original_outlets'), (identifier, 'private service must not relocate the original shop')
+            assert base.get_tile(home)[-1].split('{')[0] == business['area'], (identifier, 'private cashier must stay in its original area')
+        if business.get('premises_anchor'):
+            # These are public-side service homes; do not overwrite furniture,
+            # random flora, player spawns or the old private business premises.
+            home_tile = model.get_tile(home)
+            allowed_npc = bool(business.get('clerk_source'))
+            assert not any(a.startswith(('/obj/structure/', '/obj/machinery/', '/obj/effect/spawner/', '/obj/effect/landmark/start/'))
+                           or (a.startswith('/mob/') and not allowed_npc) for a in home_tile), (identifier, 'service clerk blocks a fixture or player spawn')
         if identifier == entry['map'] + '_giovanni_bank':
             assert business['owner'] == 'giovanni-faction' and business['area'] == '/area/vtm/interior/bianchiBank', (identifier, 'family bank seed')
             home_tile = model.get_tile(home)
-            assert home_tile[-1].split('{')[0] == business['area'], (identifier, 'clerk outside existing bank')
+            premises = tuple(business.get('premises_anchor', home))
+            assert base.get_tile(premises)[-1].split('{')[0] == business['area'], (identifier, 'service desk must retain its existing bank premise')
             assert not any(a.startswith(('/obj/structure/', '/obj/machinery/', '/mob/', '/obj/effect/spawner/', '/obj/effect/landmark/start/')) for a in home_tile), (identifier, 'bank clerk blocks furniture or a player spawn')
             # The marker creates its clerk at LateInitialize; no bank furniture,
             # interactables or terrain need to be replaced by mapped NPCs.

@@ -24,14 +24,15 @@ MAPS = [
 MANIFEST = Path('modular_vcg/modules/territories/businesses.json')
 TRIAD_START = '/obj/effect/landmark/start/darkpack/triad/'
 TRIAD_JOBS = ('Mountain Master', 'Deputy Mountain Master', 'Red Pole', 'Blue Lanterns')
-# Existing family banks; homes are free lobby tiles, not bank interactables.
+# Existing family banks; homes are clear public service tiles, not interactables.
 # Marker positions were reviewed with exported live door/stair geometry and all
 # 125 existing markers reserved. Never rediscover the reviewed existing sites.
 BANK_SITES = {
     'westfield': ((101, 119, 2), (104, 121, 2)),
-    'sanfangsisco': ((72, 154, 2), (74, 143, 2)),
-    'oakland': ((176, 120, 2), (170, 120, 2)),
+    'sanfangsisco': ((76, 155, 2), (74, 143, 2)),
+    'oakland': ((174, 117, 2), (170, 120, 2)),
 }
+BANK_PREMISES = {'sanfangsisco': (72, 154, 2), 'oakland': (176, 120, 2)}
 
 
 def add_var(atom, key, value):
@@ -62,6 +63,8 @@ def seed_policy(entry):
             id=identifier, name='Giovanni Bank', owner='giovanni-faction',
             clerk=list(home), outlets=[], area='/area/vtm/interior/bianchiBank',
             marker=list(marker)))
+        if entry['map'] in BANK_PREMISES:
+            entry['businesses'][-1]['premises_anchor'] = list(BANK_PREMISES[entry['map']])
 
 
 def marker_atom(business, original='/obj/structure/city_business'):
@@ -88,6 +91,33 @@ def sync_map(entry, model=None):
         if tuple(tile) != model.get_tile(coord):
             model.set_tile(coord, tile)
             changed = True
+
+    def move_atoms(source, target, predicate, label):
+        source, target = tuple(source), tuple(target)
+        if source == target:
+            return
+        moving = tuple(a for a in model.get_tile(source) if predicate(a))
+        already_moved = tuple(a for a in model.get_tile(target) if predicate(a))
+        if not moving:
+            if not already_moved:
+                raise RuntimeError(f'{entry["map"]}: missing {label} at {source} or {target}')
+            return
+        if already_moved:
+            raise RuntimeError(f'{entry["map"]}: duplicate {label} at {source} and {target}')
+        set_tile(source, tuple(a for a in model.get_tile(source) if a not in moving))
+        set_tile(target, (*moving, *model.get_tile(target)))
+
+    for business in entry['businesses']:
+        if business.get('clerk_source'):
+            move_atoms(business['clerk_source'], business['clerk'],
+                       lambda a: a.startswith('/mob/living/carbon/human/npc'), 'cashier')
+        sources = business.get('original_outlets', [])
+        if sources and len(sources) != len(business['outlets']):
+            raise RuntimeError(f'{business["id"]}: outlet relocation is not one-to-one')
+        for source, target in zip(sources, business['outlets']):
+            move_atoms(source, target, lambda a: a.startswith(
+                ('/obj/structure/retail', '/obj/lombard', '/obj/structure/table/wood')),
+                'checkout and its existing table')
 
     known_ids = {b['id'] for b in entry['businesses']}
     existing = {}

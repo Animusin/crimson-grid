@@ -58,6 +58,7 @@
 	if(client.interviewee)
 		register_for_interview()
 		return
+	to_chat(src, span_notice("Crusade and Hunter roles: <a href='byond://?src=[REF(src)];city_villains=1'>Villains</a>. Set roundstart preferences here or join an available antagonist role during the round."))
 
 	if(SSticker.current_state < GAME_STATE_SETTING_UP)
 		var/tl = SSticker.GetTimeLeft()

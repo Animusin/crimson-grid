@@ -16,7 +16,7 @@
 
 	var/datum/job/job = SSjob.get_job(job_title)
 
-	if (isnull(job))
+	if (isnull(job) || city_villain_job(job))
 		return FALSE
 
 	/* DARKPACK EDIT REMOVAL - Factions - note: why do these lines even exist?
@@ -68,6 +68,8 @@
 	var/list/jobs_sorted = list()
 
 	for (var/datum/job/job as anything in SSjob.joinable_occupations)
+		if(city_villain_job(job))
+			continue
 		if (job.job_flags & JOB_LATEJOIN_ONLY)
 			continue
 		var/datum/job_department/department_type = job.department_for_prefs || job.departments_list?[1]

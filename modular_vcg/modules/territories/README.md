@@ -215,22 +215,43 @@ does not put the replacement clerk on another floor or in space. A checkout and 
 buyer/retail objects share a business only when they already share a clerk;
 separate stores remain separate. Public police/clinic equipment, Endron's internal
 service and the Church pantry are excluded. Primogen offices, the Voivode's office,
-the Westfield dojo, Giovanni banks, and strip clubs are included; offices without
-a suitable NPC receive a shop NPC at an adjacent open tile.
+the Westfield dojo, Giovanni banks, and strip clubs are included. A private
+office's service cashier stands on the public side of its entrance; declaring a
+challenge does not require breaking a faction lock first. The original private
+rooms, doors and player spawns remain intact. Twenty office/bank service homes
+use this arrangement: three on Westfield, eight on San Fangcisco and nine on
+Oakland. `premises_anchor` retains the old premise reference while `clerk`
+identifies its actual customer-facing service home.
+The [twenty service-home crops](review/cashiers.png) show the final public-side
+cashiers separately from the territory-mark atlases.
 
 On Westfield, common mall/service passages stand in for street alleys. Triad jobs
 are disabled on this map and have no start landmarks or initial businesses;
 San Fangcisco and Oakland retain their existing Triad roles and starts.
 Upper-floor venues can use a public passage below, with clerk offsets retaining
 the connection to the office.
-Six private locations have documented `public_approach` reference points:
-the San Fangcisco Toreador office, Oakland's warren shop and Nosferatu office,
-and its upper Banu Haqim, Lasombra and Ventrue offices. Their contests stay on
-the public side of the private premises; the approach reference is not a claim
-that the private clerk can walk there through the public pedestrian graph.
+Six private locations retain documented `public_approach` references for their
+reviewed mark positions. These do not substitute for cashier access: the live
+geometry export also records every nearby tile from which a normal human can
+actually call `can_negotiate`, including checkout reach and cashier visibility.
+Public service homes require at least one such tile on the unlocked public
+pedestrian component. Faction-locked doors are excluded even when the owning
+faction could unlock them; open, unlocked machinery shutters with no access
+requirement remain passable.
 
-Placement was reviewed against exported, live BYOND density, unlocked doors and
-actual stairs/manhole links, including walkable sewer water on approach routes.
+Eleven original private shops stay inside their existing access boundaries:
+seven on San Fangcisco and four on Oakland. Their manifest entries explicitly
+set `private_service` and explain the original locks in `private_service_note`.
+They require an actual interaction approach inside their original premise,
+while their territory marks remain publicly reachable. Players must first gain
+entry before speaking to those cashiers, robbing their tills or declaring an
+attack. This includes Oakland's original Nosferatu costume/clothing shop;
+its cashier, both counters and their tables retain their original positions.
+No original private shop is moved outdoors to satisfy the public-service check.
+
+Placement and cashier access are reviewed against exported, live BYOND density,
+unlocked doors, actual interaction checks and stairs/manhole links, including
+walkable sewer water on approach routes.
 Stairs with a solid ceiling above are rejected, rather than treated as working
 connections. Surface shops retain surface marks; upper-floor and basement
 businesses can use another level at their public approach.
@@ -271,7 +292,8 @@ python tools/territories/check_maps.py
 ```
 
 The check compares with `origin/master`, verifies every eligible outlet is linked,
-checks every listed rack and rejects terrain, size, or unrelated tile changes. DM integration tests are in
+checks every listed rack and exact service-fixture relocations, and rejects
+terrain, size, or unrelated tile changes. DM integration tests are in
 `code/tests.dm`: economy/drying, capture interruption/completion, witness scope,
 and map/clerk/outlet bindings. For a focused local run compile with `CBT`,
 `UNIT_TESTS`, and `BUSINESS_TESTS`; ordinary CI does not define `BUSINESS_TESTS`.

@@ -25,9 +25,27 @@
 /datum/unit_test/city_business/geometry_export/Run()
 	var/list/tiles = list()
 	var/list/marks = list()
+	var/list/service_tiles = list()
+	// Export actual cashier interaction, including checkout reach and visibility.
+	// A public mark alone does not make a private office cashier accessible.
+	var/mob/living/carbon/human/probe = allocate(/mob/living/carbon/human/dummy/consistent)
 	for(var/obj/structure/city_business/business as anything in GLOB.city_businesses)
 		if(business.mapped_business)
 			marks[business.territory_id] = list(business.x, business.y, business.z)
+			var/list/approaches = list()
+			service_tiles[business.territory_id] = approaches
+			for(var/turf/open/position in range(7, business.clerk))
+				if(position.density || isspaceturf(position) || isopenspaceturf(position))
+					continue
+				// Sample reach without stepping on traps, stairs or other entry
+				// triggers. The dummy retains the normal human action/reach checks.
+				probe.abstract_move(position)
+				if(get_turf(probe) != position || IS_UNCONSCIOUS(probe) || probe.IsIncapacitated())
+					Fail("Cashier geometry probe lost its position or action capability at [position] for [business.territory_id].")
+					return
+				if(business.can_negotiate(probe, business.clerk))
+					approaches += list(list(position.x, position.y, position.z))
+	qdel(probe)
 	for(var/turf/open/tile in world)
 		if(isspaceturf(tile) || isopenspaceturf(tile))
 			continue
@@ -42,7 +60,10 @@
 				restricted = vampdoor.locked
 			else if(istype(obstacle, /obj/machinery/door))
 				door = TRUE
-				restricted = TRUE
+				var/obj/machinery/door/machinery_door = obstacle
+				// Permanently open mall shutters are real public passages. Keep
+				// closed, bolted and access-controlled doors out of that route.
+				restricted = machinery_door.density || machinery_door.locked || !machinery_door.check_access(null)
 			else if(!ismob(obstacle) && obstacle.density)
 				blocked = TRUE
 			if(istype(obstacle, /obj/structure/stairs))
@@ -59,7 +80,7 @@
 					links += list(list(ladder.down.x, ladder.down.y, ladder.down.z))
 		tiles += list(list(tile.x, tile.y, tile.z, blocked, door, links, restricted))
 	fdel("data/business_geometry.json")
-	WRITE_FILE(file("data/business_geometry.json"), json_encode(list("version" = 2, "tiles" = tiles, "marks" = marks)))
+	WRITE_FILE(file("data/business_geometry.json"), json_encode(list("version" = 2, "tiles" = tiles, "marks" = marks, "service_tiles" = service_tiles)))
 #endif
 
 /datum/unit_test/city_business/economy/Run()

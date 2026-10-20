@@ -10508,6 +10508,18 @@
 	},
 /turf/open/floor/carpet/darkpack/blackgold,
 /area/vtm/interior/museum)
+"ctA" = (
+/obj/structure/city_business{
+	territory_id = "sanfangsisco_primogen_ventrue";
+	business_name = "Ventrue Office";
+	owner_faction = "camarilla";
+	clerk_offset_x = 25;
+	clerk_offset_y = 4;
+	clerk_offset_z = 0
+	},
+/obj/effect/landmark/npcwall,
+/turf/open/floor/plating/sidewalk/old,
+/area/vtm/outside/park)
 "ctB" = (
 /obj/structure/railing{
 	pixel_y = -2
@@ -30914,6 +30926,17 @@
 /obj/structure/kitchenspike,
 /turf/open/floor/city/toilet,
 /area/vtm/interior/shop/bubway)
+"hqv" = (
+/obj/structure/city_business{
+	territory_id = "sanfangsisco_primogen_voivode";
+	business_name = "Voivode Office";
+	owner_faction = "sabbat";
+	clerk_offset_x = 6;
+	clerk_offset_y = -6;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalkalt,
+/area/vtm/outside/pacificheights/old)
 "hqz" = (
 /obj/structure/flora/bush/style_random,
 /turf/open/misc/grass,
@@ -32681,6 +32704,17 @@
 	},
 /turf/open/floor/carpet/lone,
 /area/vtm/interior/clinic/haven)
+"hML" = (
+/obj/structure/city_business{
+	territory_id = "sanfangsisco_primogen_banu";
+	business_name = "Banu Office";
+	owner_faction = "camarilla";
+	clerk_offset_x = 14;
+	clerk_offset_y = -5;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalk/poor,
+/area/vtm/outside/ghetto)
 "hMS" = (
 /obj/structure/vampfence/corner{
 	dir = 8
@@ -34273,6 +34307,18 @@
 "iid" = (
 /turf/closed/wall/vampwall/market,
 /area/vtm/interior/shop/smoke_shop)
+"iih" = (
+/obj/structure/city_business{
+	territory_id = "sanfangsisco_primogen_nosferatu";
+	business_name = "Nosferatu Office";
+	owner_faction = "camarilla";
+	clerk_offset_x = -2;
+	clerk_offset_y = 9;
+	clerk_offset_z = 0
+	},
+/obj/effect/decal/cleanable/cardboard,
+/turf/open/floor/plating/rough/cave,
+/area/vtm/interior/sewer)
 "iik" = (
 /obj/structure/table/wood,
 /turf/open/floor/plating/rough,
@@ -49545,6 +49591,17 @@
 /obj/machinery/sprinkler,
 /turf/open/floor/wood/smooth/old,
 /area/vtm/interior/shop/gummaguts)
+"lUD" = (
+/obj/structure/city_business{
+	territory_id = "sanfangsisco_primogen_brujah";
+	business_name = "Brujah Office";
+	owner_faction = "camarilla";
+	clerk_offset_x = -4;
+	clerk_offset_y = 13;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/rough/cave,
+/area/vtm/interior/sewer)
 "lUE" = (
 /obj/effect/turf_decal/siding/white{
 	dir = 6;
@@ -63310,6 +63367,18 @@
 /obj/effect/decal/cleanable/litter,
 /turf/open/floor/plating/concrete,
 /area/vtm/interior)
+"pnY" = (
+/obj/structure/city_business{
+	territory_id = "sanfangsisco_primogen_toreador";
+	business_name = "Toreador Office";
+	owner_faction = "camarilla";
+	clerk_offset_x = -13;
+	clerk_offset_y = -5;
+	clerk_offset_z = 0
+	},
+/obj/item/toy/crayon/spraycan,
+/turf/open/floor/plating/sidewalk,
+/area/vtm/outside/financialdistrict)
 "pnZ" = (
 /turf/open/floor/iron/stairs{
 	dir = 8
@@ -88918,6 +88987,18 @@
 /obj/effect/mapping_helpers/door/lock_difficulty/six,
 /turf/open/floor/plating/roofwalk/cobblestones,
 /area/vtm/interior/jazzclub)
+"vuN" = (
+/obj/structure/city_business{
+	territory_id = "sanfangsisco_primogen_malkavian";
+	business_name = "Malkavian Office";
+	owner_faction = "camarilla";
+	clerk_offset_x = 19;
+	clerk_offset_y = 7;
+	clerk_offset_z = 0
+	},
+/obj/effect/turf_decal/siding/wood,
+/turf/open/floor/wood/old,
+/area/vtm/outside/northbeach)
 "vuW" = (
 /obj/structure/flora/bush/sparsegrass/style_random,
 /obj/effect/landmark/npcwall,
@@ -100317,6 +100398,17 @@
 /obj/effect/decal/cleanable/trash,
 /turf/open/floor/plating/sidewalk/poor,
 /area/vtm/interior/supply)
+"yhG" = (
+/obj/structure/city_business{
+	territory_id = "sanfangsisco_giovanni_bank";
+	business_name = "Giovanni Bank";
+	owner_faction = "giovanni-faction";
+	clerk_offset_x = 2;
+	clerk_offset_y = 12;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/sidewalk,
+/area/vtm/outside/financialdistrict)
 "yhJ" = (
 /obj/structure/bed,
 /obj/effect/turf_decal/siding/wood{
@@ -112358,7 +112450,7 @@ dvN
 snI
 snI
 sLN
-jfJ
+lUD
 snI
 snI
 snI
@@ -113070,7 +113162,7 @@ pOz
 ivF
 gbO
 cIv
-idy
+iih
 snI
 snI
 snI
@@ -184102,7 +184194,7 @@ nYX
 nYX
 nYX
 nYX
-sXH
+pnY
 nYX
 ygF
 nYX
@@ -185103,7 +185195,7 @@ set
 set
 set
 set
-wYp
+yhG
 fzK
 nYX
 nYX
@@ -190943,7 +191035,7 @@ xGM
 ybH
 dnj
 dnj
-doz
+vuN
 ckR
 pQU
 wGX
@@ -191319,7 +191411,7 @@ hnz
 hnz
 hnz
 hnz
-nzt
+ctA
 sNN
 lqR
 jhn
@@ -221939,7 +222031,7 @@ qMr
 lSa
 lSa
 oIL
-eJB
+hqv
 cOH
 cOH
 cOH
@@ -225100,7 +225192,7 @@ jlv
 jlv
 jlv
 jlv
-buj
+hML
 rec
 rec
 eXP

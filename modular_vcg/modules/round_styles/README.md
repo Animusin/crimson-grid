@@ -9,8 +9,8 @@ changed by starting another vote during play.
 | Style | Player antagonist capacity | Territory challenges | Save owners |
 | --- | --- | --- | --- |
 | Спокойная ночь / Quiet Night | 0 | Disabled | Never |
-| Вечная Борьба / Eternal Struggle | floor(weight / 15) | Enabled | Never |
-| Война Принцев / War of Princes | floor(weight / 7) | Enabled | Conditional |
+| Вечная Борьба / Eternal Struggle | floor(weight / 15) + 2 | Enabled | Never |
+| Война Принцев / War of Princes | floor(weight / 7) + 2 | Enabled | Conditional |
 
 Weight is one per living, connected non-antagonist account, plus one for each
 Sheriff, Hound or Bruiser. Antagonists do not contribute weight. Sabbat jobs
@@ -28,6 +28,38 @@ antagonist candidates wait, then use a requested ordinary fallback if the pool i
 full. Leadership roles are never forced to fill the pool. The existing disabled generic TG Dynamic rulesets remain
 disabled; this patch controls the native city antagonist jobs and actual antagonist
 datums instead of enabling unrelated rulesets.
+
+The separate **Villains** lobby button and login link open a Ratwood-style browser
+panel. Before setup it edits saved Never/Low/Medium/High job priorities; players
+still press Ready and compete for the shared capacity at roundstart. During play
+the same panel shows availability and joins the native job with its normal spawn,
+equipment, bans, character requirements and shared cap. Ductus, Priest and Pack
+form the crusade; Hunter roles also appear here. The manor's Voivode, Bogatyr and
+Zadruga remain in normal job selection with the same dynamic cap. Crusade and
+Hunter jobs are excluded from ordinary preferences, latejoin and random jobs;
+no antagonist job can be forced through the random roundstart fallback.
+All latejoin entry points recheck the queue/population limit, administrative lock,
+round state and nonnegative freebie points before spawning. This introduces no
+timed storyteller point economy or automatic crusade event waves.
+The pregame panel shows and edits native per-job character profiles, including an
+explicit reset to the active slot. Latejoin keeps its native active-slot behavior.
+Concurrent join requests cannot enter a second spawn while eligibility is yielding.
+
+With the player-quality PR installed, **new player antagonist admissions require
+Respect 10**, including manor Tzimisce, hunters and real antagonist datum grants.
+The server checks the account before assigning a role or granting its effects;
+the panel and latejoin show the reason for a refusal. An already accepted living
+antagonist can finish the round after losing Respect, including their normal
+outfit and promotions. A dead former antagonist does not reserve that exception
+for a new entry. Unowned NPCs and fake helper datums retain their existing policy.
+The threshold belongs to progression, independently of the population budget.
+The modules communicate through an optional admission signal, so each PR still
+builds independently; both are required for the combined Respect-and-cap rule.
+
+Black Spiral Dancer tribe selection and Pentex employment are not automatically
+classified as antagonists; that design decision remains open. A real antagonist
+datum still charges the shared pool regardless of the character's job. Native
+response-team helper datums marked `ANTAG_FAKE` retain their existing exclusion.
 
 War can be selected at any starting population. Ownership saves at normal round
 completion only if **40 distinct accounts each earned 40 active minutes** and

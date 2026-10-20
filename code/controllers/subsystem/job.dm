@@ -302,6 +302,9 @@ SUBSYSTEM_DEF(job)
 	job_debug("GRJ: Giving random job, Player: [player]")
 	. = FALSE
 	for(var/datum/job/job as anything in shuffle(joinable_occupations))
+		// Antagonists require explicit preferences, never a random fallback.
+		if(GLOB.city_antag_budget.managed_job(job))
+			continue
 		if(QDELETED(player))
 			job_debug("GRJ: Player is deleted, aborting")
 			break

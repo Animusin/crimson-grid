@@ -100,15 +100,32 @@ GLOBAL_DATUM_INIT(city_antag_budget, /datum/city_antag_budget, new)
 
 /datum/city_antag_budget/proc/capacity(list/counts)
 	var/denominator = divisor()
-	return denominator ? FLOOR(counts["population"] / denominator, 1) : 0
+	return denominator ? 2 + FLOOR(counts["population"] / denominator, 1) : 0
 
 /datum/city_antag_budget/proc/remaining()
 	var/list/counts = totals(accounts())
 	return max(capacity(counts) - counts["antagonists"], 0)
 
+/// Optional account policy, supplied by a progression module when installed.
+/// The canonical account and continuation state come from the server's ledger,
+/// never a browser parameter or a prospective antagonist assignment.
+/datum/city_antag_budget/proc/entry_denial(datum/mind/mind, list/current_accounts)
+	var/identifier = account(mind?.current, mind)
+	if(!identifier)
+		return null // Unowned NPCs have no account progression requirement.
+	if(isnull(current_accounts))
+		current_accounts = accounts()
+	var/list/current_entry = current_accounts[identifier]
+	var/list/denial = list("account" = identifier)
+	SEND_GLOBAL_SIGNAL("city_antagonist_admission", mind, !!current_entry?["antag"], denial)
+	return denial["message"]
+
 /// The candidate is replaced in the prospective snapshot, not added to both
 /// sides. In particular a conversion removes its old ordinary/fighter weight.
 /datum/city_antag_budget/proc/can_admit(datum/mind/mind, datum/job/job, forced_antag = FALSE)
+	var/list/current_accounts = accounts()
+	if(entry_denial(mind, current_accounts))
+		return FALSE
 	if(!enabled())
 		return TRUE
 	if(!divisor())
@@ -117,14 +134,13 @@ GLOBAL_DATUM_INIT(city_antag_budget, /datum/city_antag_budget, new)
 	var/identifier = account(body, mind)
 	if(!identifier)
 		return TRUE // Unowned NPCs are not player capacity.
-	var/list/population = accounts()
+	var/list/population = current_accounts.Copy()
 	population -= identifier
 	add_account(population, identifier, mind, job, forced_antag)
 	var/list/counts = totals(population)
 	if(counts["antagonists"] > capacity(counts))
 		// Do not break an existing member's outfit or promotion when a departure
 		// lowers the live cap. Only a newly admitted account needs a free slot.
-		var/list/current_accounts = accounts()
 		var/list/current_entry = current_accounts[identifier]
 		if(!current_entry || !current_entry["antag"])
 			return FALSE
@@ -143,7 +159,7 @@ GLOBAL_DATUM_INIT(city_antag_budget, /datum/city_antag_budget, new)
 	return TRUE
 
 /datum/city_antag_budget/proc/can_set_role(datum/mind/mind, datum/job/job)
-	if(!enabled() || !managed_job(job))
+	if(!managed_job(job))
 		return TRUE
 	if(defer_jobs)
 		return FALSE

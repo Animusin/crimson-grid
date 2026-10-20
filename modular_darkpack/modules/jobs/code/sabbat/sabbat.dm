@@ -17,5 +17,5 @@
 	return ..()
 
 /datum/antagonist/sabbatist/greet()
-	to_chat(owner.current, span_alertsyndie("You are now part of the Sabbat."))
+	to_chat(owner.current, span_alertsyndie("You are part of the Sabbat crusade. Work with your pack against the city's established factions, the Camarilla and the Masquerade. Follow your Ductus and the server's antagonist escalation rules."))
 	//owner.announce_objectives()

@@ -444,8 +444,8 @@
         "name": "Nosferatu Office",
         "owner": "camarilla",
         "clerk": [
-          30,
-          82,
+          26,
+          78,
           1
         ],
         "outlets": [],
@@ -454,7 +454,13 @@
           43,
           63,
           1
-        ]
+        ],
+        "premises_anchor": [
+          30,
+          82,
+          1
+        ],
+        "clerk_access_note": "Public-side service clerk; the original private premises and locks remain intact."
       },
       {
         "id": "westfield_primogen_voivode",
@@ -478,8 +484,8 @@
         "name": "Banu Office",
         "owner": "camarilla",
         "clerk": [
-          88,
-          101,
+          81,
+          106,
           3
         ],
         "outlets": [],
@@ -488,7 +494,13 @@
           80,
           102,
           3
-        ]
+        ],
+        "premises_anchor": [
+          88,
+          101,
+          3
+        ],
+        "clerk_access_note": "Public-side service clerk; the original private premises and locks remain intact."
       },
       {
         "id": "westfield_primogen_lasombra",
@@ -546,8 +558,8 @@
         "name": "Toreador Office",
         "owner": "camarilla",
         "clerk": [
-          136,
-          75,
+          128,
+          83,
           3
         ],
         "outlets": [],
@@ -556,7 +568,13 @@
           119,
           88,
           3
-        ]
+        ],
+        "premises_anchor": [
+          136,
+          75,
+          3
+        ],
+        "clerk_access_note": "Public-side service clerk; the original private premises and locks remain intact."
       },
       {
         "id": "westfield_giovanni_bank",
@@ -602,7 +620,9 @@
           47,
           215,
           1
-        ]
+        ],
+        "private_service": true,
+        "private_service_note": "Original Nosferatu-town shop beyond the Nosferatu-locked sewer entrance; enter the private premise before speaking to its cashier."
       },
       {
         "id": "sanfangsisco_52_143_1",
@@ -625,7 +645,9 @@
           72,
           145,
           1
-        ]
+        ],
+        "private_service": true,
+        "private_service_note": "Original Baali shop inside the locked Baali premise; enter through its existing faction doors."
       },
       {
         "id": "sanfangsisco_140_116_1",
@@ -676,7 +698,9 @@
           150,
           131,
           1
-        ]
+        ],
+        "private_service": true,
+        "private_service_note": "Original occult shop in the Chantry basement beyond the existing Chantry locks."
       },
       {
         "id": "sanfangsisco_29_119_2",
@@ -1389,7 +1413,9 @@
           158,
           160,
           2
-        ]
+        ],
+        "private_service": true,
+        "private_service_note": "Original Chantry library shop behind the existing Chantry access doors."
       },
       {
         "id": "sanfangsisco_181_228_2",
@@ -1458,7 +1484,9 @@
           195,
           59,
           2
-        ]
+        ],
+        "private_service": true,
+        "private_service_note": "Original skate shop cashier behind its NPC-only locked entrance."
       },
       {
         "id": "sanfangsisco_204_95_2",
@@ -1601,7 +1629,9 @@
           231,
           47,
           2
-        ]
+        ],
+        "private_service": true,
+        "private_service_note": "Original Supply buyer counters behind the existing Supply access door."
       },
       {
         "id": "sanfangsisco_53_128_3",
@@ -1624,15 +1654,17 @@
           49,
           131,
           2
-        ]
+        ],
+        "private_service": true,
+        "private_service_note": "Original third-floor Strip Club shop inside the existing locked private room."
       },
       {
         "id": "sanfangsisco_primogen_nosferatu",
         "name": "Nosferatu Office",
         "owner": "camarilla",
         "clerk": [
-          30,
-          241,
+          47,
+          224,
           1
         ],
         "outlets": [],
@@ -1641,15 +1673,21 @@
           49,
           215,
           1
-        ]
+        ],
+        "premises_anchor": [
+          30,
+          241,
+          1
+        ],
+        "clerk_access_note": "Public-side service clerk; the original private premises and locks remain intact."
       },
       {
         "id": "sanfangsisco_primogen_brujah",
         "name": "Brujah Office",
         "owner": "camarilla",
         "clerk": [
-          52,
-          179,
+          42,
+          169,
           1
         ],
         "outlets": [],
@@ -1658,16 +1696,22 @@
           46,
           156,
           1
-        ]
+        ],
+        "premises_anchor": [
+          52,
+          179,
+          1
+        ],
+        "clerk_access_note": "Public-side service clerk; the original private premises and locks remain intact."
       },
       {
         "id": "sanfangsisco_primogen_malkavian",
         "name": "Malkavian Office",
         "owner": "camarilla",
         "clerk": [
-          119,
-          224,
-          1
+          116,
+          221,
+          2
         ],
         "outlets": [],
         "area": "/area/vtm/interior/clinic/haven",
@@ -1675,7 +1719,13 @@
           97,
           214,
           2
-        ]
+        ],
+        "premises_anchor": [
+          119,
+          224,
+          1
+        ],
+        "clerk_access_note": "Public-side service clerk; the original private premises and locks remain intact."
       },
       {
         "id": "sanfangsisco_primogen_ventrue",
@@ -1684,7 +1734,7 @@
         "clerk": [
           123,
           99,
-          3
+          2
         ],
         "outlets": [],
         "area": "/area/vtm/interior/jazzclub",
@@ -1692,16 +1742,22 @@
           98,
           95,
           2
-        ]
+        ],
+        "premises_anchor": [
+          123,
+          99,
+          3
+        ],
+        "clerk_access_note": "Public-side service clerk; the original private premises and locks remain intact."
       },
       {
         "id": "sanfangsisco_primogen_banu",
         "name": "Banu Office",
         "owner": "camarilla",
         "clerk": [
-          243,
-          234,
-          3
+          244,
+          233,
+          2
         ],
         "outlets": [],
         "area": "/area/vtm/interior/banu/haven",
@@ -1709,16 +1765,22 @@
           230,
           238,
           2
-        ]
+        ],
+        "premises_anchor": [
+          243,
+          234,
+          3
+        ],
+        "clerk_access_note": "Public-side service clerk; the original private premises and locks remain intact."
       },
       {
         "id": "sanfangsisco_primogen_toreador",
         "name": "Toreador Office",
         "owner": "camarilla",
         "clerk": [
-          59,
-          113,
-          4
+          57,
+          111,
+          2
         ],
         "outlets": [],
         "area": "/area/vtm/interior",
@@ -1732,16 +1794,22 @@
           57,
           111,
           2
-        ]
+        ],
+        "premises_anchor": [
+          59,
+          113,
+          4
+        ],
+        "clerk_access_note": "Public-side service clerk; the original private premises and locks remain intact."
       },
       {
         "id": "sanfangsisco_primogen_voivode",
         "name": "Voivode Office",
         "owner": "sabbat",
         "clerk": [
-          226,
-          55,
-          4
+          223,
+          52,
+          2
         ],
         "outlets": [],
         "area": "/area/vtm/interior/tzimisce_manor",
@@ -1749,15 +1817,21 @@
           217,
           58,
           2
-        ]
+        ],
+        "premises_anchor": [
+          226,
+          55,
+          4
+        ],
+        "clerk_access_note": "Public-side service clerk; the original private premises and locks remain intact."
       },
       {
         "id": "sanfangsisco_giovanni_bank",
         "name": "Giovanni Bank",
         "owner": "giovanni-faction",
         "clerk": [
-          72,
-          154,
+          76,
+          155,
           2
         ],
         "outlets": [],
@@ -1766,7 +1840,13 @@
           74,
           143,
           2
-        ]
+        ],
+        "premises_anchor": [
+          72,
+          154,
+          2
+        ],
+        "clerk_access_note": "Public-side service clerk; the original private premises and locks remain intact."
       }
     ]
   },
@@ -1806,7 +1886,9 @@
           53,
           116,
           1
-        ]
+        ],
+        "private_service": true,
+        "private_service_note": "Original Nosferatu costume and clothing checkouts inside the Warrens, beyond their existing locked doors and controlled shutters."
       },
       {
         "id": "oakland_49_43_1",
@@ -1829,7 +1911,9 @@
           56,
           52,
           2
-        ]
+        ],
+        "private_service": true,
+        "private_service_note": "Original Baali shop inside the basement beyond the existing Baali access doors."
       },
       {
         "id": "oakland_126_82_1",
@@ -1875,7 +1959,9 @@
           124,
           53,
           2
-        ]
+        ],
+        "private_service": true,
+        "private_service_note": "Original occult shop in the Chantry basement beyond the existing Chantry access doors."
       },
       {
         "id": "oakland_47_65_2",
@@ -1931,7 +2017,9 @@
           60,
           20,
           2
-        ]
+        ],
+        "private_service": true,
+        "private_service_note": "Original Supply shop and buyers inside the controlled Supply shutters."
       },
       {
         "id": "oakland_60_38_2",
@@ -2706,8 +2794,8 @@
         "name": "Nosferatu Office",
         "owner": "camarilla",
         "clerk": [
-          30,
-          140,
+          27,
+          155,
           1
         ],
         "outlets": [],
@@ -2722,15 +2810,21 @@
           25,
           155,
           1
-        ]
+        ],
+        "premises_anchor": [
+          30,
+          140,
+          1
+        ],
+        "clerk_access_note": "Public-side service clerk; the original private premises and locks remain intact."
       },
       {
         "id": "oakland_primogen_brujah",
         "name": "Brujah Office",
         "owner": "camarilla",
         "clerk": [
-          136,
-          168,
+          143,
+          174,
           1
         ],
         "outlets": [],
@@ -2739,15 +2833,21 @@
           143,
           177,
           1
-        ]
+        ],
+        "premises_anchor": [
+          136,
+          168,
+          1
+        ],
+        "clerk_access_note": "Public-side service clerk; the original private premises and locks remain intact."
       },
       {
         "id": "oakland_primogen_malkavian",
         "name": "Malkavian Office",
         "owner": "camarilla",
         "clerk": [
-          151,
-          42,
+          146,
+          37,
           1
         ],
         "outlets": [],
@@ -2756,15 +2856,21 @@
           171,
           57,
           1
-        ]
+        ],
+        "premises_anchor": [
+          151,
+          42,
+          1
+        ],
+        "clerk_access_note": "Public-side service clerk; the original private premises and locks remain intact."
       },
       {
         "id": "oakland_primogen_voivode",
         "name": "Voivode Office",
         "owner": "sabbat",
         "clerk": [
-          26,
-          198,
+          28,
+          181,
           2
         ],
         "outlets": [],
@@ -2773,16 +2879,22 @@
           25,
           181,
           2
-        ]
+        ],
+        "premises_anchor": [
+          26,
+          198,
+          2
+        ],
+        "clerk_access_note": "Public-side service clerk; the original private premises and locks remain intact."
       },
       {
         "id": "oakland_primogen_banu",
         "name": "Banu Office",
         "owner": "camarilla",
         "clerk": [
-          130,
-          14,
-          3
+          126,
+          17,
+          2
         ],
         "outlets": [],
         "area": "/area/vtm/interior/banu/haven",
@@ -2796,16 +2908,22 @@
           128,
           13,
           2
-        ]
+        ],
+        "premises_anchor": [
+          130,
+          14,
+          3
+        ],
+        "clerk_access_note": "Public-side service clerk; the original private premises and locks remain intact."
       },
       {
         "id": "oakland_primogen_toreador",
         "name": "Toreador Office",
         "owner": "camarilla",
         "clerk": [
-          160,
-          124,
-          3
+          159,
+          125,
+          2
         ],
         "outlets": [],
         "area": "/area/vtm/interior/strip",
@@ -2813,16 +2931,22 @@
           165,
           141,
           2
-        ]
+        ],
+        "premises_anchor": [
+          160,
+          124,
+          3
+        ],
+        "clerk_access_note": "Public-side service clerk; the original private premises and locks remain intact."
       },
       {
         "id": "oakland_primogen_lasombra",
         "name": "Lasombra Office",
         "owner": "camarilla",
         "clerk": [
-          48,
-          94,
-          4
+          40,
+          89,
+          2
         ],
         "outlets": [],
         "area": "/area/vtm/interior/church/staff",
@@ -2837,16 +2961,22 @@
           92,
           2
         ],
-        "approach_area": "/area/vtm/graveyard"
+        "approach_area": "/area/vtm/graveyard",
+        "premises_anchor": [
+          48,
+          94,
+          4
+        ],
+        "clerk_access_note": "Public-side service clerk; the original private premises and locks remain intact."
       },
       {
         "id": "oakland_primogen_ventrue",
         "name": "Ventrue Office",
         "owner": "camarilla",
         "clerk": [
-          171,
+          172,
           90,
-          4
+          2
         ],
         "outlets": [],
         "area": "/area/vtm/interior/jazzclub",
@@ -2860,15 +2990,21 @@
           172,
           90,
           2
-        ]
+        ],
+        "premises_anchor": [
+          171,
+          90,
+          4
+        ],
+        "clerk_access_note": "Public-side service clerk; the original private premises and locks remain intact."
       },
       {
         "id": "oakland_giovanni_bank",
         "name": "Giovanni Bank",
         "owner": "giovanni-faction",
         "clerk": [
-          176,
-          120,
+          174,
+          117,
           2
         ],
         "outlets": [],
@@ -2877,7 +3013,13 @@
           170,
           120,
           2
-        ]
+        ],
+        "premises_anchor": [
+          176,
+          120,
+          2
+        ],
+        "clerk_access_note": "Public-side service clerk; the original private premises and locks remain intact."
       }
     ]
   }
