@@ -36,6 +36,23 @@ trust and diablerist policies remain. A midround score loss changes future
 selection, not the existing character's age. Character locks and Path persistence
 are described below. Existing discipline budgets and in-round Renown growth remain.
 
+## Antagonist admission
+
+With the separate city round-style/antagonist policy installed, first admission to
+any antagonist role requires 10 Respect. Its threshold is independent of Kindred
+age and Garou rank. A score loss does not expel an already admitted living
+antagonist. NPC minds without an account retain the existing behavior.
+
+This module listens to the optional `city_antagonist_admission` global signal:
+arguments are the candidate mind, a trusted continuing-admission flag and a mutable
+denial list. The caller supplies its canonical current-client ID in
+`denial["account"]`; simple callers may fall back to the mind key. This identity is
+constructed on the server, never accepted from UI parameters. The hook supplies
+`denial["message"]` when a new account is below the
+threshold, preserving any earlier denial. The round-style policy owns emission,
+the atomic admission decision and its UI; neither PR has a compile dependency on
+the other. Without that caller installed, this hook does not change core roles.
+
 ## Garou rank access
 
 Garou have an existing progression ladder: their Auspice calculates rank from
@@ -262,6 +279,7 @@ remain proposals pending meaningful outcome rules.
     KARMA_ROLEPLAY_REWARD 0.1
     KARMA_HELP_REWARD 0.1
     KARMA_DEFENSE_REWARD 1
+    RESPECT_ANTAGONIST_THRESHOLD 10
     RESPECT_AGE_GATES 1
     RESPECT_FLEDGLING_THRESHOLD 10
     RESPECT_NEONATE_THRESHOLD 20

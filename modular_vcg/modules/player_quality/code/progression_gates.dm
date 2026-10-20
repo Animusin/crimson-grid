@@ -1,3 +1,24 @@
+/datum/config_entry/number/respect_antagonist_threshold
+	default = 10
+	min_val = 0
+
+/// Optional contract with the city antagonist admission policy. Its caller owns
+/// the canonical account and whether it continues an accepted living antagonist.
+/// A string signal avoids a compile dependency on that separate module.
+/datum/controller/subsystem/player_quality/proc/on_antagonist_admission(datum/source, datum/mind/candidate, continuing, list/denial)
+	SIGNAL_HANDLER
+	if(!store || !CONFIG_GET(flag/player_quality_enabled) || continuing || !islist(denial) || denial["message"])
+		return
+	// The trusted caller uses the current client when mind.key is stale. This
+	// list is constructed by the policy, never supplied by preference/UI params.
+	var/account = ckey(denial["account"] || candidate?.key)
+	if(!account)
+		return
+	var/score = store.respect(account)
+	var/threshold = CONFIG_GET(number/respect_antagonist_threshold)
+	if(score < threshold)
+		denial["message"] = "Antagonist roles require [threshold] Respect; your account has [num2text(score, 10)], below that threshold."
+
 /datum/config_entry/flag/respect_age_gates
 	default = TRUE
 
