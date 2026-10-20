@@ -6,6 +6,9 @@ at least two minutes, finish at least ten tiles from the pickup on the same map
 level, and each say two distinct, nonempty messages inside the taxi after that
 passenger boards. Forced speech, emotes and radio-only messages do not count.
 Changing driver or leaving early starts a new journey; NPCs cannot qualify.
+Disconnecting, going AFK or losing consciousness discards that pair's pending
+time and speech. When both players are active again aboard the taxi, a fresh
+pickup, two-minute window and dialogue count begin.
 
 On disembarking, the passenger receives **+1 die to the next three Storyteller
 checks**, including combat checks, lasting at most **twenty minutes**. Cached or

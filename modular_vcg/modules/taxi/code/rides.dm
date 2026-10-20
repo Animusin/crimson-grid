@@ -50,13 +50,40 @@
 /obj/darkpack_car/taxi
 	var/list/taxi_journeys = list()
 	var/mob/living/journey_driver
+	var/datum/taxi_journey_monitor/journey_monitor
+
+/// Cars already process their physics in SScarpool. A separate monitor keeps
+/// idle conversation checks in SSprocessing without running car physics twice.
+/datum/taxi_journey_monitor
+	var/obj/darkpack_car/taxi/car
+
+/datum/taxi_journey_monitor/New(obj/darkpack_car/taxi/monitored_car)
+	car = monitored_car
+
+/datum/taxi_journey_monitor/Destroy()
+	STOP_PROCESSING(SSprocessing, src)
+	car = null
+	return ..()
+
+/datum/taxi_journey_monitor/process(seconds_per_tick)
+	if(QDELETED(car))
+		return PROCESS_KILL
+	car.refresh_taxi_journeys()
+	if(car.driver?.loc == car)
+		return
+	for(var/mob/living/rider as anything in car.passengers)
+		if(rider.loc == car)
+			return
+	return PROCESS_KILL
 
 /obj/darkpack_car/taxi/Initialize(mapload)
 	. = ..()
+	journey_monitor = new(src)
 	RegisterSignal(src, COMSIG_ATOM_ENTERED, PROC_REF(on_taxi_entered))
 	RegisterSignal(src, COMSIG_ATOM_EXITED, PROC_REF(on_taxi_exited))
 
 /obj/darkpack_car/taxi/Destroy()
+	QDEL_NULL(journey_monitor)
 	cancel_taxi_journeys()
 	return ..()
 
@@ -82,13 +109,26 @@
 
 /obj/darkpack_car/taxi/proc/on_taxi_entered(datum/source, atom/movable/arrived)
 	SIGNAL_HANDLER
+	START_PROCESSING(SSprocessing, journey_monitor)
+	refresh_taxi_journeys()
+
+/// Activity must remain valid throughout the shared window, not just at exit.
+/// Returning players get a fresh pickup, timer and dialogue while still aboard.
+/obj/darkpack_car/taxi/proc/refresh_taxi_journeys()
 	if(journey_driver != driver)
 		cancel_taxi_journeys()
 	if(!driver || driver.loc != src || !is_taxi_driver(driver))
+		cancel_taxi_journeys()
 		return
 	if(!journey_driver)
 		journey_driver = driver
 		RegisterSignal(driver, "taxi_rider_spoke", PROC_REF(on_taxi_speech))
+	for(var/mob/living/rider as anything in taxi_journeys.Copy())
+		var/datum/taxi_journey/journey = taxi_journeys[rider]
+		if(rider.loc != src || !is_taxi_player(rider) || journey.driver_account != taxi_player_account(driver) || journey.passenger_account != taxi_player_account(rider))
+			UnregisterSignal(rider, "taxi_rider_spoke")
+			qdel(journey)
+			taxi_journeys -= rider
 	for(var/mob/living/rider as anything in passengers)
 		if(rider.loc != src || taxi_journeys[rider] || !is_taxi_player(rider) || taxi_player_account(rider) == taxi_player_account(driver))
 			continue
@@ -97,6 +137,7 @@
 
 /obj/darkpack_car/taxi/proc/on_taxi_speech(mob/living/speaker, message)
 	SIGNAL_HANDLER
+	refresh_taxi_journeys()
 	if(speaker.loc != src || !is_taxi_player(speaker))
 		return
 	for(var/mob/living/rider as anything in taxi_journeys)

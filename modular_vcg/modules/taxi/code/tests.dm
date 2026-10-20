@@ -18,8 +18,11 @@
 		human.mind.assigned_role = allocate(/datum/job/vampire/taxi)
 	return human
 
+/datum/client_interface/taxi_test
+	var/test_afk = FALSE
+
 /datum/client_interface/taxi_test/proc/is_afk(duration)
-	return FALSE
+	return test_afk
 
 // Hear() supports mock clients, but show_message() requires a real connection.
 // Simulate successful delivery to our connected, hearing test participants.
@@ -123,6 +126,66 @@
 	record = SSplayer_quality.store.read("taxidriver")
 	if(abs(record["rcp"] - CONFIG_GET(number/taxi_rcp_reward)) > 0.001)
 		Fail("Delivering the same actual passenger again cannot grant extra RCP.")
+
+/datum/unit_test/taxi/continuity/Run()
+	var/datum/player_quality_store/old_store = SSplayer_quality.store
+	var/path = "data/taxi-continuity-[world.realtime]-[rand(1, 1000000)].json"
+	SSplayer_quality.store = new(path)
+	var/obj/darkpack_car/taxi/car = allocate(/obj/darkpack_car/taxi, run_loc_floor_bottom_left)
+	var/mob/living/driver = player("continuousdriver", TRUE)
+	var/mob/living/passenger = player("continuouspassenger")
+	var/datum/client_interface/taxi_test/driver_client = GET_CLIENT(driver)
+	var/datum/client_interface/taxi_test/passenger_client = GET_CLIENT(passenger)
+	var/turf/pickup = get_turf(car)
+	var/turf/destination = locate(pickup.x + 12, pickup.y, pickup.z)
+	car.driver_enter(driver)
+	for(var/interruption in list("disconnect", "afk", "unconscious", "driver afk"))
+		car.forceMove(pickup)
+		car.passenger_enter(passenger)
+		var/datum/taxi_journey/old_journey = car.taxi_journeys[passenger]
+		old_journey.started_at = world.time - 2 MINUTES
+		conversation(driver, passenger)
+		car.forceMove(destination)
+		switch(interruption)
+			if("disconnect")
+				passenger.mock_client = null
+			if("afk")
+				passenger_client.test_afk = TRUE
+			if("unconscious")
+				ADD_TRAIT(passenger, TRAIT_KNOCKEDOUT, TRAIT_SOURCE_UNIT_TESTS)
+			if("driver afk")
+				driver_client.test_afk = TRUE
+		// Exercise the real periodic monitor while nobody enters/exits or speaks.
+		car.journey_monitor.process(2)
+		if(car.taxi_journeys[passenger] || !QDELETED(old_journey))
+			Fail("An idle [interruption] must discard the old journey before recovery.")
+		passenger.mock_client = passenger_client
+		passenger_client.test_afk = FALSE
+		driver_client.test_afk = FALSE
+		REMOVE_TRAIT(passenger, TRAIT_KNOCKEDOUT, TRAIT_SOURCE_UNIT_TESTS)
+		car.journey_monitor.process(2)
+		var/datum/taxi_journey/restarted = car.taxi_journeys[passenger]
+		if(!restarted || restarted == old_journey || restarted.started_at < world.time - 1 || restarted.origin != destination || length(restarted.driver_lines) || length(restarted.passenger_lines))
+			Fail("Recovery from [interruption] must start a fresh pickup, timer and dialogue while both remain aboard.")
+		car.empty_occupent(passenger)
+		var/list/record = SSplayer_quality.store.read("continuousdriver")
+		if(passenger.has_status_effect(/datum/status_effect/taxi_conversation) || record["rcp"])
+			Fail("A recovered [interruption] cannot cash in the interrupted journey's old time and speech.")
+	// A genuinely new qualifying journey must still work after interruptions.
+	car.forceMove(pickup)
+	car.passenger_enter(passenger)
+	var/datum/taxi_journey/recovered_journey = car.taxi_journeys[passenger]
+	recovered_journey.started_at = world.time - 2 MINUTES
+	conversation(driver, passenger)
+	car.forceMove(destination)
+	car.empty_occupent(passenger)
+	var/list/final_record = SSplayer_quality.store.read("continuousdriver")
+	if(!passenger.has_status_effect(/datum/status_effect/taxi_conversation) || abs(final_record["rcp"] - CONFIG_GET(number/taxi_rcp_reward)) > 0.001)
+		Fail("A full new active journey after recovery must grant the usual bonus and one RCP reward.")
+	qdel(SSplayer_quality.store)
+	SSplayer_quality.store = old_store
+	fdel(path)
+	fdel("[path].savebac")
 
 /datum/unit_test/taxi/speech/Run()
 	var/obj/darkpack_car/taxi/car = allocate(/obj/darkpack_car/taxi, run_loc_floor_bottom_left)

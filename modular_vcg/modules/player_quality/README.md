@@ -98,6 +98,12 @@ teaching persists the discipline's identity at level zero. It remains available
 as a choice after a discipline reset; positive allocations still use the ordinary
 age/clan budget. This creates neither free dots nor a second XP pool. A paid full
 edit also does not bypass the current character's saved Path and initiation rules.
+New learned identities and Path progress follow the existing canonical-round save
+policy: the player must control the original body, with its original slot and
+matching character GUID selected. EORG, noncanon characters and transferred bodies
+cannot write this progress. Existing discipline teaching and live morality changes
+still run; saved knowledge remains intact. A noncanon Path lesson is not credited,
+and initiation rechecks eligibility after its vulnerable interval.
 Deleting an old character and creating a replacement is free. Deletion removes
 that character's record and learned Paths/disciplines; the replacement receives
 a fresh GUID and starts without those learned identities. Account PQ, RCP and

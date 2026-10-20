@@ -109,6 +109,8 @@
 	teacher.quality_character_id = "teacher-character"
 	student_client.prefs.quality_character_id = student.quality_character_id
 	teacher_client.prefs.quality_character_id = teacher.quality_character_id
+	attach_canonical_character(student, student_client)
+	attach_canonical_character(teacher, teacher_client)
 	student_client.prefs.value_cache[/datum/preference/choiced/splats] = /datum/splat/vampire/kindred
 	student_client.prefs.value_cache[/datum/preference/numeric/immortal_age] = 50
 	student_client.prefs.value_cache[/datum/preference/choiced/vtm_morality] = /datum/morality/power
@@ -149,6 +151,16 @@
 	if(training["roll"] != 2 || record["path"] != "/datum/morality/humanity")
 		Fail("Interruption must preserve the snapshotted roll and original Path.")
 	REMOVE_TRAIT(teacher, TRAIT_KNOCKEDOUT, "path-test")
+	student.quality_try_path_initiation(teacher)
+	var/noncanon_attempt = student.quality_path_initiation_attempt
+	var/old_canon = GLOB.canon_event
+	GLOB.canon_event = FALSE
+	if(student.quality_finish_path_initiation(WEAKREF(teacher), "training-one", noncanon_attempt))
+		Fail("A canon change during the actual initiation timer must prevent persistent conversion.")
+	GLOB.canon_event = old_canon
+	record = controller.store.read_character(student_client.ckey, student.quality_character_id)
+	if(record["path"] != "/datum/morality/humanity" || !length(record["training"]))
+		Fail("A noncanon interruption must preserve the original Path and saved training.")
 	student.quality_try_path_initiation(teacher)
 	var/current_attempt = student.quality_path_initiation_attempt
 	student.quality_finish_path_initiation(WEAKREF(teacher), "training-one", first_attempt)
@@ -216,6 +228,7 @@
 		childe.quality_character_id = "already-joined-[was_ghoul]"
 		childe.quality_character_account = player.ckey
 		player.prefs.quality_character_id = childe.quality_character_id
+		attach_canonical_character(childe, player)
 		controller.store.create_character_record(player.ckey, childe.quality_character_id, list(
 			"locked" = TRUE,
 			"unlock_ticket" = "stats",
@@ -256,6 +269,101 @@
 	if(preview.quality_initialize_embraced_path() || controller.store.read_character(preview.quality_character_account, preview.quality_character_id))
 		Fail("The Embrace persistence helper must not create records for previews or unjoined sheets.")
 	GLOB.player_list -= spectator
+	qdel(controller.store)
+	controller.store = old_store
+	fdel(path)
+	fdel("[path].savebac")
+
+/datum/unit_test/player_quality/canon_character_progress/Run()
+	var/datum/controller/subsystem/player_quality/controller = SSplayer_quality
+	var/datum/player_quality_store/old_store = controller.store
+	var/old_canon = GLOB.canon_event
+	var/path = "data/pq-canon-progress-unit-[world.realtime]-[rand(1, 1000000)].json"
+	controller.store = new(path)
+	GLOB.canon_event = TRUE
+	var/mob/living/carbon/human/student = allocate(/mob/living/carbon/human/consistent)
+	var/mob/living/carbon/human/teacher = allocate(/mob/living/carbon/human/consistent)
+	var/mob/living/carbon/human/other_body = allocate(/mob/living/carbon/human/consistent)
+	student.forceMove(run_loc_floor_bottom_left)
+	teacher.forceMove(run_loc_floor_bottom_left)
+	var/datum/client_interface/quality_test/student_client = allocate(/datum/client_interface/quality_test, "qualitycanonstudent")
+	var/datum/client_interface/quality_test/teacher_client = allocate(/datum/client_interface/quality_test, "qualitycanonteacher")
+	student_client.prefs = new(student_client)
+	teacher_client.prefs = new(teacher_client)
+	student.make_kindred()
+	teacher.make_kindred()
+	student.quality_character_account = student_client.ckey
+	student.quality_character_id = "canon-student"
+	teacher.quality_character_account = teacher_client.ckey
+	teacher.quality_character_id = "canon-teacher"
+	student_client.prefs.quality_character_id = student.quality_character_id
+	teacher_client.prefs.quality_character_id = teacher.quality_character_id
+	attach_canonical_character(student, student_client)
+	attach_canonical_character(teacher, teacher_client)
+	controller.store.create_character_record(student_client.ckey, student.quality_character_id, list("path" = "/datum/morality/humanity", "path_rating" = 2, "learned_paths" = list("/datum/morality/humanity"), "learned_disciplines" = list("/datum/discipline/temporis" = 0), "training" = list()))
+	controller.store.create_character_record(teacher_client.ckey, teacher.quality_character_id, list("path" = "/datum/morality/power", "path_rating" = 3, "learned_paths" = list("/datum/morality/power"), "training" = list()))
+	student.quality_restore_character_path(controller.store.read_character(student_client.ckey, student.quality_character_id), /datum/morality/humanity)
+	teacher.quality_restore_character_path(controller.store.read_character(teacher_client.ckey, teacher.quality_character_id), /datum/morality/power)
+	var/original_record = json_encode(controller.store.read_character(student_client.ckey, student.quality_character_id))
+	for(var/reason in list("noncanon round", "noncanon character", "transferred body", "different original slot", "different GUID"))
+		switch(reason)
+			if("noncanon round")
+				GLOB.canon_event = FALSE
+			if("noncanon character")
+				ADD_TRAIT(student, TRAIT_NO_CANON, "canon-progress-test")
+			if("transferred body")
+				student.mind.set_original_character(other_body)
+			if("different original slot")
+				student.mind.original_character_slot_index = student_client.prefs.default_slot + 1
+				LAZYADD(student_client.persistent_client.joined_as_slots, "[student.mind.original_character_slot_index]")
+			if("different GUID")
+				student_client.prefs.quality_character_id = "another-selected-character"
+		if(!student.quality_character_save_failure() || student.quality_learn_discipline_identity(/datum/discipline/necromancy))
+			Fail("[reason] must reject newly persisted discipline identities.")
+		student.st_set_stat(STAT_MORALITY, 1)
+		SEND_SIGNAL(student, COMSIG_LIVING_CHANGED_HUMANITY, -1)
+		if(student.st_get_stat(STAT_MORALITY) != 1)
+			Fail("[reason] must preserve live morality changes in the current round.")
+		if(student.quality_record_path_lesson(teacher, /datum/morality/power))
+			Fail("[reason] must not credit a persistent Path lesson.")
+		var/list/attempt = controller.store.read_character(student_client.ckey, student.quality_character_id)
+		attempt["training"] = list("target_path" = "/datum/morality/power", "roll" = 2)
+		if(student.quality_commit_path_initiation(attempt, 3))
+			Fail("[reason] must not persist a completed initiation.")
+		if(json_encode(controller.store.read_character(student_client.ckey, student.quality_character_id)) != original_record)
+			Fail("[reason] must leave saved rating, lessons and previously learned identities intact.")
+		GLOB.canon_event = TRUE
+		REMOVE_TRAIT(student, TRAIT_NO_CANON, "canon-progress-test")
+		student.mind.set_original_character(student)
+		student.mind.original_character_slot_index = student_client.prefs.default_slot
+		student_client.prefs.quality_character_id = student.quality_character_id
+		student.quality_set_live_path(/datum/morality/humanity, 2)
+	ADD_TRAIT(teacher, TRAIT_NO_CANON, "canon-progress-test")
+	if(student.quality_record_path_lesson(teacher, /datum/morality/power))
+		Fail("A noncanon teacher must not advance a canonical student's persistent training.")
+	REMOVE_TRAIT(teacher, TRAIT_NO_CANON, "canon-progress-test")
+	if(!student.quality_learn_discipline_identity(/datum/discipline/necromancy) || !student.quality_record_path_lesson(teacher, /datum/morality/power))
+		Fail("The same original canonical character must still persist normal teaching and lessons.")
+	var/list/record = controller.store.read_character(student_client.ckey, student.quality_character_id)
+	var/list/learned = record["learned_disciplines"]
+	if(!("/datum/discipline/temporis" in learned) || !("/datum/discipline/necromancy" in learned))
+		Fail("Rejecting noncanon progress must not erase prior canonical knowledge.")
+	// A noncanon Embrace may initialize the live body, but not the saved record.
+	record -= "path"
+	record -= "path_rating"
+	controller.store.delete_character_record(student_client.ckey, student.quality_character_id)
+	controller.store.create_character_record(student_client.ckey, student.quality_character_id, record)
+	GLOB.canon_event = FALSE
+	if(!student.quality_initialize_embraced_path() || get_morality_path(student)?.type != /datum/morality/humanity)
+		Fail("A noncanon in-round Embrace must retain its ordinary live Humanity behavior.")
+	record = controller.store.read_character(student_client.ckey, student.quality_character_id)
+	if("path" in record || "path_rating" in record)
+		Fail("A noncanon Embrace must not initialize persistent Path fields.")
+	GLOB.canon_event = old_canon
+	qdel(student_client.prefs)
+	student_client.prefs = null
+	qdel(teacher_client.prefs)
+	teacher_client.prefs = null
 	qdel(controller.store)
 	controller.store = old_store
 	fdel(path)

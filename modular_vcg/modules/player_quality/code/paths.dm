@@ -141,7 +141,9 @@
 	learned |= "[path_type]"
 	if(!islist(record["training"]))
 		record["training"] = list()
-	if(!quality_write_path_fields(quality_character_account, quality_character_id, record))
+	// Noncanon/transferred bodies may restore a saved Path for play, but cannot
+	// initialize or overwrite its authoritative character record.
+	if(!quality_character_save_failure() && !quality_write_path_fields(quality_character_account, quality_character_id, record))
 		return FALSE
 	quality_set_live_path(path_type, record["path_rating"])
 	RegisterSignal(src, COMSIG_LIVING_CHANGED_HUMANITY, PROC_REF(quality_path_rating_changed), override = TRUE)
@@ -158,7 +160,7 @@
 
 /mob/living/carbon/human/proc/quality_path_rating_changed(datum/source, change)
 	SIGNAL_HANDLER
-	if(!quality_character_id || !quality_character_account || !get_kindred_splat(src))
+	if(quality_character_save_failure() || !get_kindred_splat(src))
 		return
 	var/list/record = SSplayer_quality?.store?.read_character(quality_character_account, quality_character_id)
 	var/datum/st_stat/morality_path/morality/stat_morality = storyteller_stats[STAT_MORALITY]
@@ -252,6 +254,12 @@
 /mob/living/carbon/human/proc/quality_record_path_lesson(mob/living/carbon/human/teacher, path_type)
 	if(!quality_path_pair_valid(teacher) || !quality_valid_path(path_type))
 		return FALSE
+	var/save_failure = quality_character_save_failure()
+	if(!save_failure)
+		save_failure = teacher.quality_character_save_failure()
+	if(save_failure)
+		to_chat(src, span_warning("This lesson cannot advance persistent Path training: [save_failure]."))
+		return FALSE
 	var/list/record = SSplayer_quality?.store?.read_character(quality_character_account, quality_character_id)
 	var/datum/morality/current_path = get_morality_path(src)
 	if(!islist(record) || !current_path || current_path.type == path_type)
@@ -281,6 +289,8 @@
 
 /mob/living/carbon/human/proc/quality_try_path_initiation(mob/living/carbon/human/teacher)
 	if(quality_path_initiation_pending || HAS_TRAIT(src, TRAIT_IN_FRENZY))
+		return FALSE
+	if(!istype(teacher) || quality_character_save_failure() || teacher.quality_character_save_failure())
 		return FALSE
 	var/list/record = SSplayer_quality?.store?.read_character(quality_character_account, quality_character_id)
 	var/list/training = record?["training"]
@@ -325,7 +335,7 @@
 	var/list/training = record?["training"]
 	var/list/rounds = training?["rounds"]
 	var/datum/morality/current_path = get_morality_path(src)
-	var/can_finish = frenzy && quality_path_teacher_matches(teacher, training) && training["id"] == training_id \
+	var/can_finish = frenzy && quality_path_teacher_matches(teacher, training) && !quality_character_save_failure() && !teacher.quality_character_save_failure() && training["id"] == training_id \
 		&& islist(rounds) && length(rounds) >= CONFIG_GET(number/path_training_rounds) && training["renounced"] \
 		&& training["original_path"] == "[current_path?.type]" && st_get_stat(STAT_MORALITY) == 0
 	if(frenzy)
@@ -336,6 +346,8 @@
 	return quality_commit_path_initiation(record, teacher.st_get_stat(STAT_MORALITY))
 
 /mob/living/carbon/human/proc/quality_commit_path_initiation(list/record, teacher_rating)
+	if(quality_character_save_failure())
+		return FALSE
 	var/list/training = record?["training"]
 	var/path_type = text2path(training?["target_path"])
 	if(!quality_valid_path(path_type) || !isnum(training["roll"]) || teacher_rating < 1)

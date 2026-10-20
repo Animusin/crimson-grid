@@ -176,10 +176,23 @@
 	quality_pending_job = null
 	return TRUE
 
+/// Account progression follows the existing canon/original-body save policy and
+/// must also belong to this exact selected sheet, not another joined slot.
+/mob/living/carbon/human/proc/quality_character_save_failure()
+	var/failure = cant_save_midround_reason()
+	if(failure)
+		return failure
+	var/client/player = GET_CLIENT(src)
+	if(mind.original_character_slot_index != player.prefs.default_slot)
+		return "selected character sheet is not this body's original slot"
+	if(!quality_character_id || quality_character_account != player.ckey || player.prefs.quality_character_id != quality_character_id)
+		return "selected character sheet does not own this body's persistent identity"
+	return null
+
 /// Teaching preserves the identity at level zero, not a second pool of dots.
 /// Existing positive allocations continue to use the ordinary age/clan budget.
 /mob/living/carbon/human/proc/quality_learn_discipline_identity(power_type)
-	if(!quality_character_id || !quality_character_account || !ispath(power_type, /datum/discipline))
+	if(quality_character_save_failure() || !ispath(power_type, /datum/discipline))
 		return FALSE
 	var/list/record = SSplayer_quality?.store?.read_character(quality_character_account, quality_character_id)
 	if(!record)
