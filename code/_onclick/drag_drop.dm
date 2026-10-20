@@ -98,7 +98,8 @@
 /// Returns true if it does, false otherwise
 /client/proc/is_drag_clickable(atom/dragging, atom/over, params)
 	if(dragging == over)
-		return TRUE
+		// Human self-drag opens their strip menu instead of becoming a click.
+		return dragging != mob || !ishuman(mob)
 	if(world.time - drag_start > LENIENCY_TIME) // Time's up bestie
 		return FALSE
 	if(!get_turf(dragging)) // If it isn't in the world, drop it. This is for things that can move, and we assume hud elements will not have this problem

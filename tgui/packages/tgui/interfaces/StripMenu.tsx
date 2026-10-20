@@ -213,6 +213,24 @@ const SLOTS: Record<
     image: 'inventory-shoes.png',
   },
 
+  underwear: {
+    displayName: 'underwear',
+    gridSpot: getGridSpotKey([3, 3]),
+    additionalComponent: <CornerText align="left">Underwear</CornerText>,
+  },
+
+  undershirt: {
+    displayName: 'bra or undershirt',
+    gridSpot: getGridSpotKey([3, 4]),
+    additionalComponent: <CornerText align="left">Bra / top</CornerText>,
+  },
+
+  socks: {
+    displayName: 'socks or stockings',
+    gridSpot: getGridSpotKey([3, 5]),
+    additionalComponent: <CornerText align="left">Stockings</CornerText>,
+  },
+
   suit_storage: {
     displayName: 'suit storage item',
     gridSpot: getGridSpotKey([4, 0]),

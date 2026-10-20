@@ -1,0 +1,71 @@
+{
+  "before_commit": "e2447b79c4",
+  "engine_renders_compared": 240,
+  "final_engine_renders": 248,
+  "unchanged_standard_renders": 120,
+  "changed_slim_renders": {
+    "fallback_uniform_Slim_3.png": [
+      [
+        20,
+        13
+      ]
+    ],
+    "fallback_uniform_Slim_4.png": [
+      [
+        11,
+        13
+      ]
+    ],
+    "long_sleeve_Slim_3.png": [
+      [
+        20,
+        13
+      ]
+    ],
+    "long_sleeve_Slim_4.png": [
+      [
+        11,
+        13
+      ]
+    ],
+    "modern_underwear_Slim_3.png": [
+      [
+        20,
+        13
+      ]
+    ],
+    "modern_underwear_Slim_4.png": [
+      [
+        11,
+        13
+      ]
+    ],
+    "skirt_Slim_3.png": [
+      [
+        20,
+        13
+      ]
+    ],
+    "skirt_Slim_4.png": [
+      [
+        11,
+        13
+      ]
+    ],
+    "undershirt_Slim_3.png": [
+      [
+        20,
+        13
+      ]
+    ],
+    "undershirt_Slim_4.png": [
+      [
+        11,
+        13
+      ]
+    ]
+  },
+  "broad_armor_continuous_E_W": true,
+  "pixel_source_commit": "fbd1ce67b7b77b799c61a38c5dbd2a679617133a",
+  "render_snapshot": "conditional_pixel_snapshot"
+}

@@ -1,5 +1,8 @@
 /obj/structure/retail/hot_ishu
 	products_list = list(
+		new /datum/data/vending_product("underwear (choose style)", /obj/item/undergarment/underwear, 10),
+		new /datum/data/vending_product("bra or undershirt (choose style)", /obj/item/undergarment/undershirt, 10),
+		new /datum/data/vending_product("socks or stockings (choose style)", /obj/item/undergarment/socks, 5),
 		new /datum/data/vending_product("\"Vase\"", /obj/item/bong, 50),
 		new /datum/data/vending_product("cross", /obj/item/card/hunter, 25),
 		new /datum/data/vending_product("backpack", /obj/item/storage/backpack, 100),

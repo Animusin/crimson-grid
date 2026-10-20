@@ -39,7 +39,8 @@
 	if(SEND_SIGNAL(source, COMSIG_MOB_STRIP_MENU_OPEN, over, user) & COMPONENT_BLOCK_STRIP_MENU_OPEN)
 		return
 
-	if (user == source)
+	// Humans can inspect their own underclothes through the same guarded menu.
+	if (user == source && !ishuman(source))
 		return
 	if (over != user)
 		return

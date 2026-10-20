@@ -615,10 +615,24 @@ generate/load female uniform sprites matching all previously decided variables
 		draw_target = mutable_appearance(building_icon, layer = -layer2use)
 	else
 		draw_target = mutable_appearance(file2use, t_state, layer = -layer2use)
+	var/mob/living/carbon/human/wearer = loc
+	var/slim = !isinhands && istype(wearer) && wearer.uses_slim_body()
+	var/slim_body_fit = istype(src, /obj/item/clothing)
+	var/slim_draped = FALSE
+	if(istype(src, /obj/item/clothing/under))
+		var/obj/item/clothing/under/uniform = src
+		slim_draped = istype(uniform, /obj/item/clothing/under/dress) || ((uniform.female_sprite_flags & FEMALE_UNIFORM_TOP_ONLY) && !(uniform.body_parts_covered & LEGS))
+	if(slim)
+		draw_target.icon = slim_worn_icon(file2use, t_state, building_icon, "[female_uniform]-[greyscale_colors]-[bodyshape]", slim_body_fit, slim_draped)
+		draw_target.icon_state = ""
 
 	//Get the overlays for this item when it's being worn
 	//eg: ammo counters, primed grenade flashes, etc.
 	var/list/worn_overlays = worn_overlays(draw_target, isinhands, file2use, bodyshape)
+	if(slim)
+		worn_overlays = worn_overlays.Copy()
+		for(var/i in 1 to length(worn_overlays))
+			worn_overlays[i] = slim_worn_appearance(worn_overlays[i], draw_target.icon, file2use, t_state, slim_body_fit, slim_draped)
 	if(length(worn_overlays))
 		draw_target.overlays += worn_overlays
 	draw_target = color_atom_overlay(draw_target)
@@ -628,6 +642,10 @@ generate/load female uniform sprites matching all previously decided variables
 	var/mutable_appearance/standing = mutable_appearance(layer = -layer2use, appearance_flags = KEEP_TOGETHER)
 	standing.overlays += draw_target
 	var/list/separate_overlays = separate_worn_overlays(standing, draw_target, isinhands, file2use, bodyshape)
+	if(slim)
+		separate_overlays = separate_overlays.Copy()
+		for(var/i in 1 to length(separate_overlays))
+			separate_overlays[i] = slim_worn_appearance(separate_overlays[i], draw_target.icon, file2use, t_state, slim_body_fit, slim_draped)
 	if(length(separate_overlays))
 		standing.overlays += separate_overlays
 	else // Don't nest overlays if there's nothing to nest against
@@ -691,19 +709,19 @@ generate/load female uniform sprites matching all previously decided variables
 		var/datum/sprite_accessory/clothing/underwear/undie_accessory = SSaccessories.underwear_list[underwear]
 		var/mutable_appearance/underwear_overlay = undie_accessory?.make_appearance(underwear_color, physique, bodyshape)
 		if(underwear_overlay)
-			. += underwear_overlay
+			. += fit_slim_underwear(underwear_overlay, undie_accessory)
 
 	if(undershirt)
 		var/datum/sprite_accessory/clothing/undershirt/shirt_accessory = SSaccessories.undershirt_list[undershirt]
 		var/mutable_appearance/shirt_overlay = shirt_accessory?.make_appearance(null, physique, bodyshape)
 		if(shirt_overlay)
-			. += shirt_overlay
+			. += fit_slim_underwear(shirt_overlay, shirt_accessory)
 
 	if(socks && num_legs >= 2 && !(bodyshape & BODYSHAPE_DIGITIGRADE))
 		var/datum/sprite_accessory/clothing/socks/sock_accessory = SSaccessories.socks_list[socks]
 		var/mutable_appearance/socks_overlay = sock_accessory?.make_appearance(null, physique, bodyshape)
 		if(socks_overlay)
-			. += socks_overlay
+			. += fit_slim_underwear(socks_overlay, sock_accessory)
 
 	return .
 
