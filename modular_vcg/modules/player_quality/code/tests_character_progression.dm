@@ -123,6 +123,13 @@
 	var/datum/preferences/preferences = player.prefs
 	preferences.write_preference(GLOB.preference_entries[/datum/preference/choiced/splats], SPLAT_KINDRED)
 	preferences.write_preference(GLOB.preference_entries[/datum/preference/numeric/immortal_age], 50)
+	var/datum/subsplat/vampire_clan/fixture_clan = get_vampire_clan(/datum/subsplat/vampire_clan/brujah)
+	preferences.write_preference(GLOB.preference_entries[/datum/preference/choiced/subsplat/vampire_clan], fixture_clan.name)
+	// Empty allocations invoke the native clan fallback on actual job spawn.
+	// A random True Brujah would legitimately receive Temporis 1 from that path,
+	// so use a known clan and explicit allocated dots before testing taught zeroes.
+	var/list/initial_allocations = list("/datum/discipline/celerity" = 1, "/datum/discipline/potence" = 1, "/datum/discipline/presence" = 1)
+	preferences.discipline_levels = initial_allocations.Copy()
 	var/datum/preference/path_preference = GLOB.preference_entries[/datum/preference/choiced/vtm_morality]
 	preferences.write_preference(path_preference, path_preference.serialize(/datum/morality/power))
 	preferences.write_preference(GLOB.preference_entries[/datum/preference/personality], list())
@@ -140,6 +147,11 @@
 	preferences.load_character()
 	if(preferences.read_preference(/datum/preference/choiced/splats) != /datum/splat/vampire/kindred || preferences.read_preference(/datum/preference/numeric/immortal_age) != 50 || preferences.read_preference(/datum/preference/choiced/vtm_morality) != /datum/morality/power)
 		Fail("The migrated fixture must reload its serialized Kindred splat, age and requested Path before testing job spawn.")
+	if(preferences.read_preference(/datum/preference/choiced/subsplat/vampire_clan) != fixture_clan.name || length(preferences.discipline_levels) != length(initial_allocations))
+		Fail("The migrated fixture must reload its explicit Brujah clan and allocation (clan: [preferences.read_preference(/datum/preference/choiced/subsplat/vampire_clan)], levels: [json_encode(preferences.discipline_levels)]).")
+	for(var/power_key in initial_allocations)
+		if(preferences.discipline_levels[power_key] != initial_allocations[power_key])
+			Fail("Migrating the fixture must retain the allocated dot in [power_key]: [json_encode(preferences.discipline_levels)].")
 	var/id = preferences.quality_character_id
 	var/mob/living/carbon/human/dummy/consistent/preview = allocate(/mob/living/carbon/human/dummy/consistent)
 	preferences.apply_prefs_to(preview)
@@ -165,6 +177,8 @@
 		Fail("Successful first spawn must attach stable identity and lock once.")
 	if(!get_kindred_splat(body))
 		Fail("Actual job preferences must create a Kindred body from the reloaded sheet (saved splat: [preferences.read_preference(/datum/preference/choiced/splats)]).")
+	if(body.get_clan()?.type != /datum/subsplat/vampire_clan/brujah || ("/datum/discipline/temporis" in preferences.discipline_levels))
+		Fail("The actual job fixture must be Brujah without an allocated Temporis choice before teaching (clan: [body.get_clan()?.type], levels: [json_encode(preferences.discipline_levels)]).")
 	if(record["path"] != "/datum/morality/humanity" || !isnum(record["path_rating"]))
 		Fail("Actual first spawn must persist initial Humanity through the canon guard (saved Path: [record["path"]], rating: [record["path_rating"]], save failure: [body.quality_character_save_failure()]).")
 	if(body.quality_character_save_failure())
@@ -195,8 +209,13 @@
 	if(record["unlock_ticket"] || !record["locked"])
 		Fail("Only the next successfully possessed body may consume the one-spawn edit ticket.")
 	var/list/learned = record["learned_disciplines"]
-	if(!("/datum/discipline/temporis" in learned) || preferences.discipline_levels["/datum/discipline/temporis"] != 0)
-		Fail("A respawn must retain taught choices at zero without granting an additional discipline point pool.")
+	if(!islist(learned) || !("/datum/discipline/temporis" in learned) || learned["/datum/discipline/temporis"] != 0)
+		Fail("A respawn must preserve the taught identity at zero in the character ledger: [json_encode(learned)].")
+	if(!("/datum/discipline/temporis" in preferences.discipline_levels) || preferences.discipline_levels["/datum/discipline/temporis"] != 0 || length(preferences.discipline_levels) != length(initial_allocations) + 1)
+		Fail("A respawn must restore the formerly absent taught choice at zero without extra allocations (clan: [preferences.read_preference(/datum/preference/choiced/subsplat/vampire_clan)], learned: [json_encode(learned)], levels: [json_encode(preferences.discipline_levels)]).")
+	for(var/power_key in initial_allocations)
+		if(preferences.discipline_levels[power_key] != initial_allocations[power_key])
+			Fail("Restoring a taught zero choice must preserve the original allocated [power_key] dot: [json_encode(preferences.discipline_levels)].")
 	preferences.save_character()
 	preferences.switch_to_slot(2)
 	var/second_id = preferences.quality_character_id
