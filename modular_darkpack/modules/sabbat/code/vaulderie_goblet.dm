@@ -77,6 +77,17 @@
 			to_chat(target_mob, span_cult("You decide not to participate in the Vaulderie."))
 			return ITEM_INTERACT_BLOCKING
 
+	// Admission precedes both the blood-bond effects and the job change. The
+	// central mind gates recheck the final mutation, without a half-conversion.
+	var/would_convert = length(blood_donors) > 1
+	for(var/mob/living/carbon/human/donor in blood_donors)
+		if(is_sabbatist(donor.mind?.assigned_role))
+			would_convert = TRUE
+	if(would_convert && !is_sabbatist(target_mob.mind?.assigned_role) \
+		&& !GLOB.city_antag_budget.can_set_role(target_mob.mind, SSjob.get_job_type(/datum/job/vampire/sabbatpack)))
+		to_chat(target_mob, span_warning("There is no room for another Sabbat member in this round."))
+		return ITEM_INTERACT_BLOCKING
+
 	if(length(blood_donors) > 0 && (reagents.has_reagent(/datum/reagent/blood/vitae) || reagents.has_reagent(/datum/reagent/blood)))
 		for(var/mob/living/carbon/human/donor in blood_donors)
 			if(target_mob != donor)

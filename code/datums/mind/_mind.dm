@@ -493,6 +493,13 @@
 		return
 	if(!is_job(new_role))
 		CRASH("set_assigned_role called with invalid role: [isnull(new_role) ? "null" : new_role]")
+	if(!GLOB.city_antag_budget.can_set_role(src, new_role))
+		if(!SSjob?.run_divide_occupation_pure)
+			var/message = "This round's antagonist capacity does not allow [new_role.title] right now."
+			to_chat(current, span_warning(message))
+			if(usr && usr != current)
+				to_chat(usr, span_warning(message))
+		return FALSE
 	. = assigned_role
 	assigned_role = new_role
 	if(!isnull(current))

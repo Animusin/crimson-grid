@@ -351,6 +351,9 @@ GLOBAL_LIST_EMPTY(city_business_attacks)
 	next_collection += BUSINESS_CYCLE * cycles
 
 /obj/structure/city_business/proc/declare_attack(mob/living/user, faction)
+	if(!capture_allowed())
+		to_chat(user, span_warning("Territory challenges are disabled during a Quiet Night."))
+		return
 	if(!faction || !user.has_city_badge(faction) || !can_negotiate(user, clerk) || faction == owner_faction || attack_faction || GLOB.city_business_attacks[faction] || world.time < retry_at)
 		to_chat(user, span_warning("A protection challenge is not available now."))
 		return

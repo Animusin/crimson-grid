@@ -166,12 +166,14 @@
 	var/datum/job/job = SSjob.get_job(rank)
 	if(!(job.job_flags & JOB_NEW_PLAYER_JOINABLE))
 		return JOB_UNAVAILABLE_GENERIC
-	if((job.current_positions >= job.total_positions) && job.total_positions != -1)
+	var/position_limit = GLOB.city_antag_budget.job_limit(job, TRUE)
+	if((job.current_positions >= position_limit) && position_limit != -1)
 		if(is_assistant_job(job))
 			if(isnum(client.player_age) && client.player_age <= 14) //Newbies can always be assistants
 				return JOB_AVAILABLE
 			for(var/datum/job/other_job as anything in SSjob.joinable_occupations)
-				if(other_job.current_positions < other_job.total_positions && other_job != job)
+				var/other_limit = GLOB.city_antag_budget.job_limit(other_job, TRUE)
+				if((other_limit < 0 || other_job.current_positions < other_limit) && other_job != job)
 					return JOB_UNAVAILABLE_SLOTFULL
 		else
 			return JOB_UNAVAILABLE_SLOTFULL

@@ -150,6 +150,7 @@ SUBSYSTEM_DEF(ticker)
 				config.ShowLobbyNotices(world)
 			// CRIMSON END ADD
 		if(GAME_STATE_PREGAME)
+			GLOB.city_round_style.ensure_vote()
 			//lobby stats for statpanels
 			totalPlayers = LAZYLEN(GLOB.new_player_list)
 			totalPlayersReady = 0
@@ -173,6 +174,9 @@ SUBSYSTEM_DEF(ticker)
 				tipped = TRUE
 
 			if(timeLeft <= 0)
+				if(!GLOB.city_round_style.ready_for_setup())
+					timeLeft = wait
+					return
 				SEND_SIGNAL(src, COMSIG_TICKER_ENTER_SETTING_UP)
 				current_state = GAME_STATE_SETTING_UP
 				Master.SetRunLevel(RUNLEVEL_SETUP)
@@ -239,6 +243,7 @@ SUBSYSTEM_DEF(ticker)
 	return player_states
 
 /datum/controller/subsystem/ticker/proc/setup()
+	GLOB.city_round_style.finalize_style()
 	to_chat(world, span_boldannounce("Starting game..."))
 	var/init_start = world.timeofday
 

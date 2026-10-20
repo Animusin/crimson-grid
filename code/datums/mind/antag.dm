@@ -17,6 +17,12 @@
 	if(!A.can_be_owned(src))
 		qdel(A)
 		return
+	if(!GLOB.city_antag_budget.can_gain_antagonist(src, A))
+		to_chat(current, span_warning("This round's antagonist capacity does not allow a new antagonist right now."))
+		if(usr && usr != current)
+			to_chat(usr, span_warning("This round's antagonist capacity does not allow a new antagonist right now."))
+		qdel(A)
+		return
 	A.owner = src
 	LAZYADD(antag_datums, A)
 	A.create_team(team)

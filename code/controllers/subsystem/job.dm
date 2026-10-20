@@ -253,9 +253,15 @@ SUBSYSTEM_DEF(job)
 
 	if(do_eligibility_checks && (check_job_eligibility(player, job, "AR", add_job_to_log = TRUE) != JOB_AVAILABLE))
 		return FALSE
+	// Recheck even when the caller already tested eligibility: that check can
+	// sleep, and all antagonist jobs share the same live account capacity.
+	if(!GLOB.city_antag_budget.can_set_role(player.mind, job))
+		return FALSE
 
 	job_debug("AR: Role now set and assigned - [player] is [job.title], JCP:[job.current_positions], JPL:[latejoin ? job.total_positions : job.spawn_positions]")
 	player.mind.set_assigned_role(job)
+	if(player.mind.assigned_role != job)
+		return FALSE
 	unassigned -= player
 	job.current_positions++
 	return TRUE
@@ -300,7 +306,8 @@ SUBSYSTEM_DEF(job)
 			job_debug("GRJ: Player is deleted, aborting")
 			break
 
-		if((job.current_positions >= job.spawn_positions) && job.spawn_positions != -1)
+		var/position_limit = GLOB.city_antag_budget.job_limit(job)
+		if((job.current_positions >= position_limit) && position_limit != -1)
 			job_debug("GRJ: Job lacks spawn positions to be eligible, Player: [player], Job: [job]")
 			continue
 
@@ -325,6 +332,7 @@ SUBSYSTEM_DEF(job)
 
 /datum/controller/subsystem/job/proc/reset_occupations()
 	job_debug("RO: Occupations reset.")
+	GLOB.city_antag_budget.reset_assignment()
 	for(var/mob/dead/new_player/player as anything in GLOB.new_player_list)
 		if(!player?.mind)
 			continue
@@ -348,7 +356,8 @@ SUBSYSTEM_DEF(job)
 		return FALSE
 	for(var/level in level_order)
 		for(var/datum/job/job as anything in command_department.department_jobs)
-			if((job.current_positions >= job.total_positions) && job.total_positions != -1)
+			var/position_limit = GLOB.city_antag_budget.job_limit(job, TRUE)
+			if((job.current_positions >= position_limit) && position_limit != -1)
 				continue
 			var/list/candidates = find_occupation_candidates(job, level)
 			if(!candidates.len)
@@ -375,7 +384,8 @@ SUBSYSTEM_DEF(job)
 		return .
 
 	for(var/datum/job/job as anything in command_department.department_jobs)
-		if((job.current_positions >= job.total_positions) && job.total_positions != -1)
+		var/position_limit = GLOB.city_antag_budget.job_limit(job, TRUE)
+		if((job.current_positions >= position_limit) && position_limit != -1)
 			continue
 
 		var/list/candidates = find_occupation_candidates(job, level)
@@ -390,7 +400,7 @@ SUBSYSTEM_DEF(job)
 
 		.++
 
-		if((job.current_positions >= job.spawn_positions) && job.spawn_positions != -1)
+		if((job.current_positions >= GLOB.city_antag_budget.job_limit(job)) && GLOB.city_antag_budget.job_limit(job) != -1)
 			job_debug("JOBS: Command Job is now full, Job: [job], Positions: [job.current_positions], Limit: [job.spawn_positions]")
 
 /// Attempts to fill out all available AI positions.
@@ -418,6 +428,7 @@ SUBSYSTEM_DEF(job)
 	//Setup new player list and get the jobs list
 	job_debug("DO: Running, allow_all = [allow_all], pure = [pure]")
 	run_divide_occupation_pure = pure
+	GLOB.city_antag_budget.begin_assignment(pure)
 	SEND_SIGNAL(src, COMSIG_OCCUPATIONS_DIVIDED, pure, allow_all)
 
 	//Get the players who are ready
@@ -471,7 +482,8 @@ SUBSYSTEM_DEF(job)
 
 	for(var/datum/job/job in available_occupations)
 		// Make sure the job isn't filled. If it is, remove it from the list so it doesn't get checked.
-		if((job.current_positions >= job.spawn_positions) && job.spawn_positions != -1)
+		var/position_limit = GLOB.city_antag_budget.job_limit(job, ignore_capacity = TRUE)
+		if((job.current_positions >= position_limit) && position_limit != -1)
 			job_debug("DO: Job is now filled, Job: [job], Current: [job.current_positions], Limit: [job.spawn_positions]")
 			available_occupations -= job
 			continue
@@ -497,6 +509,8 @@ SUBSYSTEM_DEF(job)
 					try_reject_player(player)
 
 			job_debug("JOBS: Finding a job for player: [player], at job priority pref: [job_priority_level_to_string(level)]")
+			if(GLOB.city_antag_budget.defer_player(player, level))
+				continue
 
 			// Loop through all jobs and build a list of jobs this player could be eligible for.
 			var/list/possible_jobs = list()
@@ -525,11 +539,13 @@ SUBSYSTEM_DEF(job)
 
 			job_debug("JOBS: Now assigning role to player: [player], Job:[picked_job.title]")
 			assign_role(player, picked_job, do_eligibility_checks = FALSE)
-			if((picked_job.current_positions >= picked_job.spawn_positions) && picked_job.spawn_positions != -1)
+			var/position_limit = GLOB.city_antag_budget.job_limit(picked_job)
+			if((picked_job.current_positions >= position_limit) && position_limit != -1)
 				job_debug("JOBS: Job is now full, Job: [picked_job], Positions: [picked_job.current_positions], Limit: [picked_job.spawn_positions]")
 				available_occupations -= picked_job
 
 	job_debug("DO: Ending standard job assignment")
+	GLOB.city_antag_budget.finish_deferred_assignments(allow_all)
 
 	job_debug("DO: Handle unassigned")
 	// For any players that didn't get a job, fall back on their pref setting for what to do.
@@ -545,12 +561,14 @@ SUBSYSTEM_DEF(job)
 				job_debug("DO: Forced antagonist could not be assigned any random job or the overflow role. divide_occupations failed.")
 				job_debug("---------------------------------------------------")
 				run_divide_occupation_pure = FALSE
+				GLOB.city_antag_budget.reset_assignment()
 				return FALSE //Living on the edge, the forced antagonist couldn't be assigned to overflow role (bans, client age) - just reroll
 	job_debug("DO: Ending handle unrejectable unassigned")
 
 	job_debug("All divide occupations tasks completed.")
 	job_debug("---------------------------------------------------")
 	run_divide_occupation_pure = FALSE
+	GLOB.city_antag_budget.end_assignment()
 	return TRUE
 
 //We couldn't find a job from prefs for this guy.
@@ -929,6 +947,8 @@ SUBSYSTEM_DEF(job)
 	var/list/overflow_candidates = find_occupation_candidates(overflow_datum, JP_ANY)
 	job_debug("OVRFLW: Attempting to assign the overflow role to [length(overflow_candidates)] players.")
 	for(var/mob/dead/new_player/player in overflow_candidates)
+		if(GLOB.city_antag_budget.defer_overflow(player, overflow_datum))
+			continue
 		if((overflow_datum.current_positions >= overflow_datum.spawn_positions) && overflow_datum.spawn_positions != -1)
 			job_debug("OVRFLW: Overflow role cap reached, role only assigned to [overflow_datum.current_positions] players.")
 			job_debug("OVRFLW: Overflow Job is now full, Job: [overflow_datum], Positions: [overflow_datum.current_positions], Limit: [overflow_datum.spawn_positions]")
@@ -958,7 +978,8 @@ SUBSYSTEM_DEF(job)
  * * debug_prefix - Logging prefix for the job_debug log entries. For example, GRJ during give_random_job or DO during divide_occupations.
  * * add_job_to_log - If TRUE, appends the job type to the log entry. If FALSE, does not. Set to FALSE when check is part of iterating over players for a specific job, set to TRUE when check is part of iterating over jobs for a specific player and you don't want extra log entry spam.
  */
-/datum/controller/subsystem/job/proc/check_job_eligibility(mob/dead/new_player/player, datum/job/possible_job, debug_prefix = "", add_job_to_log = FALSE)
+/datum/controller/subsystem/job/proc/check_job_eligibility(mob/dead/new_player/player, datum/job/possible_job, debug_prefix = "", add_job_to_log = FALSE, ignore_city_budget = FALSE)
+	var/client/player_client = GET_CLIENT(player)
 	if(!player.mind)
 		job_debug("[debug_prefix]: Player has no mind, Player: [player][add_job_to_log ? ", Job: [possible_job]" : ""]")
 		return JOB_UNAVAILABLE_GENERIC
@@ -977,12 +998,11 @@ SUBSYSTEM_DEF(job)
 		return JOB_UNAVAILABLE_PLAYTIME
 
 	// Run the banned check last since it should be the rarest check to fail and can access the database.
-	if(is_banned_from(player.ckey, possible_job.title))
+	if(is_banned_from(player_client?.ckey || player.ckey, possible_job.title))
 		job_debug("[debug_prefix] Error: [get_job_unavailable_error_message(JOB_UNAVAILABLE_BANNED, possible_job.title)], Player: [player][add_job_to_log ? ", Job: [possible_job]" : ""]")
 		return JOB_UNAVAILABLE_BANNED
 
 	// Check for character age
-	var/client/player_client = GET_CLIENT(player)
 	if(isnum(possible_job.required_character_age) && possible_job.required_character_age > player_client.prefs.read_preference(/datum/preference/numeric/age))
 		job_debug("[debug_prefix] Error: [get_job_unavailable_error_message(JOB_UNAVAILABLE_AGE)], Player: [player][add_job_to_log ? ", Job: [possible_job]" : ""]")
 		return JOB_UNAVAILABLE_AGE
@@ -990,6 +1010,8 @@ SUBSYSTEM_DEF(job)
 	// Need to recheck the player exists after is_banned_from since it can query the DB which may sleep.
 	if(QDELETED(player))
 		job_debug("[debug_prefix]: Player is qdeleted, Player: [player][add_job_to_log ? ", Job: [possible_job]" : ""]")
+		return JOB_UNAVAILABLE_GENERIC
+	if(!ignore_city_budget && !GLOB.city_antag_budget.can_set_role(player.mind, possible_job))
 		return JOB_UNAVAILABLE_GENERIC
 
 	return check_job_eligibility_darkpack(player, possible_job, debug_prefix, add_job_to_log) // DARKPACK EDIT CHANGE - ORIGINAL: return JOB_AVAILABLE
