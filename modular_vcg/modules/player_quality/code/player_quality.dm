@@ -170,6 +170,7 @@ SUBSYSTEM_DEF(player_quality)
 		return SS_INIT_NO_NEED
 	store = new
 	round_token = "[world.realtime]-[rand(1, 1000000)]"
+	RegisterSignal(SSdcs, "taxi_ride_completed", PROC_REF(on_taxi_ride_completed))
 	RegisterSignal(SSticker, COMSIG_TICKER_ROUND_STARTING, PROC_REF(round_starting))
 	RegisterSignal(SSticker, COMSIG_TICKER_ROUND_ENDED, PROC_REF(round_finished))
 	register_karma_signals()
@@ -188,6 +189,7 @@ SUBSYSTEM_DEF(player_quality)
 	last_sample = SSplayer_quality.last_sample
 	karma_sessions = SSplayer_quality.karma_sessions
 	if(store)
+		RegisterSignal(SSdcs, "taxi_ride_completed", PROC_REF(on_taxi_ride_completed))
 		RegisterSignal(SSticker, COMSIG_TICKER_ROUND_STARTING, PROC_REF(round_starting))
 		RegisterSignal(SSticker, COMSIG_TICKER_ROUND_ENDED, PROC_REF(round_finished))
 		register_karma_signals()

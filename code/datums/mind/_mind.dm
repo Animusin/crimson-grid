@@ -48,6 +48,8 @@
 
 	/// Job datum indicating the mind's role. This should always exist after initialization, as a reference to a singleton.
 	var/datum/job/assigned_role
+	/// Actual alternate title assigned at spawn, independent of later preferences or ID cards.
+	var/assigned_alt_title
 
 	/// List of antag datums on this mind
 	var/list/antag_datums
@@ -495,6 +497,7 @@
 		CRASH("set_assigned_role called with invalid role: [isnull(new_role) ? "null" : new_role]")
 	. = assigned_role
 	assigned_role = new_role
+	assigned_alt_title = new_role.title
 	if(!isnull(current))
 		SEND_SIGNAL(current, COMSIG_MOB_MIND_SET_ROLE, new_role)
 		current.client?.tgui_panel?.send_player_info()
@@ -522,6 +525,7 @@
 	. = set_assigned_role(new_role)
 	if(assigned_role != new_role)
 		return
+	assigned_alt_title = (alt_title in new_role.alt_titles) ? alt_title : new_role.title
 
 	var/intro_message = new_role.get_spawn_message(alt_title) // DARKPACK EDIT CHANGE - ALTERNATIVE_JOB_TITLES - ORIGINAL: var/intro_message = new_role.get_spawn_message()
 	if(incoming_client && intro_message)
