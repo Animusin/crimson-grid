@@ -81,7 +81,7 @@
 	if(ascendee)
 		SET_FACTION_AND_ALLIES_FROM(monster, ascendee.current)
 		woohoo_free_antag.set_owner(ascendee)
-	var/datum/objective/kill_all_your_friends = new()
+	var/datum/objective/heretic_crew_cull/kill_all_your_friends = new()
 	kill_all_your_friends.owner = monster.mind
 	kill_all_your_friends.explanation_text = "The station's crew must be culled."
 	kill_all_your_friends.completed = TRUE

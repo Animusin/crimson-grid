@@ -5,4 +5,5 @@
 		handle_overfeeding(drunk_from_mob)
 	else
 		if(drunk_from_mob.stat != DEAD)
+			SSplayer_quality?.record_execution(drunk_from_mob, src)
 			drunk_from_mob.death()

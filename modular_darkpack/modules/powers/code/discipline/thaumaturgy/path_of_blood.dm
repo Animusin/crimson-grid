@@ -331,6 +331,6 @@
 	if(ismundane(target))
 		if(isnpc(target))
 			damage_mult = 4 // increased damage against npcs so a single success kills an mortal NPC
-		target.apply_damage(success_count * damage_mult * success_multiplier_mortal + owner.thaum_damage_plus, AGGRAVATED)
+		target.apply_damage(success_count * damage_mult * success_multiplier_mortal + owner.thaum_damage_plus, AGGRAVATED, damage_attacker = owner)
 	else
-		target.apply_damage(success_count * damage_mult * success_multiplier_supernatural + owner.thaum_damage_plus, AGGRAVATED)
+		target.apply_damage(success_count * damage_mult * success_multiplier_supernatural + owner.thaum_damage_plus, AGGRAVATED, damage_attacker = owner)

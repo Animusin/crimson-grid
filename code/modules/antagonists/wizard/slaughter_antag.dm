@@ -29,7 +29,7 @@
 		new_objective.target = summoner
 		new_objective.explanation_text = "[objective_verb] [summoner.name], the one who summoned you."
 		objectives += new_objective
-	var/datum/objective/new_objective2 = new /datum/objective
+	var/datum/objective/new_objective2 = new /datum/objective/slaughter_everyone
 	new_objective2.owner = owner
 	new_objective2.no_failure = TRUE
 	new_objective2.explanation_text = "[objective_verb] everyone[summoner ? " else while you're at it":""]."

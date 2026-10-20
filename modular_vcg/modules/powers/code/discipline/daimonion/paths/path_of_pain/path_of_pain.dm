@@ -86,11 +86,11 @@
 	if(..())
 		return
 	var/stamina_loss = success_count TTRPG_DAMAGE
-	target.apply_damage(stamina_loss, STAMINA)
+	target.apply_damage(stamina_loss, STAMINA, damage_attacker = owner)
 	target.visible_message(span_notice("[target] grabs their chest in pain!"), \
 			span_notice("You grab your chest, feeling burning pain!"))
 	if(HAS_TRAIT(owner, TRAIT_PAIN_BOTCH))
-		owner.apply_damage(stamina_loss, STAMINA)
+		owner.apply_damage(stamina_loss, STAMINA, damage_attacker = owner)
 		owner.visible_message(span_notice("[owner] grabs their chest in pain!"), \
 			span_notice("You grab your chest, feeling burning pain!"))
 
@@ -108,14 +108,14 @@
 /datum/discipline_power/daimonion/path/pain/shattering/activate(mob/living/target)
 	if(..())
 		return
-	owner.apply_damage(1 TTRPG_DAMAGE, BRUTE)
+	owner.apply_damage(1 TTRPG_DAMAGE, BRUTE, damage_attacker = owner)
 	var/will_resist = SSroll.storyteller_roll_datum(target, target, /datum/storyteller_roll/path_of_pain, difficulty = 6)
-	target.apply_damage(max(0, (success_count - will_resist)) TTRPG_DAMAGE, BRUTE)
+	target.apply_damage(max(0, (success_count - will_resist)) TTRPG_DAMAGE, BRUTE, damage_attacker = owner)
 	playsound(target, "sound/effects/wounds/crack1.ogg", 50)
 	target.visible_message(span_warning("[target]'s body does a horrifying cracking sound!"), \
 			span_warning("You hear a horrifying cracking sound coming from your body!"))
 	if(HAS_TRAIT(owner, TRAIT_PAIN_BOTCH))
-		owner.apply_damage(success_count TTRPG_DAMAGE, BRUTE)
+		owner.apply_damage(success_count TTRPG_DAMAGE, BRUTE, damage_attacker = owner)
 		playsound(owner, "sound/effects/wounds/crack2.ogg", 50)
 		owner.visible_message(span_warning("[owner]'s body does a horrifying cracking sound!"), \
 			span_warning("You hear a horrifying cracking sound coming from your body!"))
@@ -139,16 +139,16 @@
 	if(!self_mutilation_bonus)
 		self_mutilation_bonus = 0
 	self_mutilation_bonus /= 10
-	owner.apply_damage(self_mutilation_bonus TTRPG_DAMAGE, BRUTE)
+	owner.apply_damage(self_mutilation_bonus TTRPG_DAMAGE, BRUTE, damage_attacker = owner)
 	success_count += self_mutilation_bonus
 	var/will_success_count = SSroll.storyteller_roll_datum(target, target, /datum/storyteller_roll/path_of_pain, difficulty = 6+self_mutilation_bonus)
 	var/will_endure = floor(will_success_count / 2)
-	target.apply_damage(max(0, (success_count - will_endure)) TTRPG_DAMAGE, BRUTE)
+	target.apply_damage(max(0, (success_count - will_endure)) TTRPG_DAMAGE, BRUTE, damage_attacker = owner)
 	playsound(target, 'sound/items/weapons/whip.ogg', 50)
 	target.visible_message(span_warning("Blood-thorn threads tear [target]'s flesh!"), \
 			span_warning("Blood-thorn threads tear your flesh!"))
 	if(HAS_TRAIT(owner, TRAIT_PAIN_BOTCH))
-		owner.apply_damage(success_count TTRPG_DAMAGE, BRUTE)
+		owner.apply_damage(success_count TTRPG_DAMAGE, BRUTE, damage_attacker = owner)
 		playsound(owner, 'sound/items/weapons/whip.ogg', 50)
 		owner.visible_message(span_warning("Blood-thorn threads tear [owner]'s flesh!"), \
 			span_warning("Blood-thorn threads tear your flesh!"))
@@ -169,15 +169,15 @@
 	var/will_success = SSroll.storyteller_roll_datum(owner, owner, /datum/storyteller_roll/path_of_pain, difficulty = 6)
 	if(will_success <= 0)
 		return
-	owner.apply_damage(1 LETHAL_TTRPG_DAMAGE, AGGRAVATED)
+	owner.apply_damage(1 LETHAL_TTRPG_DAMAGE, AGGRAVATED, damage_attacker = owner)
 	if(..())
 		return
-	target.apply_damage(success_count LETHAL_TTRPG_DAMAGE, AGGRAVATED)
+	target.apply_damage(success_count LETHAL_TTRPG_DAMAGE, AGGRAVATED, damage_attacker = owner)
 	target.visible_message(span_warning("Deep cuts appear all over [target]'s body!"), \
 			span_warning("Deep cuts appear all over your body, causing immense pain!"))
 	target.emote("scream")
 	if(HAS_TRAIT(owner, TRAIT_PAIN_BOTCH))
-		owner.apply_damage(success_count LETHAL_TTRPG_DAMAGE, AGGRAVATED)
+		owner.apply_damage(success_count LETHAL_TTRPG_DAMAGE, AGGRAVATED, damage_attacker = owner)
 		owner.visible_message(span_warning("Deep cuts appear all over [owner]'s body!"), \
 			span_warning("Deep cuts appear all over your body, causing immense pain!"))
 		owner.emote("scream")

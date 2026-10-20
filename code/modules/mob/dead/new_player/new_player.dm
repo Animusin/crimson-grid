@@ -153,6 +153,8 @@
 			return "Your character's tribe is incompatible for [jobtitle]."
 		if(JOB_UNAVAILABLE_FERA_AUSPICE)
 			return "Your character's auspice is incompatible for [jobtitle]."
+		if(JOB_UNAVAILABLE_FERA_RESPECT)
+			return "Your Respect does not permit this Garou rank. Reduce the saved Renown or choose a mortal, ghoul or kinfolk."
 		// DARKPACK EDIT END
 		// CRIMSON EDIT ADD START
 		if(JOB_UNAVAILABLE_DONATOR)
@@ -337,6 +339,9 @@
 	if(!.)
 		return
 	new_character.PossessByPlayer(key) //Manually transfer the key to log them in,
+	if(ishuman(new_character))
+		var/mob/living/carbon/human/human_character = new_character
+		human_character.quality_finalize_character(GET_CLIENT(human_character), human_character.quality_pending_job)
 	new_character.stop_sound_channel(CHANNEL_LOBBYMUSIC)
 	var/area/joined_area = get_area(new_character.loc)
 	if(joined_area)

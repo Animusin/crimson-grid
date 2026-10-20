@@ -21,6 +21,7 @@
 /datum/preference/choiced/subsplat/fera_auspice/apply_to_human(mob/living/carbon/human/target, value, datum/preferences/preferences)
 	var/joining_round = !isdummy(target)
 	target.set_auspice(value, joining_round)
+	target.quality_apply_garou_starting_rank(preferences)
 
 /datum/preference/choiced/subsplat/fera_auspice/post_set_preference(mob/user, value)
 	var/datum/subsplat/werewolf/auspice/auspice = get_fera_auspice(value)

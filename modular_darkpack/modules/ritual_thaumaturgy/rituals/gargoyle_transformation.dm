@@ -85,6 +85,7 @@
 					if(A && A.vampiric)
 						A.Remove(H)
 
+				SSplayer_quality?.record_execution(H, last_activator)
 				H.gib(FALSE, FALSE, TRUE)
 
 		// Add ghost control component

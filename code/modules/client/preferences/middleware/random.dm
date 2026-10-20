@@ -43,6 +43,8 @@
 
 	if (!requested_preference.is_randomizable())
 		return FALSE
+	if(!preferences.quality_can_edit_preference(requested_preference))
+		return FALSE
 
 	if (value == RANDOM_ANTAG_ONLY)
 		preferences.randomise[requested_preference_key] = RANDOM_ANTAG_ONLY
@@ -57,6 +59,8 @@
 
 /// Returns if a preference should be randomized.
 /datum/preferences/proc/should_randomize(datum/preference/preference, is_antag)
+	if(!quality_can_edit_preference(preference))
+		return FALSE
 	if (!preference.is_randomizable())
 		return FALSE
 

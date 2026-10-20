@@ -367,7 +367,7 @@
 
 ///Override this proc for special post heal effects. Only called for carbon patients.
 /obj/item/stack/medical/proc/post_heal_effects(amount_healed, mob/living/carbon/healed_mob, mob/living/user)
-	return
+	SSplayer_quality?.record_help(user, healed_mob, amount_healed)
 
 /obj/item/stack/medical/bruise_pack
 	name = "bruise pack"
