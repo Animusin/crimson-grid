@@ -12,6 +12,10 @@ GLOBAL_LIST_EMPTY(antagonists)
 	var/show_in_roundend = TRUE
 	///Mind that owns this datum
 	var/datum/mind/owner
+	/// Trusted continuation proof while a datum is detached during a mind transfer.
+	VAR_PRIVATE/datum/weakref/stored_admission_mind
+	VAR_PRIVATE/datum/weakref/stored_admission_body
+	VAR_PRIVATE/stored_admission_account
 	///Silent will prevent the gain/lose texts to show
 	var/silent = FALSE
 	/// What flag is checked for jobbans and polling? Optional, if unset, will use pref_flag
@@ -634,6 +638,12 @@ GLOBAL_LIST_EMPTY(antagonists)
 		stack_trace("Tried to store an antagonist datum that already has no owner.")
 		return FALSE
 
+	if(owner.current && owner.current.stat != DEAD)
+		stored_admission_mind = WEAKREF(owner)
+		stored_admission_body = WEAKREF(owner.current)
+		stored_admission_account = GLOB.city_antag_budget.account(owner.current, owner)
+	else
+		clear_stored_admission()
 	on_removal()
 	var/datum/team/antag_team = get_team()
 	antag_team?.remove_member(owner)
@@ -650,11 +660,36 @@ GLOBAL_LIST_EMPTY(antagonists)
 		return FALSE
 	if(!can_be_owned(new_owner))
 		return FALSE
+	if(!GLOB.city_antag_budget.can_gain_antagonist(new_owner, src))
+		var/message = GLOB.city_antag_budget.entry_denial(new_owner, restoring = src) || "This round's antagonist capacity does not allow restoring this antagonist right now."
+		to_chat(new_owner.current, span_warning(message))
+		if(usr && usr != new_owner.current)
+			to_chat(usr, span_warning(message))
+		return FALSE
 
 	owner = new_owner
+	clear_stored_admission()
 	LAZYADD(owner.antag_datums, src)
 	var/datum/team/antag_team = get_team()
 	antag_team?.add_member(new_owner)
 	on_gain()
 	log_game("[key_name(new_owner)] has gained antag datum [src] ([type]).")
 	return TRUE
+
+/// A former body's death must not become a continuation just because its mind
+/// later controls a different living body. Both the captured and current bodies
+/// must still be alive, and both server identities must match the saved account.
+/datum/antagonist/proc/continues_stored_admission(datum/mind/new_owner)
+	if(owner || !stored_admission_account || !new_owner?.current || new_owner.current.stat == DEAD)
+		return FALSE
+	var/datum/mind/previous_mind = stored_admission_mind?.resolve()
+	var/mob/living/previous_body = stored_admission_body?.resolve()
+	if(!previous_body || previous_body.stat == DEAD || !previous_mind?.current || previous_mind.current.stat == DEAD)
+		return FALSE
+	return GLOB.city_antag_budget.account(new_owner.current, new_owner) == stored_admission_account \
+		&& GLOB.city_antag_budget.account(previous_mind.current, previous_mind) == stored_admission_account
+
+/datum/antagonist/proc/clear_stored_admission()
+	stored_admission_mind = null
+	stored_admission_body = null
+	stored_admission_account = null

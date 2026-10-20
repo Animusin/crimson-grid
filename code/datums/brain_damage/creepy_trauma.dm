@@ -35,6 +35,9 @@
 
 	gain_text = span_warning("You hear a sickening, raspy voice in your head. It wants one small task of you...")
 	antagonist = owner.mind.add_antag_datum(/datum/antagonist/obsessed)
+	if(!antagonist)
+		lose_text = ""
+		return FALSE
 	antagonist.trauma = src
 	RegisterSignal(obsession, COMSIG_MOB_EYECONTACT, PROC_REF(stare))
 	RegisterSignal(obsession, COMSIG_QDELETING, PROC_REF(obession_deleted))
@@ -86,9 +89,12 @@
 
 /datum/brain_trauma/special/obsessed/on_lose()
 	. = ..()
-	antagonist?.trauma = null
+	var/datum/antagonist/obsessed/former_antagonist = antagonist
+	former_antagonist?.trauma = null
 	antagonist = null
-	if (owner.mind.remove_antag_datum(/datum/antagonist/obsessed))
+	if(former_antagonist && !former_antagonist.owner)
+		qdel(former_antagonist)
+	if (owner.mind?.remove_antag_datum(/datum/antagonist/obsessed))
 		owner.mind.add_antag_datum(/datum/antagonist/former_obsessed)
 	owner.clear_mood_event("creeping")
 	if(!isnull(obsession))

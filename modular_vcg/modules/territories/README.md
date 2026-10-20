@@ -1,9 +1,11 @@
 # City businesses MVP
 
 This fork starts on Westfield Mall. San Fangcisco and Oakland remain votable.
-Ownership is seeded by the map and lasts for the round only. There is no Humanity
-rebalance, population gate or ownership persistence in this patch. An optional
-progression module can listen to the defense event described below.
+Ownership is seeded by the map. The round-styles module loads the last eligible
+War of Princes result and controls captures and saving; see
+[round styles](../round_styles/README.md). Eternal Struggle captures last only
+for the round. There is no Humanity rebalance here. An optional progression
+module can listen to the defense event described below.
 
 Each map starts with a Giovanni Bank at the existing family's bank premises.
 Initial business ownership is:

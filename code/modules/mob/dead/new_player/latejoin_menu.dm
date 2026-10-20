@@ -8,6 +8,8 @@ GLOBAL_DATUM_INIT(latejoin_menu, /datum/latejoin_menu, new)
 /datum/latejoin_menu/proc/fallback_ui(mob/dead/new_player/user)
 	var/list/jobs = list()
 	for(var/datum/job/job as anything in SSjob.joinable_occupations)
+		if(city_villain_job(job))
+			continue
 		jobs += job.title
 
 	var/input_contents = input(user, "Pick a job to join as:", "Latejoin Job Selection") as null|anything in jobs
@@ -54,7 +56,7 @@ GLOBAL_DATUM_INIT(latejoin_menu, /datum/latejoin_menu, new)
 				data["shuttle_status"] = "The station is currently undergoing evacuation procedures."
 
 	for(var/datum/job/prioritized_job in SSjob.prioritized_jobs)
-		if(prioritized_job.current_positions >= prioritized_job.total_positions)
+		if(prioritized_job.current_positions >= GLOB.city_antag_budget.job_limit(prioritized_job, TRUE))
 			SSjob.prioritized_jobs -= prioritized_job
 
 	for(var/datum/job_department/department as anything in SSjob.joinable_departments)
@@ -64,18 +66,24 @@ GLOBAL_DATUM_INIT(latejoin_menu, /datum/latejoin_menu, new)
 			"open_slots" = 0,
 		)
 		departments[department.department_name] = department_data
+		var/shared_budget_department = TRUE
 
 		for(var/datum/job/job_datum as anything in department.department_jobs)
+			if(city_villain_job(job_datum))
+				continue
 			//Jobs under multiple departments should only be displayed if this is their first department or the command department
 			if(LAZYLEN(job_datum.departments_list) > 1 && job_datum.departments_list[1] != department.type && !(job_datum.departments_bitflags & DEPARTMENT_BITFLAG_COMMAND))
 				continue
 
 			var/job_availability = owner.IsJobUnavailable(job_datum.title, latejoin = TRUE)
+			var/position_limit = GLOB.city_antag_budget.job_limit(job_datum, TRUE)
+			if(!GLOB.city_antag_budget.managed_job(job_datum))
+				shared_budget_department = FALSE
 
 			var/list/job_data = list(
 				"prioritized" = (job_datum in SSjob.prioritized_jobs),
 				"used_slots" = job_datum.current_positions,
-				"open_slots" = job_datum.total_positions < 0 ? "∞" : job_datum.total_positions,
+				"open_slots" = position_limit < 0 ? "∞" : position_limit,
 				"jobIcon" = job_datum.tgui_icon,
 			)
 
@@ -84,14 +92,16 @@ GLOBAL_DATUM_INIT(latejoin_menu, /datum/latejoin_menu, new)
 					continue
 				job_data["unavailable_reason"] = get_job_unavailable_error_message(job_availability, job_datum.title)
 
-			if(job_datum.total_positions < 0)
+			if(position_limit < 0)
 				department_data["open_slots"] = "∞"
 
 			if(department_data["open_slots"] != "∞")
-				if(job_datum.total_positions - job_datum.current_positions > 0)
-					department_data["open_slots"] += job_datum.total_positions - job_datum.current_positions
+				if(position_limit - job_datum.current_positions > 0)
+					department_data["open_slots"] += position_limit - job_datum.current_positions
 
 			department_jobs[job_datum.title] = job_data
+		if(shared_budget_department && GLOB.city_antag_budget.enabled())
+			department_data["open_slots"] = min(department_data["open_slots"], GLOB.city_antag_budget.remaining())
 
 	return data
 
@@ -108,6 +118,8 @@ GLOBAL_DATUM_INIT(latejoin_menu, /datum/latejoin_menu, new)
 		departments[department.department_name] = department_data
 
 		for(var/datum/job/job_datum as anything in department.department_jobs)
+			if(city_villain_job(job_datum))
+				continue
 			//Jobs under multiple departments should only be displayed if this is their first department or the command department
 			if(LAZYLEN(job_datum.departments_list) > 1 && job_datum.departments_list[1] != department.type && !(job_datum.departments_bitflags & DEPARTMENT_BITFLAG_COMMAND))
 				continue
@@ -198,6 +210,8 @@ GLOBAL_DATUM_INIT(latejoin_menu, /datum/latejoin_menu, new)
 
 	for(var/datum/job_department/department as anything in SSjob.joinable_departments)
 		for(var/datum/job/job_datum as anything in department.department_jobs)
+			if(city_villain_job(job_datum))
+				continue
 			if(owner.IsJobUnavailable(job_datum.title, latejoin = TRUE) != JOB_AVAILABLE)
 				continue
 			dept_data += job_datum.title
