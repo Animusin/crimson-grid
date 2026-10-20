@@ -174,6 +174,7 @@ SUBSYSTEM_DEF(player_quality)
 	RegisterSignal(SSticker, COMSIG_TICKER_ROUND_STARTING, PROC_REF(round_starting))
 	RegisterSignal(SSticker, COMSIG_TICKER_ROUND_ENDED, PROC_REF(round_finished))
 	register_karma_signals()
+	RegisterSignal(SSdcs, "city_antagonist_admission", PROC_REF(on_antagonist_admission))
 	return SS_INIT_SUCCESS
 
 /datum/controller/subsystem/player_quality/Recover()
@@ -192,6 +193,7 @@ SUBSYSTEM_DEF(player_quality)
 		RegisterSignal(SSticker, COMSIG_TICKER_ROUND_STARTING, PROC_REF(round_starting))
 		RegisterSignal(SSticker, COMSIG_TICKER_ROUND_ENDED, PROC_REF(round_finished))
 		register_karma_signals()
+		RegisterSignal(SSdcs, "city_antagonist_admission", PROC_REF(on_antagonist_admission))
 
 /datum/controller/subsystem/player_quality/Destroy()
 	QDEL_NULL(store)
