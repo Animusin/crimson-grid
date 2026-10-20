@@ -50,6 +50,7 @@ export const RetailVendor = (props) => {
           <Section title="Products">
             <Table>
               {inventory.map((product) => {
+                const price = data.prices?.[product.ref] ?? product.price;
                 return (
                   <Table.Row key={product.name}>
                     <Table.Cell>
@@ -70,11 +71,11 @@ export const RetailVendor = (props) => {
                         }}
                         disabled={
                           !data.user ||
-                          (product.price > data.user.money &&
+                          (price > data.user.money &&
                             data.user.is_card === 0) ||
                           product.stock === 0
                         }
-                        content={`${data.money_symbol}${product.price}`}
+                        content={`${data.money_symbol}${price}`}
                         onClick={() =>
                           act('purchase', {
                             ref: product.ref,

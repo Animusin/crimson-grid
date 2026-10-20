@@ -40,6 +40,8 @@
 	return TRUE
 
 /obj/structure/retail/can_interact(mob/user)
+	if(territory && (!territory.clerk_available() || territory.active_conflict))
+		return FALSE
 	. = ..()
 	if(!. || !can_shop(user))
 		return FALSE
@@ -90,7 +92,7 @@
 		var/list/product_data = list(
 			path = SANITIZED_PATH(product.product_path),
 			name = product.name,
-			price = product.price,
+			price = business_price(user, product.price),
 			stock = product.amount,
 			ref = REF(product)
 		)
@@ -108,6 +110,9 @@
 
 /obj/structure/retail/ui_data(mob/user)
 	. = list()
+	.["prices"] = list()
+	for(var/datum/data/vending_product/product in products_list)
+		.["prices"][REF(product)] = business_price(user, product.price)
 	.["user"] = list()
 	.["user"]["money"] = 0
 	.["user"]["is_card"] = 0
@@ -138,6 +143,8 @@
 	. = ..()
 	if(.)
 		return
+	if(territory && (!territory.clerk_available() || territory.active_conflict))
+		return
 
 	if(owner_needed == TRUE && (!my_owner || (get_dist(src, my_owner) > 4) || (my_owner.stat >= HARD_CRIT)))
 		to_chat(usr, span_alert("There's no teller here to sell you things..."))
@@ -163,7 +170,8 @@
 				to_chat(usr, span_alert("Error: Product is out of stock!"))
 				return
 
-			if(product.price > 0)
+			var/purchase_price = business_price(user, product.price)
+			if(purchase_price > 0)
 				//get the money
 				if(is_creditcard(held_item))
 					var/obj/item/card/credit/creditcard = held_item
@@ -171,9 +179,14 @@
 					if(!used_account)
 						to_chat(user, span_alert("The [creditcard] has no linked account."))
 						return
-					if(!used_account.check_pin(user, product.price, creditcard))
+					if(!used_account.check_pin(user, purchase_price, creditcard))
 						return
-					if(!used_account.adjust_money(-1 * product.price))
+					// PIN entry yields: stock, reach and the card can change meanwhile.
+					if(QDELETED(creditcard) || creditcard.loc != user || creditcard.registered_account != used_account || product.amount == 0 || !can_interact(user))
+						return
+					if(purchase_price != business_price(user, product.price) || (territory && (!territory.clerk_available() || territory.active_conflict)))
+						return
+					if(!used_account.adjust_money(-1 * purchase_price))
 						to_chat(user, span_alert("The transaction is declined - Insufficient funds."))
 						return
 					//used_account.process_credit_fraud(user, product.price)
@@ -186,10 +199,10 @@
 					var/total_money = 0
 					for(var/obj/item/stack/dollar/money in carried_money)
 						total_money += money.get_item_credit_value()
-					if(total_money < product.price)
+					if(total_money < purchase_price)
 						to_chat(user, span_alert("You don't have enough money on you."))
 						return
-					var/remaining_price = product.price
+					var/remaining_price = purchase_price
 					for(var/obj/item/stack/dollar/money in carried_money)
 						var/to_spend = min(remaining_price, money.get_item_credit_value())
 						money.use(to_spend)
@@ -201,7 +214,7 @@
 					return // We have nothing we can pay with.
 
 			playsound(get_turf(src), 'sound/effects/cashregister.ogg', 50, TRUE)
-			new product.product_path(loc)
+			dispense_product(product.product_path, purchase_price)
 			if(product.amount > 0)
 				--product.amount
 				update_static_data(usr)

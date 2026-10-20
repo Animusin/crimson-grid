@@ -96,6 +96,13 @@
 
 /obj/machinery/radio_tranceiver/police/proc/crime_reported(datum/source, crime, turf/location)
 	SIGNAL_HANDLER
+	if(!location)
+		return
+	// A cashier's direct call is not a civilian sighting. The store already
+	// enforces its own ten-minute retry clock, including failed threats.
+	if(crime == CRIME_BUSINESS_ROBBERY)
+		report_business_robbery(location)
+		return
 
 	if(crime == CRIME_EMERGENCY) // Bypasses cooldown because of gameplay reasons.
 		radio.talk_into(radio, span_red("406 - EMERGENCY - BACKUP REQUIRED AT: [english_list(list(location.x, location.y, location.z, get_area_name(location, TRUE)), and_text = ", ")]."), FREQ_POLICE, list(SPAN_ROBOT, SPAN_COMMAND))
@@ -122,6 +129,9 @@
 			radio.talk_into(radio, "A burglary has been reported at [get_area_name(location, TRUE)].", FREQ_POLICE, list(SPAN_ROBOT))
 		if(CRIME_ATM_TAMPERING)
 			radio.talk_into(radio, "An atm was broken into or otherwise tampered with at [get_area_name(location, TRUE)].", FREQ_POLICE, list(SPAN_ROBOT))
+
+/obj/machinery/radio_tranceiver/police/proc/report_business_robbery(turf/location)
+	radio.talk_into(radio, "A cashier reports an attempted robbery at [get_area_name(location, TRUE)] ([location.x], [location.y], level [location.z]).", FREQ_POLICE, list(SPAN_ROBOT))
 
 /datum/signal/subspace/radio
 

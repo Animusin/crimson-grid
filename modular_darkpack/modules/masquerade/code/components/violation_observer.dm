@@ -36,6 +36,8 @@
 
 /atom/movable/proc/on_observed_violation(atom/source, atom/movable/player_breacher)
 	SIGNAL_HANDLER
+	if(city_conflict_hides_breach(source, player_breacher))
+		return
 
 	if(!source || !player_breacher || ismundane(player_breacher)) //Humans cant break the masquerade. Because reasons.
 		return
