@@ -265,6 +265,8 @@
 		return FALSE
 
 	var/datum/antagonist/lunatic/lunatic = convertee.mind.add_antag_datum(/datum/antagonist/lunatic)
+	if(!lunatic)
+		return FALSE
 	lunatic.set_master(user.mind, user)
 	var/obj/item/clothing/neck/moon_amulet/amulet = new(convertee.drop_location())
 	var/static/list/slots = list(

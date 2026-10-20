@@ -109,22 +109,27 @@ GLOBAL_DATUM_INIT(city_antag_budget, /datum/city_antag_budget, new)
 /// Optional account policy, supplied by a progression module when installed.
 /// The canonical account and continuation state come from the server's ledger,
 /// never a browser parameter or a prospective antagonist assignment.
-/datum/city_antag_budget/proc/entry_denial(datum/mind/mind, list/current_accounts)
+/datum/city_antag_budget/proc/entry_denial(datum/mind/mind, list/current_accounts, datum/antagonist/restoring)
 	var/identifier = account(mind?.current, mind)
 	if(!identifier)
 		return null // Unowned NPCs have no account progression requirement.
 	if(isnull(current_accounts))
 		current_accounts = accounts()
-	var/list/current_entry = current_accounts[identifier]
 	var/list/denial = list("account" = identifier)
-	SEND_GLOBAL_SIGNAL("city_antagonist_admission", mind, !!current_entry?["antag"], denial)
+	SEND_GLOBAL_SIGNAL("city_antagonist_admission", mind, continuing_admission(mind, current_accounts, restoring), denial)
 	return denial["message"]
+
+/// Stored datums supply their own server-created proof; callers cannot replace
+/// it with a browser flag or an account string.
+/datum/city_antag_budget/proc/continuing_admission(datum/mind/mind, list/current_accounts, datum/antagonist/restoring)
+	var/list/current_entry = current_accounts[account(mind?.current, mind)]
+	return !!current_entry?["antag"] || (restoring && restoring.continues_stored_admission(mind))
 
 /// The candidate is replaced in the prospective snapshot, not added to both
 /// sides. In particular a conversion removes its old ordinary/fighter weight.
-/datum/city_antag_budget/proc/can_admit(datum/mind/mind, datum/job/job, forced_antag = FALSE)
+/datum/city_antag_budget/proc/can_admit(datum/mind/mind, datum/job/job, forced_antag = FALSE, datum/antagonist/restoring)
 	var/list/current_accounts = accounts()
-	if(entry_denial(mind, current_accounts))
+	if(entry_denial(mind, current_accounts, restoring))
 		return FALSE
 	if(!enabled())
 		return TRUE
@@ -141,8 +146,7 @@ GLOBAL_DATUM_INIT(city_antag_budget, /datum/city_antag_budget, new)
 	if(counts["antagonists"] > capacity(counts))
 		// Do not break an existing member's outfit or promotion when a departure
 		// lowers the live cap. Only a newly admitted account needs a free slot.
-		var/list/current_entry = current_accounts[identifier]
-		if(!current_entry || !current_entry["antag"])
+		if(!continuing_admission(mind, current_accounts, restoring))
 			return FALSE
 	if(managed_job(job))
 		var/ceiling = SSticker.HasRoundStarted() ? job.total_positions : job.spawn_positions
@@ -166,7 +170,7 @@ GLOBAL_DATUM_INIT(city_antag_budget, /datum/city_antag_budget, new)
 	return can_admit(mind, job)
 
 /datum/city_antag_budget/proc/can_gain_antagonist(datum/mind/mind, datum/antagonist/antagonist)
-	return !real_antagonist(antagonist) || can_admit(mind, mind?.assigned_role, TRUE)
+	return !real_antagonist(antagonist) || can_admit(mind, mind?.assigned_role, TRUE, antagonist)
 
 /// Shared-cap rows are never offered as infinite jobs. Native zeroes remain a
 /// map/config prohibition; existing head limits and ordinary job limits survive.

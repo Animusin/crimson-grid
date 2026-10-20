@@ -303,6 +303,10 @@
 						else
 							target_antag = target
 
+		if(QDELETED(target_antag))
+			to_chat(usr, span_warning("Cannot add an objective: no antagonist datum is available. Check the Respect requirement and current antagonist capacity."))
+			return
+
 		if(!GLOB.admin_objective_list)
 			generate_admin_objective_list()
 
@@ -385,6 +389,10 @@
 						target_antag = add_antag_datum(/datum/antagonist/custom)
 					else
 						target_antag = target
+		if(QDELETED(target_antag))
+			to_chat(usr, span_warning("Cannot prompt for objectives: no antagonist datum is available. Check the Respect requirement and current antagonist capacity."))
+			return
+
 		var/replace_existing = input("Replace existing objectives?","Replace objectives?") in list("Yes", "No")
 		if (isnull(replace_existing))
 			return

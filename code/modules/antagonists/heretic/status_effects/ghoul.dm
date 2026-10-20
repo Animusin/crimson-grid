@@ -13,6 +13,8 @@
 	var/datum/callback/on_made_callback
 	/// An optional callback invoked when a goul is unghouled (on_removed)
 	var/datum/callback/on_lost_callback
+	/// Failed admission must not run the cleanup of a transformation we never applied.
+	var/ghoul_applied = FALSE
 
 /datum/status_effect/ghoul/Destroy()
 	master_mind = null
@@ -34,6 +36,8 @@
 	src.on_lost_callback = on_lost_callback
 
 	. = ..()
+	if(QDELETED(src))
+		return
 
 	if(master_mind)
 		linked_alert.desc += " You are an eldritch monster reanimated to serve its master, [master_mind]."
@@ -48,6 +52,13 @@
 		return FALSE
 
 	var/mob/living/carbon/human/human_target = owner
+	if(human_target.mind)
+		var/datum/antagonist/heretic_monster/heretic_monster = human_target.mind.add_antag_datum(/datum/antagonist/heretic_monster)
+		if(!heretic_monster)
+			return FALSE
+		heretic_monster.set_owner(master_mind)
+		human_target.mind.remove_antag_datum(/datum/antagonist/cult)
+	ghoul_applied = TRUE
 
 	RegisterSignal(human_target, COMSIG_LIVING_DEATH, PROC_REF(remove_ghoul_status))
 	human_target.revive(ADMIN_HEAL_ALL) // Have to do an admin heal here, otherwise they'll likely just die due to missing organs or limbs
@@ -66,15 +77,11 @@
 	human_target.add_faction(FACTION_HERETIC)
 	human_target.apply_status_effect(/datum/status_effect/desensitized, TRAIT_STATUS_EFFECT(id), DESENSITIZED_THRESHOLD * 0.2)
 
-	if(human_target.mind)
-		var/datum/antagonist/heretic_monster/heretic_monster = human_target.mind.add_antag_datum(/datum/antagonist/heretic_monster)
-		heretic_monster.set_owner(master_mind)
-		human_target.mind.remove_antag_datum(/datum/antagonist/cult)
-
 	return TRUE
 
 /datum/status_effect/ghoul/on_remove()
-	remove_ghoul_status()
+	if(ghoul_applied)
+		remove_ghoul_status()
 	return ..()
 
 /// Removes the ghoul effects from our owner and returns them to normal.

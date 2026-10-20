@@ -790,10 +790,21 @@
 	return // handled by assign_role() entirely
 
 /datum/dynamic_ruleset/midround/from_ghosts/paradox_clone/assign_role(datum/mind/candidate, mob/living/carbon/human/good_version)
+	if(!GLOB.city_antag_budget.can_admit(candidate, candidate.assigned_role, TRUE))
+		to_chat(candidate.current, span_warning(GLOB.city_antag_budget.entry_denial(candidate) || "This round's antagonist capacity does not allow a new antagonist right now."))
+		return FALSE
+	var/mob/previous_body = candidate.current
 	var/mob/living/carbon/human/bad_version = good_version.make_full_human_copy(find_maintenance_spawn(atmos_sensitive = TRUE, require_darkness = FALSE))
 	candidate.transfer_to(bad_version, force_key_move = TRUE)
 
 	var/datum/antagonist/paradox_clone/antag = candidate.add_antag_datum(/datum/antagonist/paradox_clone)
+	if(!antag)
+		if(!QDELETED(previous_body))
+			candidate.transfer_to(previous_body, force_key_move = TRUE)
+		else
+			bad_version.ghostize(FALSE)
+		qdel(bad_version)
+		return FALSE
 	antag.setup_clone(good_version.mind)
 
 	playsound(bad_version, 'sound/items/weapons/zapbang.ogg', 30, TRUE)

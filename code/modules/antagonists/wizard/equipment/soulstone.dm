@@ -106,12 +106,18 @@
 	if(!do_after(exorcist, 4 SECONDS, target = src))
 		return
 	playsound(src, 'sound/effects/pray_chaplain.ogg', 60, TRUE)
+	var/previous_role = required_role
+	var/previous_theme = theme
 	required_role = null
 	theme = THEME_HOLY
 
 	update_appearance()
 	for(var/mob/shade_to_deconvert in contents)
-		assign_master(shade_to_deconvert, exorcist)
+		if(!assign_master(shade_to_deconvert, exorcist))
+			required_role = previous_role
+			theme = previous_theme
+			update_appearance()
+			return
 
 	exorcist.visible_message(span_notice("[exorcist] purifies [src]!"))
 	UnregisterSignal(src, COMSIG_BIBLE_SMACKED)
@@ -333,8 +339,7 @@
 
 	victim.grab_ghost()
 	if(victim.client)
-		init_shade(victim, user)
-		return TRUE
+		return init_shade(victim, user)
 
 	to_chat(user, span_userdanger("Capture failed!"))
 	to_chat(user, span_warning("The soul has already fled its mortal frame. You attempt to bring it back..."))
@@ -361,6 +366,8 @@
 		to_chat(user, span_userdanger("Capture failed!"))
 		to_chat(user, span_danger("[src] is full! Free an existing soul to make room."))
 		return FALSE
+	if(user != shade && !assign_master(shade, user))
+		return FALSE
 	shade.AddComponent(/datum/component/soulstoned, src)
 	update_appearance()
 
@@ -374,7 +381,6 @@
 	if(user != shade)
 		to_chat(user, "[span_info("<b>Capture successful!</b>:")] [shade.real_name]'s soul \
 			has been captured and stored within [src].")
-		assign_master(shade, user)
 
 	return TRUE
 
@@ -421,10 +427,17 @@
 	if(user)
 		soulstone_spirit.copy_languages(user, LANGUAGE_MASTER)
 	soulstone_spirit.get_language_holder().omnitongue = TRUE //Grants omnitongue
+	if(user && (IS_CULTIST(user) || role_check(user)) && !assign_master(soulstone_spirit, user))
+		if(soulstone_spirit.client && !QDELETED(shade_controller))
+			shade_controller.PossessByPlayer(soulstone_spirit.key)
+		else
+			soulstone_spirit.ghostize(FALSE)
+		qdel(soulstone_spirit)
+		update_appearance()
+		return FALSE
 	if(user)
 		soulstone_spirit.add_ally(user) //Add the master as a faction, allowing inter-mob cooperation
 		if(IS_CULTIST(user))
-			soulstone_spirit.mind.add_antag_datum(/datum/antagonist/cult/shade)
 			SSblackbox.record_feedback("tally", "cult_shade_created", 1)
 
 	soulstone_spirit.cancel_camera()
@@ -436,35 +449,40 @@
 		else if(role_check(user))
 			to_chat(soulstone_spirit, span_bold("Your soul has been captured! You are now bound to [user.real_name]'s will. \
 				Help [user.p_them()] succeed in [user.p_their()] goals at all costs."))
-			assign_master(soulstone_spirit, user)
 
 		if(message_user)
 			to_chat(user, "[span_info("<b>Capture successful!</b>:")] [victim.real_name]'s soul has been ripped \
 				from [victim.p_their()] body and stored within [src].")
 
 	victim.dust(drop_items = TRUE)
+	return TRUE
 
 /**
  * Assigns the bearer as the new master of a shade.
  */
 /obj/item/soulstone/proc/assign_master(mob/shade, mob/user)
 	if (!shade || !user || !shade.mind)
-		return
+		return FALSE
 
 	// Cult shades get cult datum
-	if (user.mind.has_antag_datum(/datum/antagonist/cult))
+	if (user.mind?.has_antag_datum(/datum/antagonist/cult))
+		if(!shade.mind.has_antag_datum(/datum/antagonist/cult/shade) && !shade.mind.add_antag_datum(/datum/antagonist/cult/shade))
+			to_chat(user, span_warning("The shade could not be bound. Check the Respect requirement and current antagonist capacity."))
+			return FALSE
 		shade.mind.remove_antag_datum(/datum/antagonist/shade_minion)
-		shade.mind.add_antag_datum(/datum/antagonist/cult/shade)
-		return
-
-	// Only blessed soulstones can de-cult shades
-	if(theme == THEME_HOLY)
-		shade.mind.remove_antag_datum(/datum/antagonist/cult)
+		return TRUE
 
 	var/datum/antagonist/shade_minion/shade_datum = shade.mind.has_antag_datum(/datum/antagonist/shade_minion)
 	if (!shade_datum)
 		shade_datum = shade.mind.add_antag_datum(/datum/antagonist/shade_minion)
+	if(!shade_datum)
+		to_chat(user, span_warning("The shade could not be bound. Check the Respect requirement and current antagonist capacity."))
+		return FALSE
+	// Only blessed soulstones can de-cult shades, after the replacement is admitted.
+	if(theme == THEME_HOLY)
+		shade.mind.remove_antag_datum(/datum/antagonist/cult)
 	shade_datum.update_master(user.real_name)
+	return TRUE
 
 /// Called when a ghost is chosen to become a shade.
 /obj/item/soulstone/proc/on_poll_concluded(mob/living/master, mob/living/victim, mob/dead/observer/ghost)
@@ -475,9 +493,11 @@
 		return FALSE
 	if(length(contents)) //If they used the soulstone on someone else in the meantime
 		return FALSE
+	var/victim_identity = "[victim]"
+	if(!init_shade(victim, master, shade_controller = ghost))
+		return FALSE
 	to_chat(master, "[span_info("<b>Capture successful!</b>:")] A spirit has entered [src], \
-		taking upon the identity of [victim].")
-	init_shade(victim, master, shade_controller = ghost)
+		taking upon the identity of [victim_identity].")
 
 	return TRUE
 

@@ -28,7 +28,7 @@
 
 /// Capacity fixtures isolate their subject from optional account-score policy.
 /// The admission-signal test below uses the production budget instead.
-/datum/city_antag_budget/test_fixture/entry_denial(datum/mind/mind, list/current_accounts)
+/datum/city_antag_budget/test_fixture/entry_denial(datum/mind/mind, list/current_accounts, datum/antagonist/restoring)
 	return null
 
 /datum/unit_test/city_round_budget
@@ -180,6 +180,21 @@
 	var/calls_before_npc = signal_calls
 	if(!npc.mind.add_antag_datum(/datum/antagonist/city_budget_probe) || signal_calls != calls_before_npc)
 		Fail("An unowned NPC must not acquire an account-score requirement or emit an account admission signal.")
+	var/datum/brain_trauma/special/obsessed/trauma = allocate(/datum/brain_trauma/special/obsessed)
+	trauma.obsession = npc
+	var/calls_before_trauma = signal_calls
+	if(actor.gain_trauma(trauma) || !QDELETED(trauma) || actor.has_trauma_type(/datum/brain_trauma/special/obsessed) \
+		|| actor_mind.has_antag_datum(/datum/antagonist/obsessed) || signal_calls <= calls_before_trauma)
+		Fail("A refused real Obsessed trauma must cleanly abort its brain gain path without a null dereference or leftover trauma.")
+	actor.adjust_brute_loss(5)
+	var/old_health = actor.health
+	var/old_max_health = actor.maxHealth
+	if(actor.apply_status_effect(/datum/status_effect/ghoul, 50) || actor.has_status_effect(/datum/status_effect/ghoul) \
+		|| actor.health != old_health || actor.maxHealth != old_max_health || HAS_TRAIT(actor, TRAIT_HERETIC_SUMMON))
+		Fail("A refused real flesh-ghoul status must leave health, max health, summon traits and status effects unchanged.")
+	var/datum/dynamic_ruleset/midround/from_ghosts/paradox_clone/paradox = allocate(/datum/dynamic_ruleset/midround/from_ghosts/paradox_clone)
+	if(paradox.assign_role(actor_mind, npc) != FALSE || actor_mind.current != actor)
+		Fail("A refused Paradox Clone must fail before copying or transferring the candidate's mind.")
 	scores[role_account] = 10
 	if(candidate.IsJobUnavailable(hunter_job.title, latejoin = TRUE) != JOB_AVAILABLE || !SSjob.assign_role(candidate, hunter_job, TRUE) || candidate_mind.assigned_role != hunter_job)
 		Fail("Score ten must allow the real latejoin eligibility and native atomic role assignment.")
@@ -187,6 +202,7 @@
 	added = actor_mind.add_antag_datum(/datum/antagonist/city_budget_probe)
 	if(!added || added.owner != actor_mind)
 		Fail("Score ten must allow a real antagonist datum with its normal owner assignment.")
+	check_stored_admission(actor, added)
 	scores[role_account] = 9
 	scores[actor_account] = 9
 	if(!candidate_mind.add_antag_datum(/datum/antagonist/city_budget_probe))
@@ -206,6 +222,60 @@
 	GLOB.city_round_style.style_id = "quiet"
 	if(budget.can_gain_antagonist(actor_mind, second_added))
 		Fail("Continuation must not reopen antagonist admission during Quiet Night.")
+
+/// Use the real detach/restore and mind-transfer APIs, retaining the same single
+/// admission-signal test group and its isolated score provider.
+/datum/unit_test/city_round_budget/admission_signal/proc/check_stored_admission(mob/living/carbon/human/actor, datum/antagonist/antagonist)
+	var/datum/mind/actor_mind = actor.mind
+	var/actor_account = budget.account(actor, actor_mind)
+	scores[actor_account] = 9
+	if(!antagonist.store_datum() || !budget.entry_denial(actor_mind) || !antagonist.restore_datum(actor_mind))
+		Fail("The same admitted living account must restore its sole detached datum after losing Respect, even when the live ledger no longer lists that datum.")
+	if(!antagonist.store_datum())
+		Fail("The restoration fixture must detach its real datum for a new account.")
+	var/mob/living/carbon/human/other = player("City Signal Restore", SSjob.get_job_type(/datum/job/vampire/citizen))
+	var/other_account = budget.account(other, other.mind)
+	scores[other_account] = 9
+	if(antagonist.restore_datum(other.mind) || antagonist.owner || length(other.mind.antag_datums))
+		Fail("A different account at nine must not receive a detached real antagonist or mutate its owner list.")
+	scores[other_account] = 10
+	if(!antagonist.restore_datum(other.mind) || antagonist.owner != other.mind)
+		Fail("A different account at ten must pass ordinary admission before receiving the stored datum.")
+	if(!antagonist.store_datum() || antagonist.restore_datum(actor_mind))
+		Fail("Successful transfer must replace the old continuation proof rather than preserve an earlier account's exception.")
+	scores[actor_account] = 10
+	if(!antagonist.restore_datum(actor_mind) || !antagonist.store_datum())
+		Fail("The original account must pass fresh admission at ten before the dead-body regression.")
+	var/mob/living/carbon/human/replacement = allocate(/mob/living/carbon/human/consistent)
+	var/datum/client_interface/actor_client = actor.mock_client
+	var/old_stat = actor.stat
+	actor.stat = DEAD
+	actor.mock_client = null
+	replacement.mock_client = actor_client
+	actor_client.mob = replacement
+	GLOB.player_list |= replacement
+	actor_mind.transfer_to(replacement)
+	scores[actor_account] = 9
+	if(antagonist.restore_datum(actor_mind) || antagonist.owner || length(actor_mind.antag_datums))
+		Fail("A dead captured body must not grant continuation retroactively after its mind moves to a different live body.")
+	actor_mind.transfer_to(actor)
+	replacement.mock_client = null
+	actor.mock_client = actor_client
+	actor_client.mob = actor
+	actor.stat = old_stat
+	scores[actor_account] = 10
+	if(!antagonist.restore_datum(actor_mind))
+		Fail("Fresh valid admission must still restore after a denied attempt without losing the stored datum.")
+	actor.stat = DEAD
+	if(!antagonist.store_datum())
+		Fail("The dead-store regression must detach the real datum.")
+	actor.stat = old_stat
+	scores[actor_account] = 9
+	if(antagonist.restore_datum(actor_mind))
+		Fail("Storing while already dead must not create a continuation proof that becomes usable after revival.")
+	scores[actor_account] = 10
+	if(!antagonist.restore_datum(actor_mind))
+		Fail("A dead-store refusal must retain the datum for a later fresh valid admission.")
 
 /datum/unit_test/city_round_budget/live_population/Run()
 	ordinary_players(13)

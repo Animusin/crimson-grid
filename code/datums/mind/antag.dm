@@ -25,6 +25,7 @@
 		qdel(A)
 		return
 	A.owner = src
+	A.clear_stored_admission()
 	LAZYADD(antag_datums, A)
 	A.create_team(team)
 	var/datum/team/antag_team = A.get_team()

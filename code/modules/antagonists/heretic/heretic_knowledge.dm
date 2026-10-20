@@ -630,28 +630,43 @@
 
 	message_admins("A [summoned.name] is being summoned by [ADMIN_LOOKUPFLW(user)] in [ADMIN_COORDJMP(summoned)].")
 	var/mob/chosen_one = SSpolling.poll_ghosts_for_target(check_jobban = ROLE_HERETIC, poll_time = 10 SECONDS, checked_target = summoned, ignore_category = poll_ignore_define, alert_pic = summoned, role_name_text = summoned.name)
-	if(isnull(chosen_one))
-		loc.balloon_alert(user, "ritual failed, no ghosts!")
+	var/can_summon = FALSE
+	if(chosen_one && GET_CLIENT(chosen_one) && chosen_one.key)
+		// Check the actual ghost account before taking its client. The final
+		// mind admission below remains authoritative after possession.
+		var/datum/mind/admission_candidate = new(chosen_one.key)
+		can_summon = GLOB.city_antag_budget.can_admit(admission_candidate, null, TRUE)
+		if(!can_summon)
+			to_chat(chosen_one, span_warning(GLOB.city_antag_budget.entry_denial(admission_candidate) || "This round has no room for another antagonist."))
+		qdel(admission_candidate)
+	if(!can_summon)
+		loc.balloon_alert(user, "ritual failed, no eligible ghosts!")
 		animate(summoned, 0.5 SECONDS, alpha = 0)
 		QDEL_IN(summoned, 0.6 SECONDS)
 		return FALSE
 
-	// Ok let's make them an interactable mob now, since we got a ghost
+	summoned.ghostize(FALSE)
+	summoned.PossessByPlayer(chosen_one.key)
+	var/datum/antagonist/heretic_monster/heretic_monster = summoned.mind?.add_antag_datum(/datum/antagonist/heretic_monster)
+	if(!heretic_monster)
+		// A refusal must not leave an armed, player-controlled summon without
+		// its antagonist/master relationship or consume the ghost's client.
+		summoned.ghostize(FALSE)
+		qdel(summoned)
+		loc.balloon_alert(user, "ritual failed!")
+		return FALSE
+
+	// Only an admitted summon becomes active or counts toward the ritual.
 	summoned.alpha = 255
 	REMOVE_TRAIT(summoned, TRAIT_NO_TRANSFORM, REF(src))
 	summoned.move_resist = initial(summoned.move_resist)
-
-	summoned.ghostize(FALSE)
-	summoned.PossessByPlayer(chosen_one.key)
 	summoned.ai_controller?.clear_forced_off() //the client keeps the AI off from here; if they disconnect the AI may take back over
+	heretic_monster.set_owner(user.mind)
 
 	user.log_message("created a [summoned.name], controlled by [key_name(chosen_one)].", LOG_GAME)
 	message_admins("[ADMIN_LOOKUPFLW(user)] created a [summoned.name], [ADMIN_LOOKUPFLW(summoned)].")
 
 	SEND_SIGNAL(user, COMSIG_HERETIC_SUMMONED_MOB, summoned)
-
-	var/datum/antagonist/heretic_monster/heretic_monster = summoned.mind.add_antag_datum(/datum/antagonist/heretic_monster)
-	heretic_monster.set_owner(user.mind)
 
 	var/datum/objective/heretic_summon/summon_objective = locate() in user.mind.get_all_objectives()
 	summon_objective?.num_summoned++

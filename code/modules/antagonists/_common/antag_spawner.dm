@@ -71,12 +71,18 @@
 	if(QDELETED(src) || used)
 		return
 	used = TRUE
-	spawn_antag(chosen_one.client, get_turf(src), apprentice_school, teacher.mind)
+	if(!spawn_antag(chosen_one.client, get_turf(src), apprentice_school, teacher.mind))
+		used = FALSE
 
 /obj/item/antag_spawner/contract/spawn_antag(client/C, turf/T, kind, datum/mind/user)
-	new /obj/effect/particle_effect/fluid/smoke(T)
+	if(!C || !user)
+		return FALSE
+	var/mob/original_controller = C.mob
 	var/mob/living/carbon/human/M = new/mob/living/carbon/human(T)
 	C.prefs.safe_transfer_prefs_to(M, is_antag = TRUE)
+	if(!C)
+		qdel(M)
+		return FALSE
 	M.PossessByPlayer(C.key)
 	var/datum/mind/app_mind = M.mind
 
@@ -89,10 +95,20 @@
 		if(!master_wizard.wiz_team)
 			master_wizard.create_wiz_team()
 		app.wiz_team = master_wizard.wiz_team
+	// add_antag_datum admits first, then adds the mind to the supplied team.
+	if(!app_mind.add_antag_datum(app))
+		if(C && !QDELETED(original_controller))
+			original_controller.PossessByPlayer(C.key)
+		else
+			M.ghostize(FALSE)
+		qdel(M)
+		return FALSE
+	if(master_wizard)
 		master_wizard.wiz_team.add_member(app_mind)
-	app_mind.add_antag_datum(app)
 	app_mind.set_assigned_role(SSjob.get_job_type(/datum/job/wizard_apprentice))
+	new /obj/effect/particle_effect/fluid/smoke(T)
 	SEND_SOUND(M, sound('sound/effects/magic.ogg'))
+	return TRUE
 
 ///////////BORGS AND OPERATIVES
 
@@ -144,15 +160,25 @@
 		if(QDELETED(src) || !check_usability(user))
 			return
 		used = TRUE
-		spawn_antag(chosen_one.client, get_turf(src), "nukeop", user.mind)
+		var/spawned = spawn_antag(chosen_one.client, get_turf(src), "nukeop", user.mind)
+		// Legacy subtype spawners return null on success; an explicit FALSE is a refusal.
+		if(!isnull(spawned) && !spawned)
+			used = FALSE
+			return
 		do_sparks(4, TRUE, src)
 		qdel(src)
 	else
 		to_chat(user, span_warning("Unable to connect to Syndicate command. Please wait and try again later or use the beacon on your uplink to get your points refunded."))
 
 /obj/item/antag_spawner/nuke_ops/spawn_antag(client/our_client, turf/T, kind, datum/mind/user)
+	if(!our_client)
+		return FALSE
+	var/mob/original_controller = our_client.mob
 	var/mob/living/carbon/human/nukie = new()
 	our_client.prefs.safe_transfer_prefs_to(nukie, is_antag = TRUE)
+	if(!our_client)
+		qdel(nukie)
+		return FALSE
 	nukie.ckey = our_client.key
 	var/datum/mind/op_mind = nukie.mind
 	if(length(GLOB.newplayer_start)) // needed as hud code doesn't render huds if the atom (in this case the nukie) is in nullspace, so just move the nukie somewhere safe
@@ -163,16 +189,23 @@
 	var/new_datum = new antag_datum()
 
 	var/datum/antagonist/nukeop/creator_op = user.has_antag_datum(/datum/antagonist/nukeop, TRUE)
-	op_mind.add_antag_datum(new_datum, creator_op ? creator_op.get_team() : null)
+	var/datum/antagonist/nukeop/nukie_datum = op_mind.add_antag_datum(new_datum, creator_op ? creator_op.get_team() : null)
+	if(!nukie_datum)
+		if(our_client && !QDELETED(original_controller))
+			original_controller.PossessByPlayer(our_client.key)
+		else
+			nukie.ghostize(FALSE)
+		qdel(nukie)
+		return FALSE
 	LAZYADD(op_mind.special_roles, special_role_name)
 
 	if(outfit)
-		var/datum/antagonist/nukeop/nukie_datum = op_mind.has_antag_datum(antag_datum)
 		nukie_datum.nukeop_outfit = use_subtypes ? pick(subtypesof(outfit)) : outfit
 
 	var/obj/structure/closet/supplypod/pod = setup_pod()
 	nukie.forceMove(pod)
 	new /obj/effect/pod_landingzone(spawn_location ? spawn_location : get_turf(src), pod)
+	return TRUE
 
 /obj/item/antag_spawner/nuke_ops/overwatch
 	name = "overwatch support beacon"
@@ -218,10 +251,13 @@
 	special_role_name = ROLE_SYNDICATE_SABOBORG
 
 /obj/item/antag_spawner/nuke_ops/borg_tele/spawn_antag(client/C, turf/T, kind, datum/mind/user)
+	if(!C)
+		return FALSE
+	var/mob/original_controller = C.mob
 	var/mob/living/silicon/robot/borg
 	var/datum/antagonist/nukeop/creator_op = user.has_antag_datum(/datum/antagonist/nukeop,TRUE)
 	if(!creator_op)
-		return
+		return FALSE
 	var/obj/structure/closet/supplypod/pod = setup_pod()
 	switch(special_role_name)
 		if(ROLE_SYNDICATE_MEDBORG)
@@ -232,6 +268,8 @@
 			borg = new /mob/living/silicon/robot/model/syndicate()
 		else
 			stack_trace("Unknown cyborg type '[special_role_name]' could not be found by [src]!")
+			qdel(pod)
+			return FALSE
 
 	var/brainfirstname = pick(GLOB.first_names_male)
 	if(prob(50))
@@ -244,12 +282,24 @@
 	borg.mmi.set_name(brainopsname)
 	borg.real_name = borg.name
 
+	if(!C)
+		qdel(borg)
+		qdel(pod)
+		return FALSE
 	borg.PossessByPlayer(C.key)
 
-	borg.mind.add_antag_datum(antag_datum, creator_op ? creator_op.get_team() : null)
+	if(!borg.mind.add_antag_datum(antag_datum, creator_op.get_team()))
+		if(C && !QDELETED(original_controller))
+			original_controller.PossessByPlayer(C.key)
+		else
+			borg.ghostize(FALSE)
+		qdel(borg)
+		qdel(pod)
+		return FALSE
 	LAZYADD(borg.mind.special_roles, special_role_name)
 	borg.forceMove(pod)
 	new /obj/effect/pod_landingzone(get_turf(src), pod)
+	return TRUE
 
 ///////////SLAUGHTER DEMON
 
@@ -359,7 +409,9 @@
 	if(QDELETED(src) || !check_usability(user))
 		return
 	used = TRUE
-	spawn_antag(chosen_one.client, get_turf(src), user)
+	if(!spawn_antag(chosen_one.client, get_turf(src), user))
+		used = FALSE
+		return
 	do_sparks(4, TRUE, src)
 	qdel(src)
 
@@ -368,9 +420,16 @@
 	return
 
 /obj/item/antag_spawner/loadout/spawn_antag(client/our_client, turf/T, mob/user)
+	if(!our_client)
+		return FALSE
+	var/mob/original_controller = our_client.mob
 	var/mob/living/spawned_mob = new spawn_type()
 	var/obj/structure/closet/supplypod/pod = setup_pod()
 	our_client.prefs.safe_transfer_prefs_to(spawned_mob, is_antag = TRUE)
+	if(!our_client)
+		qdel(spawned_mob)
+		qdel(pod)
+		return FALSE
 	spawned_mob.ckey = our_client.key
 	var/datum/mind/op_mind = spawned_mob.mind
 	if(length(GLOB.newplayer_start)) // needed as hud code doesn't render huds if the atom (in this case the spawned_mob) is in nullspace, so just move the spawned_mob somewhere safe
@@ -378,7 +437,14 @@
 	else
 		spawned_mob.forceMove(locate(1,1,1))
 
-	op_mind.add_antag_datum(antag_datum)
+	if(antag_datum && !op_mind.add_antag_datum(antag_datum))
+		if(our_client && !QDELETED(original_controller))
+			original_controller.PossessByPlayer(our_client.key)
+		else
+			spawned_mob.ghostize(FALSE)
+		qdel(spawned_mob)
+		qdel(pod)
+		return FALSE
 
 	if(ishuman(spawned_mob))
 		var/mob/living/carbon/human/human_mob = spawned_mob
@@ -394,6 +460,7 @@
 
 	spawned_mob.forceMove(pod)
 	new /obj/effect/pod_landingzone(get_turf(src), pod)
+	return TRUE
 
 /obj/item/antag_spawner/loadout/contractor
 	name = "contractor support beacon"
