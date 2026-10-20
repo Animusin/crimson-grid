@@ -99,6 +99,11 @@
 	client.prefs = new(client)
 	var/datum/preferences/preferences = client.prefs
 	var/mob/living/carbon/human/human = allocate(/mob/living/carbon/human/consistent)
+	// Fresh preferences randomize personalities. Reapplying this cosmetic
+	// fixture must not repeat unrelated one-shot personality effects.
+	preferences.write_preference(GLOB.preference_entries[/datum/preference/personality], list())
+	if(length(preferences.read_preference(/datum/preference/personality)))
+		Fail("The cosmetic preference fixture must have no randomized personality effects.")
 	preferences.write_preference(GLOB.preference_entries[/datum/preference/choiced/body_type], FEMALE)
 	var/datum/preference/build = GLOB.preference_entries[/datum/preference/choiced/slim_body_build]
 	for(var/selection in list("Slim (female)", "Standard", "Slim (female)"))
