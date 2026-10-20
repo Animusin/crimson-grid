@@ -125,7 +125,7 @@
 	student.reagents.expose(student, INGEST, 1, FALSE)
 
 	var/discipline_type = disc_type[chosen]
-	var/fail_to_save_reason = student.cant_save_midround_reason()
+	var/fail_to_save_reason = student.quality_character_save_failure()
 	if(discipline_type)
 		var/datum/splat/vampire/student_splat = student ? get_splat_with_discipline(student) : null
 		if(student_splat && !student_splat.get_power(discipline_type))

@@ -1,4 +1,14 @@
 #if defined(UNIT_TESTS) || defined(SPACEMAN_DMM)
+/datum/unit_test/player_quality/proc/attach_canonical_character(mob/living/carbon/human/body, datum/client_interface/quality_test/player)
+	body.mock_client = player
+	player.mob = body
+	if(!body.mind)
+		body.mind_initialize()
+	body.mind.key = player.key
+	body.mind.original_character_slot_index = player.prefs.default_slot
+	body.mind.set_original_character(body)
+	LAZYADD(player.persistent_client.joined_as_slots, "[player.prefs.default_slot]")
+
 /datum/unit_test/player_quality/character_records/Run()
 	var/path = "data/pq-character-unit-[world.realtime]-[rand(1, 1000000)].json"
 	var/datum/player_quality_store/store = new(path)
@@ -111,7 +121,16 @@
 	var/datum/client_interface/quality_test/player = allocate(/datum/client_interface/quality_test, "quality-spawn-[world.realtime]")
 	player.prefs = new(player)
 	var/datum/preferences/preferences = player.prefs
-	preferences.value_cache[/datum/preference/choiced/splats] = SPLAT_NONE
+	preferences.write_preference(GLOB.preference_entries[/datum/preference/choiced/splats], SPLAT_KINDRED)
+	preferences.write_preference(GLOB.preference_entries[/datum/preference/numeric/immortal_age], 50)
+	var/datum/preference/path_preference = GLOB.preference_entries[/datum/preference/choiced/vtm_morality]
+	preferences.write_preference(path_preference, path_preference.serialize(/datum/morality/power))
+	preferences.write_preference(GLOB.preference_entries[/datum/preference/personality], list())
+	controller.store.database.set_key(player.ckey, list("pq" = 60))
+	var/mob/dead/new_player/lobby = allocate(/mob/dead/new_player)
+	lobby.mock_client = player
+	player.mob = lobby
+	lobby.mind_initialize()
 	// Start with an existing pre-migration sheet, then load its new GUID without
 	// closing the preferences UI or saving that JSON subtree.
 	preferences.save_character()
@@ -119,22 +138,37 @@
 	legacy_sheet -= "quality_character_id"
 	preferences.savefile.save()
 	preferences.load_character()
+	if(preferences.read_preference(/datum/preference/choiced/splats) != /datum/splat/vampire/kindred || preferences.read_preference(/datum/preference/numeric/immortal_age) != 50 || preferences.read_preference(/datum/preference/choiced/vtm_morality) != /datum/morality/power)
+		Fail("The migrated fixture must reload its serialized Kindred splat, age and requested Path before testing job spawn.")
 	var/id = preferences.quality_character_id
 	var/mob/living/carbon/human/dummy/consistent/preview = allocate(/mob/living/carbon/human/dummy/consistent)
 	preferences.apply_prefs_to(preview)
 	if(controller.store.read_character(player.ckey, id))
 		Fail("Rendering actual preference previews must not create or lock a character record.")
-	var/mob/living/carbon/human/body = allocate(/mob/living/carbon/human/consistent)
 	var/datum/job/job = SSjob.get_job_type(/datum/job/vampire/citizen)
+	var/mob/living/carbon/human/body = job.get_spawn_mob(player, run_loc_floor_bottom_left)
+	allocated += body
 	if(body.quality_finalize_character(player, job) || controller.store.read_character(player.ckey, id))
 		Fail("A failed/disconnected spawn must neither create a record nor consume permissions.")
+	// Match create_character: transfer the preserved mind and set its original
+	// slot/body, append the joined slot, then possess and finalize the real job body.
+	lobby.mind.original_character_slot_index = preferences.default_slot
+	lobby.mind.transfer_to(body)
+	body.mind.set_original_character(body)
+	LAZYADD(player.persistent_client.joined_as_slots, "[preferences.default_slot]")
 	body.mock_client = player
 	player.mob = body
-	if(!body.quality_finalize_character(player, job))
+	if(!body.quality_finalize_character(player, body.quality_pending_job))
 		Fail("Successful possession must finalize the owning character.")
 	var/list/record = controller.store.read_character(player.ckey, id)
 	if(!record?["locked"] || record["unlock_ticket"] || body.quality_character_id != id || body.quality_character_account != player.ckey)
 		Fail("Successful first spawn must attach stable identity and lock once.")
+	if(!get_kindred_splat(body))
+		Fail("Actual job preferences must create a Kindred body from the reloaded sheet (saved splat: [preferences.read_preference(/datum/preference/choiced/splats)]).")
+	if(record["path"] != "/datum/morality/humanity" || !isnum(record["path_rating"]))
+		Fail("Actual first spawn must persist initial Humanity through the canon guard (saved Path: [record["path"]], rating: [record["path_rating"]], save failure: [body.quality_character_save_failure()]).")
+	if(body.quality_character_save_failure())
+		Fail("The native spawn order must satisfy the exact character save guard: [body.quality_character_save_failure()].")
 	var/datum/json_savefile/reloaded_sheet = new(preferences.savefile.path)
 	var/list/disk_sheet = reloaded_sheet.get_entry("character[preferences.default_slot]")
 	if(disk_sheet?["quality_character_id"] != id)
