@@ -4,7 +4,8 @@ Compile with UNIT_TESTS, BUSINESS_TESTS and BUSINESS_GEOMETRY, run each city,
 then copy data/business_geometry.json to data/territory_geometry/<map>.json.
 Run this tool from the repo root; --apply writes single-tile TGM changes.
 Unlocked doors are allowed on the public approach; locked doors only on the
-clerk route. A marker itself can never occupy a doorway.
+clerk route. Explicit private shops require entry into their original premise.
+A marker itself can never occupy a doorway.
 """
 from collections import deque
 import argparse
@@ -37,6 +38,8 @@ def review(entry, apply=False):
     exported = json.loads(Path(f'data/territory_geometry/{entry["map"]}.json').read_text())
     if exported.get('version') != 2:
         raise ValueError('Re-export geometry with water and live door locks (version 2)')
+    if not isinstance(exported.get('service_tiles'), dict):
+        raise ValueError('Re-export geometry with actual cashier service tiles; public marks alone are insufficient')
     first = entry['businesses'][0]
     delta = exported.get('map_offset')
     if delta is None:
@@ -110,7 +113,22 @@ def review(entry, apply=False):
             original_marks[b['id']] = mark
             model.set_tile(old, tuple(a for a in tile if a != mark))
     for b in entry['businesses']:
-        home = tuple(b['clerk'])
+        if tuple(b['marker']) not in public:
+            raise RuntimeError(f'{b["id"]}: current mark is not on the unlocked public pedestrian component')
+        # Retain the reviewed premise/mark relationship when its service clerk
+        # moves to the public side of a faction-locked office.
+        home = tuple(b.get('premises_anchor', b['clerk']))
+        service_tiles = {normalized(c) for c in exported['service_tiles'].get(b['id'], [])}
+        if b.get('private_service'):
+            eligible_service = {c for c in service_tiles if c in floors
+                                and tiles[c][-1].split('{')[0] == b['area']}
+            if not eligible_service:
+                raise RuntimeError(f'{b["id"]}: no physical approach inside its private premise can interact with its actual cashier')
+        else:
+            eligible_service = service_tiles & set(public)
+            if not eligible_service:
+                raise RuntimeError(f'{b["id"]}: no unlocked public approach can interact with its actual cashier')
+        service_approach = min(eligible_service, key=lambda c: (distance(c, tuple(b['clerk'])), c))
         # A cashier can stand behind an impassable counter. Trace the customer's
         # approach from adjacent outlet tiles, rather than requiring the cashier
         # to be able to walk through their own counter.
@@ -160,12 +178,14 @@ def review(entry, apply=False):
         old = tuple(b['marker'])
         used.append(chosen)
         report.append(dict(id=b['id'], old=old, marker=chosen, approach_steps=steps,
-                           route_origin='public_approach' if b.get('public_approach') else 'customer_or_clerk', road_clearance=clearance))
+                           route_origin='public_approach' if b.get('public_approach') else 'customer_or_clerk',
+                           service_access='private_premise' if b.get('private_service') else 'public',
+                           service_approach=service_approach, road_clearance=clearance))
         if apply:
             mark = original_marks[b['id']]
             path, attrs = parse_map_atom(mark)
             for i, axis in enumerate('xyz'):
-                attrs[f'clerk_offset_{axis}'] = str(home[i]-chosen[i])
+                attrs[f'clerk_offset_{axis}'] = str(b['clerk'][i]-chosen[i])
             mark = path + '{' + ';'.join(f'{k} = {v}' for k, v in attrs.items()) + '}'
             model.set_tile(chosen, (mark, *model.get_tile(chosen)))
             b['marker'] = list(chosen)

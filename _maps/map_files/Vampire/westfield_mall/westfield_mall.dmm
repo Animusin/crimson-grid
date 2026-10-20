@@ -17435,6 +17435,17 @@
 /obj/effect/spawner/random/trash/garbage,
 /turf/open/floor/carpet/darkpack/purplegold,
 /area/vtm/westfield_mall/interior/law_office)
+"jxS" = (
+/obj/structure/city_business{
+	territory_id = "westfield_primogen_toreador";
+	business_name = "Toreador Office";
+	owner_faction = "camarilla";
+	clerk_offset_x = 9;
+	clerk_offset_y = -5;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/city/plating,
+/area/vtm/westfield_mall/interior)
 "jzn" = (
 /obj/structure/table/wood,
 /obj/item/table_clock{
@@ -18072,6 +18083,17 @@
 /obj/effect/spawner/random/flora/flowers,
 /turf/open/misc/dirt,
 /area/vtm/westfield_mall/interior/cave)
+"ohm" = (
+/obj/structure/city_business{
+	territory_id = "westfield_primogen_banu";
+	business_name = "Banu Office";
+	owner_faction = "camarilla";
+	clerk_offset_x = 1;
+	clerk_offset_y = 4;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/city/plating,
+/area/vtm/westfield_mall/interior)
 "okz" = (
 /obj/structure/sign/city/skateshop/three/directional/north,
 /turf/open/floor/plating/sidewalk/poor,
@@ -19501,6 +19523,17 @@
 	},
 /turf/open/floor/plating/concrete,
 /area/vtm/westfield_mall/interior/groundskeeper_garage)
+"wIm" = (
+/obj/structure/city_business{
+	territory_id = "westfield_primogen_nosferatu";
+	business_name = "Nosferatu Office";
+	owner_faction = "camarilla";
+	clerk_offset_x = -17;
+	clerk_offset_y = 15;
+	clerk_offset_z = 0
+	},
+/turf/open/floor/plating/stone,
+/area/vtm/interior/sewer)
 "wJt" = (
 /obj/structure/vampdoor/glass{
 	dir = 8
@@ -26192,7 +26225,7 @@ aTj
 aTj
 aGF
 amx
-jtY
+wIm
 amx
 aGF
 aGF
@@ -77379,7 +77412,7 @@ aXr
 aTz
 aXr
 aXr
-fcV
+ohm
 aXr
 iVz
 aXr
@@ -83321,7 +83354,7 @@ aMN
 aeb
 ayZ
 awz
-mim
+jxS
 aFf
 aYl
 anJ
