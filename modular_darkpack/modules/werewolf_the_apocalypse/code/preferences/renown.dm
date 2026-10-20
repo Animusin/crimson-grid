@@ -19,6 +19,7 @@
 
 	splat.renown[savefile_key] = value
 	splat.renown_rank = splat.auspice_rank_check() // This only works because auspice loads before renown.
+	target.quality_apply_garou_starting_rank(preferences)
 
 /datum/preference/numeric/renown/honor
 	savefile_key = RENOWN_HONOR

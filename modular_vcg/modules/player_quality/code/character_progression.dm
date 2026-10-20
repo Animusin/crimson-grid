@@ -220,6 +220,8 @@
 		"full_respect" = round(score - full_cost, 0.01),
 		"stats_age_cap" = CONFIG_GET(flag/respect_age_gates) ? respect_age_cap_for_score(score - 3) : 1000,
 		"full_age_cap" = CONFIG_GET(flag/respect_age_gates) ? respect_age_cap_for_score(score - full_cost) : 1000,
+		"stats_garou_rank_cap" = CONFIG_GET(flag/respect_garou_rank_gates) ? respect_garou_rank_cap_for_score(score - 3) : RANK_LEGEND,
+		"full_garou_rank_cap" = CONFIG_GET(flag/respect_garou_rank_gates) ? respect_garou_rank_cap_for_score(score - full_cost) : RANK_LEGEND,
 	))
 
 /datum/preference_middleware/character_progression/proc/unlock_character(list/params, mob/user)

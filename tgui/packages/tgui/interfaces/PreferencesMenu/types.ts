@@ -251,6 +251,11 @@ export type PreferencesMenuData = {
   respect_age_cap?: number;
   respect_kindred_available?: boolean;
   respect_kindred_threshold?: number;
+  respect_garou_rank_cap?: number | null;
+  respect_garou_rank_name?: string | null;
+  respect_garou_saved_rank?: number | null;
+  respect_garou_saved_rank_name?: string | null;
+  respect_garou_threshold?: number;
   character_progression?: {
     locked: boolean;
     can_unlock: boolean;
@@ -261,6 +266,8 @@ export type PreferencesMenuData = {
     full_respect: number;
     stats_age_cap: number;
     full_age_cap: number;
+    stats_garou_rank_cap: number;
+    full_garou_rank_cap: number;
   };
   player_respect?: number | null;
   is_trusted: BooleanLike;

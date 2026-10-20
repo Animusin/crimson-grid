@@ -8,6 +8,19 @@ function ageAccess(cap: number) {
     : `Kindred age up to ${cap} years since Embrace`;
 }
 
+function garouAccess(cap: number) {
+  const ranks = [
+    'Cub',
+    'Cliath',
+    'Fostern',
+    'Adren',
+    'Athro',
+    'Elder',
+    'Legend',
+  ];
+  return cap < 0 ? 'Garou unavailable' : `Garou rank up to ${ranks[cap]}`;
+}
+
 export function CharacterProgression() {
   const { act, data } = useBackend<PreferencesMenuData>();
   const progression = data.character_progression;
@@ -49,7 +62,10 @@ export function CharacterProgression() {
                 </Button>
                 <Box color="label" mt={0.5}>
                   After spending: Respect {progression.stats_respect};{' '}
-                  {ageAccess(progression.stats_age_cap)}.
+                  {data.respect_garou_rank_cap != null
+                    ? garouAccess(progression.stats_garou_rank_cap)
+                    : ageAccess(progression.stats_age_cap)}
+                  .
                 </Box>
               </Stack.Item>
             )}
@@ -72,7 +88,10 @@ export function CharacterProgression() {
                 </Button>
                 <Box color="label" mt={0.5}>
                   After spending: Respect {progression.full_respect};{' '}
-                  {ageAccess(progression.full_age_cap)}.
+                  {data.respect_garou_rank_cap != null
+                    ? garouAccess(progression.full_garou_rank_cap)
+                    : ageAccess(progression.full_age_cap)}
+                  .
                 </Box>
               </Stack.Item>
             )}

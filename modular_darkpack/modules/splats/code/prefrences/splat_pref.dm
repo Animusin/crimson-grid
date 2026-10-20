@@ -64,6 +64,8 @@
 	// Saved sheets and direct preference application must honor account access too.
 	if(preferences && ispath(value, /datum/splat/vampire/kindred) && !respect_kindred_available(preferences.parent?.ckey))
 		return
+	if(preferences && ispath(value, /datum/splat/werewolf/shifter/garou) && !respect_garou_available(preferences.parent?.ckey))
+		return
 	if(length(target.splats))
 		QDEL_LAZYLIST(target.splats) // Unfortuantly we dont support multiple splats via prefs yet.
 	if(ispath(value))

@@ -30,11 +30,45 @@ and ghouls remain available. The four thresholds are configurable. The UI blocks
 Kindred selection and over-cap age edits; jobs reject both unavailable Kindred
 and older saved sheets. Direct splat preference application also refuses an
 unavailable Kindred. Spawn age caps do not rewrite saved age. Discipline budgets
-use the same nonnegative effective age. Ghoul/werewolf selection is unaffected;
+use the same nonnegative effective age. Ghoul, kinfolk and Corax selection is unaffected;
 switching back to Kindred restores the gate. Existing generation, clan, job-age,
 trust and diablerist policies remain. A midround score loss changes future
 selection, not the existing character's age. Character locks and Path persistence
-are described below. Existing discipline budgets and werewolf advancement remain.
+are described below. Existing discipline budgets and in-round Renown growth remain.
+
+## Garou rank access
+
+Garou have an existing progression ladder: their Auspice calculates rank from
+Honor, Glory and Wisdom. Respect limits this starting rank rather than adding
+a new age or power system:
+
+| Existing Garou rank | Default minimum Respect |
+| --- | --- |
+| Cub (0) | 10 |
+| Cliath (1) | 20 |
+| Fostern (2) | 30 |
+| Adren (3) | 40 |
+| Athro (4) | 50 |
+| Elder (5) | 60 |
+
+Below 10 Respect Garou selection is unavailable. Changes to Renown and Auspice
+cannot raise a sheet above its account cap; lowering an old over-limit sheet is
+allowed even if several slider reductions are needed. The profile shows both
+the saved and allowed ranks. Job eligibility independently rejects unavailable
+Garou and over-rank saved/forged sheets. Direct preference application limits
+only the body's starting rank, preserving the saved Renown values. Karma respec
+previews show the resulting Garou access too.
+
+These checks apply to character selection and starting preference application.
+Losing Respect does not lower an existing live Garou, and ordinary in-round
+`adjust_renown` gains and losses remain unchanged. Corax use parts of the common
+Renown API but have no implemented Auspice/rank ladder, so they receive no new
+gate. Humans, ghouls and kinfolk stay free. The defined Legend rank is not
+returned by the current Garou calculators and gains no invented seventh tier.
+
+There is no Garou gift point budget in this build: breed, tribe and Auspice grant
+fixed gift lists. This change does not invent a gift allocation system, gate
+Rage/Gnosis reserves, or activate the old unused `minimal_renown_rank` job field.
 
 ## Character records and paid edits
 
@@ -227,12 +261,20 @@ remain proposals pending meaningful outcome rules.
     RESPECT_NEONATE_THRESHOLD 20
     RESPECT_ANCILLA_THRESHOLD 40
     RESPECT_ELDER_THRESHOLD 60
+    RESPECT_GAROU_RANK_GATES 1
+    RESPECT_GAROU_CUB_THRESHOLD 10
+    RESPECT_GAROU_CLIATH_THRESHOLD 20
+    RESPECT_GAROU_FOSTERN_THRESHOLD 30
+    RESPECT_GAROU_ADREN_THRESHOLD 40
+    RESPECT_GAROU_ATHRO_THRESHOLD 50
+    RESPECT_GAROU_ELDER_THRESHOLD 60
     PATH_TRAINING_ROUNDS 3
     PATH_INITIATION_FRENZY_SECONDS 15
     PATH_TEACHING_DIFFICULTY 6
 
 PLAYER_QUALITY_ENABLED 0 disables scoring/gates. RESPECT_AGE_GATES 0 disables only
-age gates. Setting a Karma source to zero disables its award value.
+Kindred age gates; RESPECT_GAROU_RANK_GATES 0 disables only Garou starting-rank
+gates. Setting a Karma source to zero disables its award value.
 
 PQ/RCP draw on Animusin/Ratwood-2.0's playerquality.dm, client_procs.dm and
 roundend.dm. The commend policy was checked against local Ratwood-2.0 at
@@ -245,7 +287,9 @@ commend bands, automatic saturation, idempotent checked debits,
 RCP, contribution limits, actual lethal damage, summon ownership, target/quota
 exceptions (including a minion's own actor-specific orders), same-tick corpse
 dismemberment, self-harm/revival, medical packs, surgical completion and persisted
-cooldowns, character edit accounting, age gates, Path training and optional
+cooldowns, character edit accounting, age gates, Garou rank/selection/job/direct
+application gates, Auspice-switch bypasses, Corax/kinfolk exclusions, unaffected
+live Renown growth, Path training and optional
 business integration. Test definitions describe coverage; compilation/runtime
 results must be recorded for the exact tested source. See
 [DECISIONS.md](DECISIONS.md).

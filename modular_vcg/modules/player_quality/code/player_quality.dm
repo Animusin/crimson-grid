@@ -305,7 +305,9 @@ GAME_VERB(/client, player_quality, "Player quality", "OOC")
 	var/list/record = SSplayer_quality.store.read(ckey)
 	var/cap = respect_age_cap(ckey)
 	var/kindred_access = cap < 0 ? "Kindred require [CONFIG_GET(number/respect_fledgling_threshold)] Respect; mortals and ghouls remain available." : "Kindred age available: up to [cap] years since Embrace."
-	to_chat(src, span_notice("Player Quality: [record["pq"]]. Round Contribution Points: [record["rcp"]] (Respect contribution [record["rcp"] / 4]). Karma: [record["karma"]]. Respect: [round(SSplayer_quality.store.respect(ckey), 0.01)]. [kindred_access]"))
+	var/garou_cap = respect_garou_rank_cap(ckey)
+	var/garou_access = garou_cap < 0 ? "Garou require [CONFIG_GET(number/respect_garou_cub_threshold)] Respect; kinfolk remain available." : "Garou rank available: up to [fera_rank_name(garou_cap, SPLAT_GAROU)]."
+	to_chat(src, span_notice("Player Quality: [record["pq"]]. Round Contribution Points: [record["rcp"]] (Respect contribution [record["rcp"] / 4]). Karma: [record["karma"]]. Respect: [round(SSplayer_quality.store.respect(ckey), 0.01)]. [kindred_access] [garou_access]"))
 
 ADMIN_VERB(adjust_player_quality, R_ADMIN, "Adjust player quality", "View or adjust an account's PQ, RCP or Karma with an audited reason.", ADMIN_CATEGORY_GAME)
 	if(!SSplayer_quality.store)

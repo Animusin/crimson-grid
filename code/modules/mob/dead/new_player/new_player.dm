@@ -153,6 +153,8 @@
 			return "Your character's tribe is incompatible for [jobtitle]."
 		if(JOB_UNAVAILABLE_FERA_AUSPICE)
 			return "Your character's auspice is incompatible for [jobtitle]."
+		if(JOB_UNAVAILABLE_FERA_RESPECT)
+			return "Your Respect does not permit this Garou rank. Reduce the saved Renown or choose a mortal, ghoul or kinfolk."
 		// DARKPACK EDIT END
 		// CRIMSON EDIT ADD START
 		if(JOB_UNAVAILABLE_DONATOR)

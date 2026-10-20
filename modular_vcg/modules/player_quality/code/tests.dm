@@ -469,6 +469,126 @@
 	qdel(gate_client.prefs)
 	fdel(path)
 	fdel("[path].savebac")
+/datum/unit_test/player_quality/garou_rank_policy/Run()
+	var/list/thresholds = list(
+		CONFIG_GET(number/respect_garou_cub_threshold),
+		CONFIG_GET(number/respect_garou_cliath_threshold),
+		CONFIG_GET(number/respect_garou_fostern_threshold),
+		CONFIG_GET(number/respect_garou_adren_threshold),
+		CONFIG_GET(number/respect_garou_athro_threshold),
+		CONFIG_GET(number/respect_garou_elder_threshold),
+	)
+	for(var/index in 1 to length(thresholds))
+		if(respect_garou_rank_cap_for_score(thresholds[index]) != index - 1 || respect_garou_rank_cap_for_score(thresholds[index] - 0.01) != index - 2)
+			Fail("Each Garou rank must unlock exactly at its own configured Respect threshold.")
+	if(respect_garou_rank_cap_for_score(-20) != -1 || respect_garou_rank_cap_for_score(1000) != RANK_ELDER)
+		Fail("Negative Respect must not unlock Garou, and the implemented ladder must stop at Elder rather than inventing a Legend tier.")
+
+/datum/unit_test/player_quality/garou_rank_hooks/Run()
+	var/datum/controller/subsystem/player_quality/controller = SSplayer_quality
+	var/datum/player_quality_store/old_store = controller.store
+	var/path = "data/pq-garou-gates-unit-[world.realtime]-[rand(1, 1000000)].json"
+	controller.store = new(path)
+	var/old_flag = CONFIG_GET(flag/respect_garou_rank_gates)
+	CONFIG_SET(flag/respect_garou_rank_gates, TRUE)
+	var/datum/client_interface/quality_test/player = allocate(/datum/client_interface/quality_test, "qualitygarougate")
+	player.prefs = new(player)
+	var/datum/preferences/preferences = player.prefs
+	preferences.value_cache[/datum/preference/choiced/splats] = /datum/splat/werewolf/shifter/garou
+	preferences.value_cache[/datum/preference/choiced/subsplat/fera_auspice/garou] = AUSPICE_AHROUN
+	preferences.value_cache[/datum/preference/numeric/renown/honor] = 10
+	preferences.value_cache[/datum/preference/numeric/renown/glory] = 10
+	preferences.value_cache[/datum/preference/numeric/renown/wisdom] = 10
+	var/datum/preference_middleware/player_respect/middleware = new(preferences)
+	var/mob/dead/new_player/lobby = allocate(/mob/dead/new_player)
+	lobby.mock_client = player
+	player.mob = lobby
+	var/datum/job/job = allocate(/datum/job)
+	if(preferences.quality_garou_rank() != RANK_ELDER || respect_garou_available(player.ckey))
+		Fail("Saved Renown must derive the real Auspice rank while an empty account cannot select even a Cub.")
+	if(!middleware.pre_set_preference(lobby, "splats", SPLAT_GAROU))
+		Fail("The actual selection middleware must reject Garou below its entry threshold.")
+	for(var/free_splat in list(SPLAT_NONE, SPLAT_GHOUL, SPLAT_KINFOLK, SPLAT_CORAX))
+		if(middleware.pre_set_preference(lobby, "splats", free_splat))
+			Fail("The Garou gate must not introduce a gate for mortals, ghouls, kinfolk or Corax.")
+	if(SSjob.check_job_eligibility_darkpack(lobby, job) != JOB_UNAVAILABLE_FERA_RESPECT)
+		Fail("Actual job eligibility must reject a saved Garou sheet below the entry threshold.")
+	var/datum/preference/choiced/splats/splat_preference = GLOB.preference_entries[/datum/preference/choiced/splats]
+	var/mob/living/carbon/human/blocked = allocate(/mob/living/carbon/human/consistent)
+	splat_preference.apply_to_human(blocked, /datum/splat/werewolf/shifter/garou, preferences)
+	if(get_shifter_splat(blocked))
+		Fail("Direct preference application must refuse Garou below ten Respect rather than bypassing UI checks.")
+	controller.store.database.set_key(player.ckey, list("pq" = CONFIG_GET(number/respect_garou_cub_threshold)))
+	if(!respect_garou_available(player.ckey) || respect_garou_rank_cap(player.ckey) != RANK_CUB || SSjob.check_job_eligibility_darkpack(lobby, job) != JOB_UNAVAILABLE_FERA_RESPECT)
+		Fail("Cub access must not permit an older saved Elder-rank sheet through actual job assignment.")
+	if(middleware.pre_set_preference(lobby, RENOWN_HONOR, 9) || !middleware.pre_set_preference(lobby, RENOWN_HONOR, 10))
+		Fail("The middleware must allow reductions of an over-limit sheet while refusing increases or unchanged over-limit settings.")
+	var/mob/living/carbon/human/applied = allocate(/mob/living/carbon/human/consistent)
+	splat_preference.apply_to_human(applied, /datum/splat/werewolf/shifter/garou, preferences)
+	var/datum/preference/choiced/subsplat/fera_auspice/garou/auspice_preference = GLOB.preference_entries[/datum/preference/choiced/subsplat/fera_auspice/garou]
+	auspice_preference.apply_to_human(applied, AUSPICE_AHROUN, preferences)
+	for(var/renown_type in list(/datum/preference/numeric/renown/honor, /datum/preference/numeric/renown/glory, /datum/preference/numeric/renown/wisdom))
+		var/datum/preference/numeric/renown/preference = GLOB.preference_entries[renown_type]
+		preference.apply_to_human(applied, 10, preferences)
+	var/datum/splat/werewolf/shifter/garou/garou = get_shifter_splat(applied)
+	if(garou.renown_rank != RANK_CUB || preferences.quality_garou_rank() != RANK_ELDER || preferences.read_preference(/datum/preference/numeric/renown/honor) != 10)
+		Fail("Actual starting-rank application must cap only the body without silently rewriting the saved Renown draft.")
+	preferences.value_cache[/datum/preference/choiced/splats] = /datum/splat/werewolf/shifter/corax
+	applied.quality_apply_garou_starting_rank(preferences)
+	if(garou.renown_rank != RANK_CUB)
+		Fail("Spoofing another selected splat must not remove the starting-rank cap from an actual Garou body.")
+	preferences.value_cache[/datum/preference/choiced/splats] = /datum/splat/werewolf/shifter/garou
+	// A candidate Auspice can promote the same Renown values without slider edits.
+	preferences.value_cache[/datum/preference/numeric/renown/honor] = 0
+	preferences.value_cache[/datum/preference/numeric/renown/glory] = 0
+	preferences.value_cache[/datum/preference/numeric/renown/wisdom] = 3
+	if(preferences.quality_garou_rank() != RANK_CUB || !middleware.pre_set_preference(lobby, "garou_auspice", AUSPICE_RAGABASH))
+		Fail("Changing Auspice must not bypass the account cap with an unchanged Renown sheet.")
+	preferences.value_cache[/datum/preference/numeric/renown/wisdom] = 0
+	if(SSjob.check_job_eligibility_darkpack(lobby, job) != JOB_AVAILABLE)
+		Fail("A repaired Cub sheet must be playable at its entry threshold.")
+	var/list/ui_data = middleware.get_ui_data(lobby)
+	if(ui_data["respect_garou_rank_cap"] != RANK_CUB || ui_data["respect_garou_saved_rank"] != RANK_CUB || ui_data["respect_garou_rank_name"] != "cub")
+		Fail("Preferences must expose the saved and allowed Garou ranks for a clear UI explanation.")
+	var/datum/preference_middleware/character_progression/controls = new(preferences)
+	ui_data = controls.get_ui_data(lobby)
+	var/list/projection = ui_data["character_progression"]
+	if(projection["stats_garou_rank_cap"] != -1 || projection["full_garou_rank_cap"] != -1)
+		Fail("Karma respec projections must warn when the purchase would close Garou access.")
+	// These are account checks for selection/start, never a live Renown clamp.
+	controller.store.database.set_key(player.ckey, list("pq" = -1))
+	garou.renown = list(RENOWN_HONOR = 1, RENOWN_GLORY = 1, RENOWN_WISDOM = 0)
+	garou.adjust_renown(RENOWN_GLORY, 1)
+	if(garou.renown_rank != RANK_CLIATH)
+		Fail("An existing Garou must retain normal in-round Renown growth even after its account loses Respect.")
+	preferences.value_cache[/datum/preference/choiced/splats] = /datum/splat/werewolf/shifter/corax
+	var/mob/living/carbon/human/corax_body = allocate(/mob/living/carbon/human/consistent)
+	splat_preference.apply_to_human(corax_body, /datum/splat/werewolf/shifter/corax, preferences)
+	var/datum/preference/numeric/renown/honor/honor_preference = GLOB.preference_entries[/datum/preference/numeric/renown/honor]
+	honor_preference.apply_to_human(corax_body, 10, preferences)
+	ui_data = middleware.get_ui_data(lobby)
+	if(!istype(get_shifter_splat(corax_body), /datum/splat/werewolf/shifter/corax) || ui_data["respect_garou_rank_cap"] != null || middleware.pre_set_preference(lobby, RENOWN_HONOR, 10))
+		Fail("Corax must remain unaffected even when they use the common Renown preference API.")
+	preferences.value_cache[/datum/preference/choiced/splats] = /datum/splat/werewolf/kinfolk
+	if(SSjob.check_job_eligibility_darkpack(lobby, job) != JOB_AVAILABLE)
+		Fail("A kinfolk character must not inherit the Garou entry or rank gate.")
+	preferences.value_cache[/datum/preference/choiced/splats] = /datum/splat/werewolf/shifter/garou
+	if(!middleware.pre_set_preference(lobby, "splats", SPLAT_GAROU))
+		Fail("Switching away and back must not bypass the Garou entry gate.")
+	CONFIG_SET(flag/respect_garou_rank_gates, FALSE)
+	if(!respect_garou_available(player.ckey) || middleware.pre_set_preference(lobby, "splats", SPLAT_GAROU) || SSjob.check_job_eligibility_darkpack(lobby, job) != JOB_AVAILABLE)
+		Fail("Disabling the Garou gate must consistently restore ordinary selection and job checks.")
+	CONFIG_SET(flag/respect_garou_rank_gates, old_flag)
+	qdel(controls)
+	qdel(middleware)
+	lobby.mock_client = null
+	player.mob = null
+	qdel(player.prefs)
+	player.prefs = null
+	qdel(controller.store)
+	controller.store = old_store
+	fdel(path)
+	fdel("[path].savebac")
 #ifdef BUSINESS_TESTS
 /datum/unit_test/player_quality/business_defense_integration/Run()
 	var/datum/controller/subsystem/player_quality/controller = SSplayer_quality
