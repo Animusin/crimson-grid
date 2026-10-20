@@ -28,7 +28,7 @@
 /datum/beam/blowtorch/process(seconds_per_tick)
 	if(isliving(target))
 		var/mob/living/living_target = target
-		living_target.apply_damage(10*seconds_per_tick, BURN)
+		living_target.apply_damage(10*seconds_per_tick, BURN, damage_attacker = origin)
 
 /obj/effect/ebeam/reacting/blowtorch/beam_entered(atom/movable/entered)
 	. = ..()
@@ -73,7 +73,7 @@
 	return
 
 /datum/action/cooldown/spell/cone/staggered/entropic_plume_infernal/do_mob_cone_effect(mob/living/victim, atom/caster, level)
-	victim.apply_damage(50, BURN)
+	victim.apply_damage(50, BURN, damage_attacker = caster)
 	victim.adjust_fire_stacks(3, overwrite_color = COLOR_VERY_DARK_LIME_GREEN)
 	victim.ignite_mob()
 	to_chat(victim, span_boldwarning("You are engulfed in infernal flames!"))

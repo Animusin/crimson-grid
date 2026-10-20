@@ -232,6 +232,7 @@
 	cut_summoner(different_person)
 	AddComponent(/datum/component/life_link, to_who, CALLBACK(src, PROC_REF(on_harm)), CALLBACK(src, PROC_REF(on_summoner_death)))
 	summoner = to_who
+	quality_set_summon_owner(to_who)
 
 	for (var/action_type in control_actions)
 		if (locate(action_type) in summoner.actions)
@@ -294,6 +295,7 @@
 				continue
 			remove_action.Remove(summoner)
 	summoner = null
+	quality_set_summon_owner(null)
 
 /// Connects these two mobs by a leash
 /mob/living/basic/guardian/proc/leash_to(atom/movable/leashed, atom/movable/leashed_to)

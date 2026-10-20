@@ -76,7 +76,7 @@
 	var/throwtarget = get_edge_target_turf(owner, get_dir(owner, get_step_away(target, owner)))
 	target.safe_throw_at(throwtarget, 3, 1, src, spin = TRUE, force = MOVE_FORCE_VERY_STRONG, gentle = TRUE)
 	target.Knockdown(0.1 SECONDS)
-	target.apply_damage(5 * success_count, BURN)
+	target.apply_damage(5 * success_count, BURN, damage_attacker = owner)
 	target.adjust_fire_stacks(1, overwrite_color = COLOR_VERY_DARK_LIME_GREEN)
 	owner.visible_message(span_warning("[owner] hurls infernal flames at [target]!"), \
 			span_notice("You hurl infernal flames at [target]!"))
@@ -188,7 +188,7 @@
 	for(var/mob/living/living_target in selected_turf)
 		if(living_target == owner)
 			continue
-		living_target.adjust_fire_loss(base_damage)
+		living_target.adjust_attributed_damage(base_damage, BURN, owner)
 		if(prob(ignite_chance))
 			living_target.adjust_fire_stacks(fire_stacks_amount, overwrite_color = COLOR_VERY_DARK_LIME_GREEN)
 			living_target.ignite_mob()

@@ -632,6 +632,7 @@
 			)
 	dna.update_dna_identity()
 	updateappearance()
+	quality_pending_job = job
 
 /mob/living/silicon/ai/apply_prefs_job(client/player_client, datum/job/job)
 	if(GLOB.current_anonymous_theme)

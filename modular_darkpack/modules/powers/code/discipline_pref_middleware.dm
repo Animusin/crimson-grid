@@ -35,7 +35,7 @@ GLOBAL_LIST_INIT(rare_discipline_types, list(
 
 	var/discipline_points_budget
 	if(ispath(splat, /datum/splat/vampire/kindred))
-		var/immortal_age = client.prefs.read_preference(/datum/preference/numeric/immortal_age)
+		var/immortal_age = client.prefs.respect_immortal_age()
 		discipline_points_budget = get_discipline_point_budget(immortal_age)["points"]
 	else if(ispath(splat, /datum/splat/vampire/ghoul))
 		discipline_points_budget = get_ghoul_discipline_budget(discipline_count)["points"]
@@ -157,7 +157,7 @@ GLOBAL_LIST_INIT(rare_discipline_types, list(
 				if(ispath(disc_type, /datum/discipline) && !("[disc_type]" in counted_discs))
 					discipline_count++
 
-	var/immortal_age = preferences.read_preference(/datum/preference/numeric/immortal_age)
+	var/immortal_age = preferences.respect_immortal_age()
 	var/list/budget_info = is_ghoul ? get_ghoul_discipline_budget(discipline_count) : get_discipline_point_budget(immortal_age)
 	data["discipline_points_available"] = budget_info["points"]
 	data["discipline_points_spent"] = points_spent
@@ -227,6 +227,8 @@ GLOBAL_LIST_INIT(rare_discipline_types, list(
 // if you dont put any dots in it, aka level 0, it means you don't spawn in with that discipline
 /datum/preference_middleware/disciplines/proc/set_discipline_level(list/params, mob/user)
 	SHOULD_NOT_SLEEP(TRUE)
+	if(!preferences.quality_require_edit("stats"))
+		return FALSE
 
 	if(!isnewplayer(user) && ("[user.client.prefs.default_slot]" in user.persistent_client.joined_as_slots))
 		to_chat(user, span_warning("You may not adjust discipline dots of characters that have played in the current round.")) // so people dont mess up their saves
@@ -250,7 +252,7 @@ GLOBAL_LIST_INIT(rare_discipline_types, list(
 				if("[disc_type]" == discipline)
 					return FALSE
 
-	var/immortal_age = preferences.read_preference(/datum/preference/numeric/immortal_age)
+	var/immortal_age = preferences.respect_immortal_age()
 	var/list/budget_info = get_discipline_point_budget(immortal_age)
 	var/point_budget = budget_info["points"]
 	var/old_level = preferences.discipline_levels[discipline] || 0
@@ -270,6 +272,8 @@ GLOBAL_LIST_INIT(rare_discipline_types, list(
 
 /datum/preference_middleware/disciplines/proc/clear_discipline_levels(list/params, mob/user)
 	SHOULD_NOT_SLEEP(TRUE)
+	if(!preferences.quality_require_edit("stats"))
+		return FALSE
 
 	if(!isnewplayer(user) && ("[user.client.prefs.default_slot]" in user.persistent_client.joined_as_slots))
 		to_chat(user, span_warning("You may not adjust discipline dots of characters that have played in the current round."))
@@ -283,6 +287,7 @@ GLOBAL_LIST_INIT(rare_discipline_types, list(
 		for(var/disc_type in clan_datum.clan_disciplines)
 			if(ispath(disc_type, /datum/discipline))
 				preferences.discipline_levels += disc_type
+	preferences.quality_restore_discipline_choices()
 	preferences.save_character()
 	return TRUE
 
@@ -302,10 +307,19 @@ GLOBAL_LIST_INIT(rare_discipline_types, list(
 
 	if(!vampire_splat)
 		return
+	var/list/levels_to_apply = discipline_levels
+	if(ispath(read_preference(/datum/preference/choiced/splats), /datum/splat/vampire/kindred) && read_preference(/datum/preference/numeric/immortal_age) > respect_immortal_age() && !read_preference(/datum/preference/toggle/diablerist))
+		// Saved older sheets can reach this through direct/admin preference application.
+		// Cap the applied copy, preserving the player's sheet and existing exception.
+		levels_to_apply = discipline_levels.Copy()
+		var/remaining_budget = get_discipline_point_budget(respect_immortal_age())["points"]
+		for(var/disc_path in levels_to_apply)
+			levels_to_apply[disc_path] = clamp(levels_to_apply[disc_path], 0, min(5, remaining_budget))
+			remaining_budget -= levels_to_apply[disc_path]
 
 	var/has_any = FALSE // does this hoe even HAVE ANY
-	for(var/disc_path in discipline_levels)
-		if(discipline_levels[disc_path])
+	for(var/disc_path in levels_to_apply)
+		if(levels_to_apply[disc_path])
 			has_any = TRUE
 			break
 
@@ -321,11 +335,11 @@ GLOBAL_LIST_INIT(rare_discipline_types, list(
 					character.give_st_power(disc_type, 1)
 		save_character()
 	else
-		for(var/disc_path in discipline_levels)
+		for(var/disc_path in levels_to_apply)
 			var/discipline = text2path(disc_path)
 			if(!discipline)
 				continue
-			var/level = character.get_splat(/datum/splat/vampire/ghoul) ? 1 : discipline_levels[disc_path]
+			var/level = character.get_splat(/datum/splat/vampire/ghoul) ? 1 : levels_to_apply[disc_path]
 			if(!level)
 				continue // prevent removing the disc by stopping here if they put 0 in it
 			var/result = character.change_st_power_level(discipline, level)

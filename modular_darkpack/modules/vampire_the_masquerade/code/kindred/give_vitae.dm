@@ -125,7 +125,7 @@
 	student.reagents.expose(student, INGEST, 1, FALSE)
 
 	var/discipline_type = disc_type[chosen]
-	var/fail_to_save_reason = student.cant_save_midround_reason()
+	var/fail_to_save_reason = student.quality_character_save_failure()
 	if(discipline_type)
 		var/datum/splat/vampire/student_splat = student ? get_splat_with_discipline(student) : null
 		if(student_splat && !student_splat.get_power(discipline_type))
@@ -138,6 +138,7 @@
 				to_chat(owner, span_warning("[student] is unable to learn [chosen]."))
 				message_admins("[ADMIN_LOOKUPFLW(owner)] tried to teach [chosen] to [ADMIN_LOOKUPFLW(student)], but doing so would've made [key_name(student)]'s sheet invalid due to the following: [violations]")
 				return FALSE
+			student.quality_learn_discipline_identity(discipline_type)
 			if(student.client?.prefs && !fail_to_save_reason)
 				student.client.prefs.discipline_levels["[discipline_type]"] = 0
 				student.client.prefs.save_character()

@@ -417,6 +417,7 @@
 		sharpness = attacking_item.get_sharpness(),
 		attack_direction = get_dir(user, src),
 		attacking_item = attacking_item,
+		damage_attacker = user,
 	)
 
 	LAZYSET(attack_modifiers, DAMAGE_DONE, damage_done)

@@ -248,6 +248,28 @@ export type PreferencesMenuData = {
   discipline_points_spent: number;
   discipline_tier: string;
   discipline_tier_details: string;
+  respect_age_cap?: number;
+  respect_kindred_available?: boolean;
+  respect_kindred_threshold?: number;
+  respect_garou_rank_cap?: number | null;
+  respect_garou_rank_name?: string | null;
+  respect_garou_saved_rank?: number | null;
+  respect_garou_saved_rank_name?: string | null;
+  respect_garou_threshold?: number;
+  character_progression?: {
+    locked: boolean;
+    can_unlock: boolean;
+    unlock_ticket?: 'stats' | 'full' | null;
+    karma: number;
+    full_cost: number;
+    stats_respect: number;
+    full_respect: number;
+    stats_age_cap: number;
+    full_age_cap: number;
+    stats_garou_rank_cap: number;
+    full_garou_rank_cap: number;
+  };
+  player_respect?: number | null;
   is_trusted: BooleanLike;
   player_whitelists: string[]; // DARKPACK EDIT ADD - WHITELIST
   clan_names_to_key: Record<string, string>; // DARKPACK EDIT ADD - WHITELIST

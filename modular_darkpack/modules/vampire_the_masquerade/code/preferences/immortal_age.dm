@@ -10,7 +10,8 @@
 	maximum = 1000
 
 /datum/preference/numeric/immortal_age/apply_to_human(mob/living/carbon/human/target, value, datum/preferences/preferences)
-	target.chronological_age += value
+	// Enforce saved-file/randomization bypasses too, without rewriting the saved age.
+	target.chronological_age += preferences ? max(0, min(value, preferences.respect_kindred_age_cap())) : value
 
 /datum/preference/numeric/immortal_age/create_informed_default_value(datum/preferences/preferences)
-	return rand(minimum, maximum * 0.1)
+	return rand(minimum, max(minimum, min(maximum * 0.1, preferences ? preferences.respect_kindred_age_cap() : maximum)))

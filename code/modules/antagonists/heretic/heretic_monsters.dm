@@ -21,16 +21,20 @@
 			owner.current.visible_message(span_deconversion_message("[owner.current] looks like [owner.current.p_theyve()] been freed from the chains of the Mansus!"), ignored_mobs = owner.current)
 
 	master = null
+	owner.current?.quality_set_summon_owner(null)
 	return ..()
 
 /datum/antagonist/heretic_monster/apply_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/target = mob_override || owner.current
 	ADD_TRAIT(target, TRAIT_HERETIC_SUMMON, REF(src))
+	if(master?.current)
+		target.quality_set_summon_owner(master.current)
 
 /datum/antagonist/heretic_monster/remove_innate_effects(mob/living/mob_override)
 	var/mob/living/target = mob_override || owner.current
 	REMOVE_TRAIT(target, TRAIT_HERETIC_SUMMON, REF(src))
+	target.quality_set_summon_owner(null)
 	return ..()
 
 /*
@@ -38,6 +42,7 @@
  */
 /datum/antagonist/heretic_monster/proc/set_owner(datum/mind/master)
 	src.master = master
+	owner.current?.quality_set_summon_owner(master.current)
 	owner.enslave_mind_to_creator(master.current)
 
 	var/datum/objective/master_obj = new()

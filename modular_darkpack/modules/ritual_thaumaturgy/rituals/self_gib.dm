@@ -6,5 +6,6 @@
 
 /obj/ritual_rune/thaumaturgy/selfgib/complete()
 	. = ..()
+	SSplayer_quality?.record_execution(last_activator, last_activator)
 	last_activator.death()
 

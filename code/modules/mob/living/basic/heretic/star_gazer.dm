@@ -63,6 +63,7 @@
 	var/datum/action/cooldown/spell/stargazer_laser/laser = locate() in actions
 	if(master)
 		summoner = WEAKREF(master)
+		quality_set_summon_owner(master)
 		if(laser)
 			laser.our_master = WEAKREF(master)
 	AddComponent(/datum/component/seethrough_mob)

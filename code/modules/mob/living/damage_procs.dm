@@ -33,8 +33,10 @@
 	attack_direction = null,
 	attacking_item,
 	wound_clothing = TRUE,
+	mob/living/damage_attacker,
 )
 	SHOULD_CALL_PARENT(TRUE)
+	var/quality_was_alive = stat != DEAD
 
 	var/damage_amount = damage
 	if(!forced)
@@ -118,6 +120,11 @@
 		// DARKPACK EDIT ADD END
 
 	SEND_SIGNAL(src, COMSIG_MOB_AFTER_APPLY_DAMAGE, damage_dealt, damagetype, def_zone, blocked, wound_bonus, exposed_wound_bonus, sharpness, attack_direction, attacking_item, wound_clothing)
+	if(quality_was_alive && damage_dealt > 0)
+		if(damage_attacker)
+			SSplayer_quality?.record_harm(src, damage_attacker, damage_dealt, damagetype)
+		else if(attacking_item)
+			SSplayer_quality?.record_item_harm(src, attacking_item, damage_dealt, damagetype)
 	return damage_dealt
 
 /**

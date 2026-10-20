@@ -28,8 +28,11 @@
 
 /datum/preference_middleware/stats/proc/increase_stat(list/params, mob/user)
 	SHOULD_NOT_SLEEP(TRUE)
+	if(!preferences.quality_require_edit("stats"))
+		return FALSE
 
-	if("[user.client.prefs.default_slot]" in user.persistent_client.joined_as_slots)
+	var/client/player = GET_CLIENT(user)
+	if(!player?.prefs || "[preferences.default_slot]" in player.persistent_client?.joined_as_slots)
 		to_chat(user, span_warning("You cannot be spawned in as this character to adjust its stats."))
 		return FALSE
 
@@ -58,12 +61,14 @@
 
 
 	var/new_value = stat_path.get_pure_score()
-	var/real_name = user.client.prefs.read_preference(/datum/preference/name/real_name)
+	var/real_name = preferences.read_preference(/datum/preference/name/real_name)
 	user.log_message("increased stat '[stat_path.name]' from [old_value] to [new_value] on [real_name]", LOG_STATS)
 	return TRUE
 
 /datum/preference_middleware/stats/proc/decrease_stat(list/params, mob/user)
 	SHOULD_NOT_SLEEP(TRUE)
+	if(!preferences.quality_require_edit("stats"))
+		return FALSE
 
 	if(!isnewplayer(user))
 		to_chat(user, span_warning("You have to be in the main menu to adjust your stats."))
@@ -89,18 +94,20 @@
 		update_middleware_stats(preferences.preference_storyteller_stats)
 
 	var/new_value = stat_path.get_pure_score()
-	var/real_name = user.client.prefs.read_preference(/datum/preference/name/real_name)
+	var/real_name = preferences.read_preference(/datum/preference/name/real_name)
 	user.log_message("decreased stat '[stat_path.name]' from [old_value] to [new_value] on '[real_name]'", LOG_STATS)
 	return TRUE
 
 /datum/preference_middleware/stats/proc/reset_stats(list/params, mob/user)
 	SHOULD_NOT_SLEEP(TRUE)
+	if(!preferences.quality_require_edit("stats"))
+		return FALSE
 
 	if(!isnewplayer(user))
 		to_chat(user, span_warning("You have to be in the main menu to adjust your stats."))
 		return FALSE
 
-	var/real_name = user.client.prefs.read_preference(/datum/preference/name/real_name)
+	var/real_name = preferences.read_preference(/datum/preference/name/real_name)
 	user.log_message("reset all stats to default values on '[real_name]'", LOG_STATS)
 
 	preferences.preference_storyteller_stats = list()

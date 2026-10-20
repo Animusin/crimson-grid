@@ -63,6 +63,7 @@
 	guestbook_names = SANITIZE_LIST(guestbook_names)
 	alt_job_titles = save_data?["alt_job_titles"] // ALTERNATIVE_JOB_TITLES
 	discipline_levels = SANITIZE_LIST(save_data?["discipline_levels"]) || list()
+	quality_restore_discipline_choices()
 
 /datum/preferences/save_character()
 	. = ..()

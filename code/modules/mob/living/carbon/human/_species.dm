@@ -911,7 +911,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 
 	if((damage >= 1 TTRPG_DAMAGE) && prob(66))
 		target.force_say()
-	target.apply_damage(damage, attack_type, affecting, armor_block, attack_direction = attack_direction, sharpness = limb_sharpness)
+	target.apply_damage(damage, attack_type, affecting, armor_block, attack_direction = attack_direction, sharpness = limb_sharpness, damage_attacker = user)
 
 	var/smack_sound = attacking_bodypart.unarmed_attack_sound
 	var/smack_attack = (atk_effect == ATTACK_EFFECT_KICK || atk_effect == ATTACK_EFFECT_PUNCH || atk_effect == ATTACK_EFFECT_SMASH)

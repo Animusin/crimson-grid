@@ -313,7 +313,7 @@
 		FALSE,
 		thrown_item.weak_against_armour,
 	)
-	apply_damage(thrown_item.throwforce, thrown_item.damtype, zone, armor, sharpness = thrown_item.get_sharpness(), wound_bonus = (nosell_hit * CANT_WOUND), attacking_item = thrown_item)
+	apply_damage(thrown_item.throwforce, thrown_item.damtype, zone, armor, sharpness = thrown_item.get_sharpness(), wound_bonus = (nosell_hit * CANT_WOUND), attacking_item = thrown_item, damage_attacker = throwingdatum?.get_thrower())
 	log_hit_combat(throwingdatum?.get_thrower(), thrown_item)
 
 	if(QDELETED(src)) //Damage can delete the mob.
@@ -485,8 +485,11 @@
 		user,
 	)
 
+	var/was_alive = stat != DEAD
 	var/dam_zone = dismembering_strike(user, pick(BODY_ZONE_CHEST, BODY_ZONE_PRECISE_L_HAND, BODY_ZONE_PRECISE_R_HAND, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG))
 	if(!dam_zone) //Dismemberment successful
+		if(was_alive)
+			SSplayer_quality?.record_harm(src, user, damage, user.melee_damage_type)
 		return FALSE
 
 	var/armor_block = run_armor_check(user.zone_selected, MELEE, armour_penetration = user.armour_penetration)
@@ -501,6 +504,7 @@
 		exposed_wound_bonus = user.exposed_wound_bonus,
 		sharpness = user.sharpness,
 		attack_direction = get_dir(user, src),
+		damage_attacker = user,
 	)
 	log_combat(user, src, "attacked")
 	return damage_done

@@ -7,4 +7,5 @@
 
 /obj/ritual_rune/abyss/selfgib/complete()
 	. = ..()
+	SSplayer_quality?.record_execution(last_activator, last_activator)
 	last_activator.death()

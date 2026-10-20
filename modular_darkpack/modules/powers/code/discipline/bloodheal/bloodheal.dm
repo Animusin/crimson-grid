@@ -64,7 +64,7 @@
 		if(ROLL_BOTCH)
 			to_chat(owner, span_danger("And worsen your wounds."))
 			owner.adjust_blood_pool(-1)
-			owner.apply_damage(1 TTRPG_DAMAGE, BRUTE)
+			owner.apply_damage(1 TTRPG_DAMAGE, BRUTE, damage_attacker = owner)
 			return FALSE
 
 #undef BLOODHEAL_INTERACTION_KEY

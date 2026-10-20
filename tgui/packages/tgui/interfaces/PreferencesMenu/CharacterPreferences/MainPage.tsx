@@ -35,6 +35,7 @@ import {
 } from '../types';
 import { useRandomToggleState } from '../useRandomToggleState';
 import { useServerPrefs } from '../useServerPrefs';
+import { CharacterProgression } from './CharacterProgression';
 import { DeleteCharacterPopup } from './DeleteCharacterPopup';
 import { VocalsInput, VoiceInput } from './darkpack_vocals'; // DARKPACK EDIT ADDITION
 import { MultiNameInput, NameInput } from './names';
@@ -165,11 +166,7 @@ function ChoicedSelection(props: ChoicedSelectionProps) {
                         props.onSelect(name);
                       }}
                       selected={name === props.selected}
-                      tooltip={
-                        locked
-                          ? `${name} (Not whitelisted!)`
-                          : name
-                      } // DARKPACK EDIT ADD
+                      tooltip={locked ? `${name} (Not whitelisted!)` : name} // DARKPACK EDIT ADD
                       tooltipPosition="right"
                       style={{
                         height: `${CLOTHING_SELECTION_CELL_SIZE}px`,
@@ -569,34 +566,88 @@ export function MainPage(props: MainPageProps) {
       break;
     case PrefPage.Profile:
       prefPageContents = (
-        <PreferenceList
-          randomizations={getRandomization(
-            nonContextualPreferences,
-            serverData,
-            randomBodyEnabled,
+        <>
+          {data.respect_garou_rank_cap != null && (
+            <Box
+              mb={1}
+              color={
+                (data.respect_garou_saved_rank ?? 0) >
+                data.respect_garou_rank_cap
+                  ? 'bad'
+                  : 'label'
+              }
+            >
+              Respect: {data.player_respect}. Saved Garou rank:{' '}
+              {data.respect_garou_saved_rank_name}.{' '}
+              {data.respect_garou_rank_cap < 0
+                ? `Garou require ${data.respect_garou_threshold ?? 10} Respect. Mortals, ghouls and kinfolk remain available.`
+                : `Available rank: up to ${data.respect_garou_rank_name}.`}{' '}
+              {(data.respect_garou_saved_rank ?? 0) >
+                data.respect_garou_rank_cap &&
+                'Reduce the saved Honor, Glory or Wisdom before joining. Lowering an old over-limit sheet is allowed.'}
+            </Box>
           )}
-          preferences={nonContextualPreferences}
-          maxHeight="auto"
-          // DARKPACK EDIT ADD START
-          overrides={{
-            immortal_age:
-              immortalAgeValue !== undefined ? (
-                <NumberInput
-                  value={immortalAgeValue}
-                  minValue={immortalAgeServerData?.minimum ?? 0}
-                  maxValue={immortalAgeServerData?.maximum ?? 1000}
-                  step={immortalAgeServerData?.step ?? 1}
-                  onChange={(value) =>
-                    setPendingConfirm(() => () => {
-                      createSetPreference(act, 'immortal_age')(value);
-                      act('clear_discipline_levels');
-                    })
-                  }
-                />
-              ) : undefined,
-          }}
-          // DARKPACK EDIT ADD END
-        />
+          <PreferenceList
+            randomizations={getRandomization(
+              nonContextualPreferences,
+              serverData,
+              randomBodyEnabled,
+            )}
+            preferences={nonContextualPreferences}
+            maxHeight="auto"
+            // DARKPACK EDIT ADD START
+            overrides={{
+              immortal_age:
+                immortalAgeValue !== undefined ? (
+                  <Box>
+                    <NumberInput
+                      value={immortalAgeValue}
+                      minValue={immortalAgeServerData?.minimum ?? 0}
+                      maxValue={Math.max(
+                        immortalAgeServerData?.minimum ?? 0,
+                        Math.min(
+                          immortalAgeServerData?.maximum ?? 1000,
+                          data.respect_age_cap ?? 1000,
+                        ),
+                      )}
+                      disabled={
+                        data.respect_age_cap !== undefined &&
+                        data.respect_age_cap < 0
+                      }
+                      step={immortalAgeServerData?.step ?? 1}
+                      onChange={(value) =>
+                        setPendingConfirm(() => () => {
+                          createSetPreference(act, 'immortal_age')(value);
+                          act('clear_discipline_levels');
+                        })
+                      }
+                    />
+                    {data.player_respect != null &&
+                      data.respect_age_cap !== undefined &&
+                      data.respect_age_cap < 1000 && (
+                        <Box
+                          mt={0.5}
+                          color={
+                            immortalAgeValue > data.respect_age_cap
+                              ? 'bad'
+                              : 'label'
+                          }
+                        >
+                          Respect: {data.player_respect}.{' '}
+                          {data.respect_age_cap < 0
+                            ? `Kindred require ${data.respect_kindred_threshold ?? 10} Respect. Mortals and ghouls remain available.`
+                            : `Available age: 0–${data.respect_age_cap} years since Embrace.`}
+                          {data.respect_age_cap >= 0 &&
+                            immortalAgeValue > data.respect_age_cap &&
+                            ' Lower the saved age before joining.'}
+                        </Box>
+                      )}
+                  </Box>
+                ) : undefined,
+            }}
+            // DARKPACK EDIT ADD END
+          />
+        </>
       );
       break;
     default:
@@ -649,6 +700,7 @@ export function MainPage(props: MainPageProps) {
       )}
       {/* DARKPACK EDIT END*/}
 
+      <CharacterProgression />
       <Stack height={`${CLOTHING_SIDEBAR_ROWS * CLOTHING_CELL_SIZE}px`}>
         <Stack.Item>
           <Stack vertical fill>
