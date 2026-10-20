@@ -1,28 +1,42 @@
 import { useState } from 'react';
-import { Button, Input, LabeledList, Section } from 'tgui-core/components';
+import { Button, LabeledList, Section } from 'tgui-core/components';
 import { useBackend } from '../../backend';
 
 import type { ATMData } from './types';
 
 export const AtmLogin = (props) => {
   const { act, data } = useBackend<ATMData>();
-  const [entered_code, setEnteredCode] = useState('');
+  const [enteredCode, setEnteredCode] = useState('');
 
   const handleLogin = () => {
-    act('login', { bank_pin: entered_code });
+    act('login', { bank_pin: enteredCode });
+    setEnteredCode('');
   };
   return (
-    <Section title="Please enter your code">
+    <Section
+      title={data.card ? 'Enter your four-digit PIN' : 'Swipe your debit card'}
+    >
       <LabeledList>
-        <LabeledList.Item label="code">
-          <Input
-            value={entered_code}
-            placeholder="Enter code here"
-            onChange={setEnteredCode}
+        <LabeledList.Item label="PIN">
+          <input
+            className="Input"
+            type="password"
+            inputMode="numeric"
+            autoComplete="off"
+            maxLength={4}
+            disabled={!data.card}
+            value={enteredCode}
+            placeholder="Four-digit PIN"
+            onChange={(event) => setEnteredCode(event.currentTarget.value)}
           />
         </LabeledList.Item>
         <LabeledList.Item>
-          <Button onClick={handleLogin}>Log In</Button>
+          <Button
+            disabled={!data.card || !/^[0-9]{4}$/.test(enteredCode)}
+            onClick={handleLogin}
+          >
+            Log In
+          </Button>
         </LabeledList.Item>
       </LabeledList>
     </Section>

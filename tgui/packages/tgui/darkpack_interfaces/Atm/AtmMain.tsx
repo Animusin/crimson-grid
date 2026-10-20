@@ -10,7 +10,7 @@ export const AtmMain = (props) => {
   const [withdrawAmount, setWithdrawAmount] = useState('');
   const [newPin, setNewPin] = useState('');
 
-  const { account_holder, atm_balance, account_balance } = data;
+  const { account_holder, atm_balance, account_balance, inserted_cash } = data;
 
   const handleLogout = () => {
     act('logout');
@@ -26,6 +26,7 @@ export const AtmMain = (props) => {
 
   const handleChangePin = () => {
     act('change_pin', { new_pin: newPin });
+    setNewPin('');
   };
 
   return (
@@ -36,14 +37,14 @@ export const AtmMain = (props) => {
         </LabeledList.Item>
         <LabeledList.Item label="Balance">{account_balance}</LabeledList.Item>
         <LabeledList.Item label="Money in ATM">{atm_balance}</LabeledList.Item>
+        <LabeledList.Item label="Ready to deposit">
+          {inserted_cash}
+        </LabeledList.Item>
       </LabeledList>
       <Box mt={2}>
         <Box className="Atm__atm-column">
           <Box className="Atm__atm-row">
-            <Button
-              onClick={handleWithdraw}
-              className="Atm__atm-button"
-            >
+            <Button onClick={handleWithdraw} className="Atm__atm-button">
               Withdraw
             </Button>
             <Input
@@ -55,19 +56,32 @@ export const AtmMain = (props) => {
           </Box>
 
           <Box className="Atm__atm-row">
-            <Button onClick={handleChangePin} className="Atm__atm-button">
+            <Button
+              disabled={!/^[0-9]{4}$/.test(newPin)}
+              onClick={handleChangePin}
+              className="Atm__atm-button"
+            >
               Change Pin
             </Button>
-            <Input
+            <input
+              className="Input"
+              type="password"
+              inputMode="numeric"
+              autoComplete="off"
+              maxLength={4}
               value={newPin}
-              onChange={setNewPin}
+              onChange={(event) => setNewPin(event.currentTarget.value)}
               placeholder="New PIN"
               style={{ flex: 3 }}
             />
           </Box>
 
           <Box className="Atm__atm-row">
-            <Button onClick={handleDeposit} className="Atm__atm-button">
+            <Button
+              disabled={inserted_cash <= 0}
+              onClick={handleDeposit}
+              className="Atm__atm-button"
+            >
               Deposit
             </Button>
           </Box>
