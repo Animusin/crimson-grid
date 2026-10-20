@@ -3,8 +3,10 @@
 	var/test_successes = 1
 	var/test_action
 	var/action_menus = 0
+	var/last_difficulty
 
-/obj/structure/city_business/unit_test/robbery/roll_business(mob/living/user)
+/obj/structure/city_business/unit_test/robbery/roll_business(mob/living/user, difficulty = 6)
+	last_difficulty = difficulty
 	return test_successes
 
 /obj/structure/city_business/unit_test/robbery/robbery_duration(successes)
@@ -140,6 +142,115 @@
 	business.clerk.death()
 	if(!death.finished || business.robbery || business.register_cash != 100 || !business.recover_at)
 		Fail("Cashier death must cancel the active robbery, preserve its till, and start recovery.")
+
+/datum/unit_test/city_business/till_threat_weapons/Run()
+	var/obj/structure/city_business/unit_test/robbery/business = till_fixture()
+	var/mob/living/carbon/human/business_test/user = robber_fixture()
+	business.register_cash = 100
+	if(!business.start_robbery(user) || business.last_difficulty != 8)
+		Fail("The real unarmed robbery must roll at difficulty eight.")
+	var/obj/item/knife/kitchen/knife = allocate(/obj/item/knife/kitchen)
+	user.put_in_active_hand(knife)
+	business.register_cash = 100
+	business.robbery_retry_at = 0
+	if(!business.start_robbery(user) || business.last_difficulty != 7)
+		Fail("A real held melee weapon must reduce the robbery roll to difficulty seven.")
+	user.dropItemToGround(knife)
+	var/obj/item/gun/ballistic/automatic/pistol/gun = allocate(/obj/item/gun/ballistic/automatic/pistol)
+	user.put_in_active_hand(gun)
+	if(!gun.can_shoot())
+		Fail("The loaded firearm fixture must really be able to fire.")
+		return
+	business.register_cash = 100
+	business.robbery_retry_at = 0
+	if(!business.start_robbery(user) || business.last_difficulty != 6)
+		Fail("A real held, loaded firearm must reduce the robbery roll to difficulty six.")
+	business.register_cash = 100
+	var/datum/city_robbery/disarmed = allocate(/datum/city_robbery, business, user)
+	business.robbery = disarmed
+	disarmed.arm_alarm()
+	user.dropItemToGround(gun)
+	if(disarmed.settle(5) || business.register_cash != 100 || business.robbery || !disarmed.finished || !disarmed.alarm_armed || business.robbery_retry_at != world.time + 10 MINUTES)
+		Fail("Losing the weapon that secured the easier roll must cancel settlement, preserve cash and alarm, and consume the shared cooldown.")
+	var/obj/item/storage/backpack/bag = allocate(/obj/item/storage/backpack, user)
+	gun.forceMove(bag)
+	if(!gun.can_shoot() || business.robbery_difficulty(user) != 8)
+		Fail("A loaded gun inside a carried bag must not threaten the cashier.")
+	gun.forceMove(get_turf(user))
+	user.put_in_active_hand(gun)
+	QDEL_NULL(gun.chambered)
+	if(gun.can_shoot() || business.robbery_difficulty(user) == 6)
+		Fail("A firearm without a shootable chamber must not grant difficulty six.")
+	user.dropItemToGround(gun)
+	var/obj/item/gun/ballistic/automatic/pistol/toy/toy = allocate(/obj/item/gun/ballistic/automatic/pistol/toy)
+	user.put_in_active_hand(toy)
+	if(!toy.can_shoot() || business.robbery_difficulty(user) == 6)
+		Fail("Even a shootable toy firearm must not grant difficulty six.")
+	user.dropItemToGround(toy)
+	var/obj/item/gun/energy/e_gun/energy = allocate(/obj/item/gun/energy/e_gun)
+	user.put_in_active_hand(energy)
+	if(!energy.can_shoot() || business.robbery_difficulty(user) != 6)
+		Fail("A charged energy gun in hand must receive the same difficulty six as a loaded ballistic gun.")
+	energy.cell.charge = 0
+	if(energy.can_shoot() || business.robbery_difficulty(user) == 6)
+		Fail("An exhausted energy gun must no longer grant difficulty six.")
+	user.dropItemToGround(energy)
+	var/obj/item/gun/energy/laser/practice/practice = allocate(/obj/item/gun/energy/laser/practice)
+	user.put_in_active_hand(practice)
+	if(!practice.can_shoot() || business.robbery_difficulty(user) == 6)
+		Fail("A charged harmless practice gun without a toy overlay must still not grant difficulty six.")
+
+/datum/unit_test/city_business/till_botch_alarm
+	var/crime_reports = 0
+	var/turf/crime_location
+
+/datum/unit_test/city_business/till_botch_alarm/proc/on_crime(datum/source, crime, turf/location)
+	SIGNAL_HANDLER
+	if(crime == CRIME_BUSINESS_ROBBERY)
+		crime_reports++
+		crime_location = location
+
+/datum/unit_test/city_business/till_botch_alarm/Run()
+	var/obj/structure/city_business/unit_test/robbery/business = till_fixture()
+	var/mob/living/carbon/human/business_test/user = robber_fixture()
+	var/mob/living/carbon/human/business_test/owner = robber_fixture()
+	owner.test_faction = business.owner_faction
+	var/obj/item/smartphone/phone = allocate(/obj/item/smartphone, owner)
+	phone.owner_weakref = WEAKREF(owner)
+	RegisterSignal(SSdcs, COMSIG_GLOB_REPORT_CRIME, PROC_REF(on_crime))
+	business.register_cash = 100
+	business.test_successes = 0
+	var/started_at = world.time
+	var/list/phone_state = phone.ui_data(owner)
+	if(phone_state["phone_ringing"] || phone.get_conversation("5550199"))
+		Fail("The owner phone fixture must begin without an alarm call or transcript.")
+	if(business.start_robbery(user) || business.robbery || business.register_cash != 100 || business.robbery_retry_at != started_at + 10 MINUTES)
+		Fail("A zero-success threat must take no cash, release the attempt and reserve ten minutes of cooldown immediately.")
+	phone_state = phone.ui_data(owner)
+	if(crime_reports || phone_state["phone_ringing"] || phone.get_conversation("5550199"))
+		Fail("A zero-success failure must not report a crime, ring the owner or create an alarm transcript.")
+	var/mob/living/carbon/human/business_test/other = robber_fixture()
+	if(business.start_robbery(other) || business.robbery_retry_at != started_at + 10 MINUTES)
+		Fail("Changing robbers must not bypass or extend the quiet failure's shared ten-minute retry clock.")
+	business.robbery_retry_at = 0
+	business.test_successes = -1
+	started_at = world.time
+	if(business.start_robbery(user) || business.robbery || business.register_cash != 100 || business.robbery_retry_at != started_at + 10 MINUTES)
+		Fail("A negative botch must take no cash and reserve the same ten-minute shared cooldown.")
+	phone_state = phone.ui_data(owner)
+	var/obj/item/smartphone/business_alarm/alarm_caller
+	for(var/obj/item/smartphone/business_alarm/candidate in GLOB.phones_list)
+		if(candidate.recipient_ref?.resolve() == phone)
+			alarm_caller = candidate
+	if(world.time != started_at || crime_reports != 1 || crime_location != get_turf(business.clerk))
+		Fail("A negative botch must emit exactly one cashier-robbery crime signal at the actual cashier immediately, without waiting ninety seconds.")
+	if(!alarm_caller || !phone_state["phone_ringing"] || !length(phone.phone_history_list) || !phone.get_conversation("5550199"))
+		Fail("The actual negative-roll start route must immediately place a real owner phone call with history and transcript.")
+	if(business.start_robbery(other) || crime_reports != 1 || business.robbery_retry_at != started_at + 10 MINUTES)
+		Fail("A botch's cooldown must prevent another robber from rerolling or creating another crime report.")
+	UnregisterSignal(SSdcs, COMSIG_GLOB_REPORT_CRIME)
+	if(alarm_caller)
+		alarm_caller.close_alarm()
 
 /datum/unit_test/city_business/till_alarm/Run()
 	var/obj/structure/city_business/unit_test/robbery/business = till_fixture()

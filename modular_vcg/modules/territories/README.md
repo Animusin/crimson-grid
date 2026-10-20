@@ -73,8 +73,10 @@ threats; the report does not reveal a concealed identity or an account name.
 
 Any connected, capable human player can rob a cashier, including unaffiliated
 characters and members of the owning faction. No credential is needed. The same
-Charisma + Intimidation roll at difficulty 6 determines the time and the share
-of actual till contents:
+Charisma + Intimidation roll determines the time and the share of actual till
+contents. Difficulty is 8 unarmed, 7 with a dangerous melee weapon held, or 6
+with a shootable ballistic or charged energy gun held. Empty or toy guns do not
+grant difficulty 6; a weapon inside a bag does not count.
 
 | Successes | Threaten the cashier for | Cash stolen |
 | --- | ---: | ---: |
@@ -85,7 +87,8 @@ of actual till contents:
 | 5 or more | 20 seconds | 100% |
 
 The robber must remain on the starting tile and keep access to the same living
-cashier. Movement, incapacity, loss of reach, cashier death or an announced contest
+cashier and maintain at least the weapon threat that secured the roll. Movement,
+incapacity, loss of reach, loss of that weapon, cashier death or an announced contest
 interrupts the attempt without withdrawing money. Only one robber can occupy a
 store's attempt; courier collections wait while it is active. The current cash
 is debited atomically at completion, rounded down to whole dollars; new income
@@ -101,6 +104,10 @@ It uses real phone calls, normal ringing/history and accept/decline behavior;
 answering displays the recorded report and hangs up. A saved SMS transcript also
 covers missed calls and busy phones. Automatic calls never interrupt an existing
 call, and release their temporary caller and radio connection after a short bound.
+A zero-success failure is quiet. A negative roll is a botch: the cashier immediately
+reports a robbery to the police and calls the owning faction through the same real
+phone and saved-transcript route. Both failures still consume the ten-minute store
+cooldown, and neither pays any cash.
 
 ## Contest
 

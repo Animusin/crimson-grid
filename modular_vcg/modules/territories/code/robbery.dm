@@ -20,6 +20,17 @@
 /obj/structure/city_business/proc/can_rob(mob/living/user)
 	return ishuman(user) && GET_CLIENT(user) && !attack_faction && can_negotiate(user, clerk) && !IS_UNCONSCIOUS(clerk)
 
+/obj/structure/city_business/proc/robbery_difficulty(mob/living/user)
+	var/difficulty = 8
+	for(var/obj/item/weapon in user.held_items)
+		if(istype(weapon, /obj/item/gun/ballistic) || istype(weapon, /obj/item/gun/energy))
+			var/obj/item/gun/gun = weapon
+			if(!(gun.gun_flags & (TOY_FIREARM_OVERLAY | NOT_A_REAL_GUN)) && gun.can_shoot())
+				return 6
+		if(weapon.force > 0 && (weapon.force >= 10 || weapon.sharpness != NONE))
+			difficulty = 7
+	return difficulty
+
 /obj/structure/city_business/proc/start_robbery(mob/living/user)
 	if(!can_rob(user) || robbery || world.time < robbery_retry_at)
 		to_chat(user, span_warning("This cashier cannot be robbed now."))
@@ -32,10 +43,15 @@
 	robbery_retry_at = world.time + BUSINESS_ROBBERY_COOLDOWN
 	var/datum/city_robbery/attempt = new(src, user)
 	robbery = attempt
-	var/successes = roll_business(user)
+	var/successes = roll_business(user, attempt.threat_difficulty)
 	if(successes <= 0)
 		attempt.cancel("The cashier refused your threat.")
-		qdel(attempt)
+		if(successes < 0)
+			attempt.botched = TRUE
+			SEND_SIGNAL(SSdcs, COMSIG_GLOB_REPORT_CRIME, CRIME_BUSINESS_ROBBERY, get_turf(clerk) || get_turf(src))
+			attempt.send_alarm()
+		else
+			qdel(attempt)
 		return FALSE
 	// A committed threat always reports after 90 seconds, including an interrupted
 	// attempt. Walking away or killing the cashier cannot erase the alarm.
@@ -48,6 +64,8 @@
 	var/datum/weakref/clerk_ref
 	var/turf/start_turf
 	var/started_at
+	var/threat_difficulty
+	var/botched = FALSE
 	var/owner_at_start
 	var/business_label
 	var/location_label
@@ -66,6 +84,7 @@
 	clerk_ref = WEAKREF(business.clerk)
 	start_turf = get_turf(user)
 	started_at = world.time
+	threat_difficulty = business.robbery_difficulty(user)
 	owner_at_start = business.owner_faction
 	business_label = business.business_name
 	location_label = "[get_area_name(business.clerk)] ([business.clerk.x], [business.clerk.y], level [business.clerk.z])"
@@ -76,6 +95,7 @@
 	return !finished && business && user && business.robbery == src \
 		&& business.clerk == clerk_ref.resolve() && get_turf(user) == start_turf \
 		&& !IS_UNCONSCIOUS(user) && user.stat < SOFT_CRIT && !user.IsIncapacitated() \
+		&& business.robbery_difficulty(user) <= threat_difficulty \
 		&& business.can_rob(user)
 
 /datum/city_robbery/proc/arm_alarm()
@@ -139,7 +159,7 @@
 	if(alarm_timer)
 		deltimer(alarm_timer)
 		alarm_timer = null
-	var/outcome = completed ? "the cashier was robbed of $[stolen_amount]" : (finished ? "a robbery was attempted and interrupted" : "the cashier is being threatened by a robber")
+	var/outcome = botched ? "the cashier raised an alarm after a botched robbery attempt" : (completed ? "the cashier was robbed of $[stolen_amount]" : (finished ? "a robbery was attempted and interrupted" : "the cashier is being threatened by a robber"))
 	var/message = "[business_label]: [outcome]. Cashier: [location_label]."
 	for(var/obj/item/smartphone/phone as anything in GLOB.phones_list.Copy())
 		var/mob/living/phone_owner = phone.owner_weakref?.resolve()

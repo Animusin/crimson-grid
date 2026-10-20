@@ -331,8 +331,9 @@ GLOBAL_LIST_EMPTY(city_business_attacks)
 		cash.update_appearance()
 		cash.forceMove(get_turf(user))
 
-/obj/structure/city_business/proc/roll_business(mob/living/user)
+/obj/structure/city_business/proc/roll_business(mob/living/user, difficulty = 6)
 	var/datum/storyteller_roll/business/roll = new
+	roll.difficulty = difficulty
 	. = roll.st_roll(user, clerk)
 	qdel(roll)
 
